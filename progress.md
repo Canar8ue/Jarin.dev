@@ -12,6 +12,7 @@ This project is a personal portfolio website built with **Flask** and hosted on 
     - `projects.json`: Contains metadata (titles, descriptions, links) for the projects displayed on the homepage.
 
 ### Infrastructure & Deployment
+- **[GitHub Repository](https://github.com/Canar8ue/Jarin.dev.git)**: Source code hosting and version control.
 - **[Dockerfile](file:///C:/Users/jarin/OneDrive/Desktop/VibeDev/Jarin.dev/Dockerfile)**: Instructions for building the Python/Flask environment in a container.
 - **[docker-compose.yml](file:///C:/Users/jarin/OneDrive/Desktop/VibeDev/Jarin.dev/docker-compose.yml)**: Manages the multi-container setup, including the `web` (Flask) service and the `caddy` (Web Server) service.
 - **[Caddyfile](file:///C:/Users/jarin/OneDrive/Desktop/VibeDev/Jarin.dev/Caddyfile)**: Configuration for the Caddy web server, handling reverse proxying and SSL.
