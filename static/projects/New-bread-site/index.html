@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarin's Artisanal Bakery</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
+    <!-- Google Fonts for Premium Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for standard icons like cart -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="https://jarin.dev/static/projects/New-bread-site/index.html" class="nav-brand">
+            <img src="logo.png" alt="Jarin's Bakery Logo" class="logo">
+            <span class="brand-name">Jarin's Bakery</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Home</a>
+            <a href="shop.html" class="nav-link">Shop</a>
+            <a href="Contact.html" class="nav-link">Contact</a>
+            <button class="nav-cart" id="cart-icon" aria-label="Open Shopping Cart">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <img src="header.jpeg" alt="Fresh baked bread" class="hero-image">
+        <div class="hero-content">
+            <h1 class="fade-in-up">Artisanal Breads,<br>Baked with Love</h1>
+            <p class="fade-in-up delay-1">Experience the warmth of traditional baking, delivered fresh to your door.</p>
+            <div class="hero-cta fade-in-up delay-2">
+                <a href="shop.html" class="btn btn-primary">Shop Now</a>
+                <a href="#varieties" class="btn btn-secondary">Explore Varieties</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="varieties" class="varieties-section">
+            <div class="section-header">
+                <h2>Our Signature Varieties</h2>
+                <div class="divider"></div>
+                <p>Handcrafted daily using time-honored techniques and the finest ingredients.</p>
+            </div>
+
+            <div class="products-grid">
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="Cinnamon.png" alt="Cinnamon Bread" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3>Cinnamon Swirl</h3>
+                        <p>Made with real Ceylon cinnamon and high-quality ingredients for a perfect texture and sweet
+                            aroma.</p>
+                        <a href="shop.html" class="btn btn-outline">Order Now</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="Bread.png" alt="Classic White Bread" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3>Rustic Classic</h3>
+                        <p>Our classic homemade white bread with a crispy crust and soft crumb that pairs perfectly with
+                            any meal.</p>
+                        <a href="shop.html" class="btn btn-outline">Order Now</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="yuca.png" alt="Yuca Bread" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3>Pan de Yuca</h3>
+                        <p>A South American staple. Naturally gluten-free, with a rich, cheesy flavor and perfectly
+                            chewy texture.</p>
+                        <a href="shop.html" class="btn btn-outline">Order Now</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="how-to-order" class="order-section">
+            <div class="split-layout">
+                <div class="split-content text-left">
+                    <h2>How to Order</h2>
+                    <div class="divider left"></div>
+                    <p class="lead">We make it easy to get fresh bread straight to your table.</p>
+
+                    <div class="order-method">
+                        <div class="method-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                        <div class="method-text">
+                            <h4>Order by Text</h4>
+                            <p>Text your order to <strong>(801) 687-5879</strong>. Don't forget to include your delivery
+                                address!</p>
+                        </div>
+                    </div>
+
+                    <div class="order-method">
+                        <div class="method-icon"><i class="fa-solid fa-laptop"></i></div>
+                        <div class="method-text">
+                            <h4>Order Online</h4>
+                            <p>Browse our selection and order securely through our online shop. Pickups and deliveries
+                                available.</p>
+                            <a href="shop.html" class="btn btn-primary mt-3">Go to Shop</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-image">
+                    <div class="decorative-block">
+                        <blockquote>"Good bread is the most fundamentally satisfying of all foods; and good bread with
+                            fresh butter, the greatest of feasts."</blockquote>
+                        <cite>— James Beard</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="logo.png" alt="Jarin's Bakery Logo" class="footer-logo">
+                <h3>Jarin's Bakery</h3>
+            </div>
+            <p class="footer-note">Crafted from scratch with passion and code. No templates, no WordPress. Just pure
+                development.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="Contact.html">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Jarin's Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Slide-out Cart -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Order</h2>
+            <button class="close-cart" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items injected via JS -->
+            <div class="cart-empty">Your cart is currently empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0.00</span>
+            </div>
+            <a href="checkout.html" class="btn btn-primary" id="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </aside>
+
+    <!-- Cart Logic -->
+    <script src="js/cart.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,3 @@
+jarin.dev {
+    reverse_proxy web:5000
+}

@@ -1,0 +1,355 @@
+/* 1. RESET & BASICS */
+:root {
+    --bg-color: #050505;
+    --text-main: #e0e0e0;
+    --accent: #00ff41; /* Classic Terminal Green */
+    --scanline-color: rgba(18, 16, 16, 0.5);
+    --font-stack: 'Courier New', Courier, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-stack);
+    overflow-x: hidden;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* 2. THE CRT EFFECT (Subtle) */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+    ), linear-gradient(
+        90deg, 
+        rgba(255, 0, 0, 0.06), 
+        rgba(0, 255, 0, 0.02), 
+        rgba(0, 0, 255, 0.06)
+    );
+    background-size: 100% 2px, 3px 100%; /* Scanlines size */
+    pointer-events: none; /* Lets you click through it */
+    z-index: 999;
+}
+
+/* 3. LAYOUT */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 4. MARQUEE (Scrolling Text) */
+.marquee-container {
+    border-top: 2px solid var(--text-main);
+    border-bottom: 2px solid var(--text-main);
+    padding: 10px 0;
+    margin-bottom: 40px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 15s linear infinite;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes marquee {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* 5. GRID & CARDS */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    display: block;
+    border: 1px solid #333;
+    padding: 10px;
+    text-decoration: none;
+    color: var(--text-main);
+    transition: all 0.2s ease;
+    background: #0a0a0a;
+}
+
+.card:hover {
+    border-color: var(--text-main);
+    background: #111;
+    cursor: crosshair; /* Adds to the vibe */
+}
+
+/* --- IMAGE HANDLING (FIXED) --- */
+.image-box {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: #1a1a1a;
+    margin-bottom: 15px;
+    overflow: hidden;
+    position: relative; /* Acts as the anchor */
+    border: 1px solid #333;
+    /* We remove flex centering here to stop the side-by-side glitch */
+}
+
+.image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; /* Sits on top */
+    z-index: 10;        /* Higher number = closer to your face */
+    filter: contrast(1.1) brightness(0.9);
+    transition: filter 0.3s;
+}
+
+.placeholder-text {
+    position: absolute; /* Takes it out of the flow */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Dead center */
+    color: #333;
+    font-size: 0.8rem;
+    z-index: 1;         /* Lower number = sits behind the image */
+    width: 100%;
+    text-align: center;
+}
+
+.card:hover .image-box img {
+    filter: contrast(1.2) brightness(1.1);
+}
+/* 6. TYPOGRAPHY & META */
+.meta h2 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+
+.card:hover h2 {
+    background-color: var(--text-main);
+    color: var(--bg-color); /* Invert colors on hover */
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.desc {
+    font-size: 0.9rem;
+    margin: 10px 0;
+    color: #aaa;
+}
+
+.tech span {
+    font-size: 0.75rem;
+    border: 1px solid #333;
+    padding: 2px 5px;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+/* 7. FOOTER */
+footer {
+    margin-top: 60px;
+    border-top: 2px solid var(--text-main);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+} 
+
+/* --- PROFILE PAGE STYLES --- */
+
+/* The Header Link (Marquee) */
+.header-link {
+    color: var(--text-main);
+    text-decoration: none;
+    border-bottom: 2px solid var(--accent);
+}
+.header-link:hover {
+    background: var(--text-main);
+    color: var(--bg-color);
+}
+
+/* Footer Button */
+.footer-btn {
+    background: transparent;
+    border: 1px solid var(--text-main);
+    color: var(--text-main);
+    padding: 5px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+.footer-btn:hover {
+    background: var(--text-main);
+    color: var(--bg-color);
+    box-shadow: 0 0 10px var(--text-main);
+}
+
+/* Profile Layout */
+.profile-container {
+    padding-top: 40px;
+}
+
+.top-nav {
+    margin-bottom: 40px;
+}
+
+.back-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+.back-link:hover {
+    color: var(--accent);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+/* Desktop View */
+@media (min-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 300px 1fr;
+    }
+}
+
+/* Sidebar (Face & Stats) */
+.profile-pic-box {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid var(--text-main);
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar-placeholder {
+    color: #333;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+/* Scanning effect on the avatar */
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.5;
+    animation: scan 3s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+.stats-box ul {
+    list-style: none;
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+
+.stats-box li {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats-box .label {
+    color: #666;
+}
+
+/* Main Content */
+.glitch-text {
+    font-size: 3rem;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 10px;
+    /* Basic text shadow glitch */
+    text-shadow: 2px 0 var(--accent), -2px 0 red;
+}
+
+.divider {
+    height: 2px;
+    background: var(--text-main);
+    margin-bottom: 30px;
+    width: 50px; /* Small decorative line */
+}
+
+.profile-main section {
+    margin-bottom: 40px;
+}
+
+.profile-main h3 {
+    color: var(--accent);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.profile-main p {
+    max-width: 600px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.skill-tags span {
+    display: inline-block;
+    border: 1px solid #333;
+    padding: 5px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+}
+
+.skill-tags span:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    cursor: default;
+}
+/* Add this near the bottom with your profile styles */
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures it fills the box without stretching */
+    display: block;
+}

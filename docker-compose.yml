@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: jarin_portfolio
+    restart: unless-stopped
+    expose:
+      - "5000"
+
+  caddy:
+    image: caddy:latest
+    container_name: jarin_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"    # Standard HTTP (Caddy needs this to verify ownership)
+      - "443:443"  # Secure HTTPS (Where your site lives)
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  caddy_data:
+  caddy_config:

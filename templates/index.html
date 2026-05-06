@@ -1,0 +1,57 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JARIN CANAR // PORTFOLIO</title>
+    
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="crt-overlay"></div>
+
+    <div class="container">
+        <header>
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <a href="/profile" class="header-link">JARIN CANAR</a> -- BYU MARRIOT IS -- SALES --  WEB DEVELOPER -- PYTHON -- C++ -- CSS -- HTML -- JS -- SQL --
+                </div>
+            </div>
+        </header>
+
+        <main class="grid">
+            {% for project in projects %}
+            <a href="{{ project.link }}" class="card" {% if project.is_external %}target="_blank"{% endif %}>
+                <div class="image-box">
+                    <img src="{{ url_for('static', filename='images/' + project.image) }}" alt="{{ project.title }}" onerror="this.style.display='none'">
+                    <div class="placeholder-text">[IMAGE NOT FOUND]</div>
+                </div>
+                <div class="meta">
+                    <div class="row">
+                        <span class="id">NO. {{ loop.index }}</span>
+                        <span class="year">// {{ project.year }}</span>
+                    </div>
+                    <h2>{{ project.title }}</h2>
+                    <p class="desc">{{ project.description }}</p>
+                    <div class="tech">
+                        {% for tech in project.tech_stack %}
+                        <span>[{{ tech }}]</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </main>
+
+        <footer>
+            <p>SYSTEM STATUS: ONLINE</p>            
+            <a href="/profile" class="footer-btn">[ MORE ABOUT JARIN CANAR ]</a>         
+            <p>© 2026 JARIN CANAR</p>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+ 
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
+:root {
+    /* Color Palette */
+    --bg-color: #F9F7F2;        /* Soft Cream */
+    --text-primary: #2C3E50;    /* Dark Slate (Readable Text) */
+    --text-secondary: #5D6D7E;  /* Muted Blue-Grey */
+    --accent-blue: #4A5D6A;     /* Slate Blue */
+    --accent-olive: #8C9375;    /* Muted Olive Green */
+    --accent-Dolive: #5d6d29;    /* Dark Olive Green */
+    --accent-Dblue: #150766;    /* Dark blue*/
+    --card-bg: #FFFFFF;         /* Pure White */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+    
+    /* Typography */
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', sans-serif;
+    
+    /* Spacing */
+    --container-width: 900px;
+    --spacing-md: 2rem;
+    --border-radius: 8px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 1. The Body (Just holds content now) */
+body {
+    /* Your Original Setup */
+    background-image: url("Images/Background.webp");
+    background-color: var(--bg-color); /* Fallback */
+    color: var(--text-primary);
+    
+    /* The property causing the jump (but we are restoring it for now) */
+    background-attachment: fixed;
+    background-position: bottom center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 90vh;
+    height: 90vh; 
+}
+html, body {
+    height: 100%;
+    overflow: hidden; /* Stop the main window from scrolling */
+}
+.scroll-wrapper {
+    height: 100%;
+    overflow-y: auto; /* Let this inner div scroll instead */
+    -webkit-overflow-scrolling: touch; /* Smooth scroll for iOS */
+}
+/* MOBILE OVERRIDE: When screen is narrower than 768px (Tablets/Phones) */
+@media (max-width: 768px) {
+    #background-layer {
+        /* On mobile, center the image so we see the middle/subject */
+        background-position: center center;
+    }
+}
+/* =========================================
+   2. HEADER & LAYOUT
+   ========================================= */
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.app-header {
+    text-align: center;
+    padding: 4rem 0 3rem;
+}
+
+.logo {
+    font-family: var(--font-serif);
+    font-size: 3.9rem;
+    font-weight: 700;
+    color: var(--accent-Dblue);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-family: var(--font-sans);
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-Dolive);
+}
+
+/* =========================================
+   3. THE TIMELINE (The Spine)
+   ========================================= */
+.timeline {
+    position: relative;
+    padding: 3rem 0;
+}
+
+/* =========================================
+   THE SPIRALING VINE 
+   ========================================= */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 60px; /* Wider to allow the vine to curve left/right */
+    
+    /* Updated SVG:
+       1. The 'stem' path uses Bezier curves (Q) to wave back and forth.
+       2. Leaves are placed at different heights with different rotations.
+       3. ViewBox is 0 0 40 160 (Longer pattern to hide repetition).
+    */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='160' viewBox='0 0 60 160'%3E%3C!-- The Vine Stem (Curving Sine Wave) --%3E%3Cpath d='M30,0 Q50,40 30,80 Q10,120 30,160' stroke='%238C9375' stroke-width='2' fill='none'/%3E%3C!-- Leaf 1 (Right, angled up) --%3E%3Cpath d='M30,20 Q45,10 50,25 Q40,35 30,20' fill='%236B8E23'/%3E%3C!-- Leaf 2 (Left, angled down) --%3E%3Cpath d='M30,60 Q15,70 10,55 Q20,45 30,60' fill='%23556B2F'/%3E%3C!-- Leaf 3 (Right, small, horizontal) --%3E%3Cpath d='M30,100 Q45,100 48,110 Q35,115 30,100' fill='%238C9375'/%3E%3C!-- Leaf 4 (Left, angled up high) --%3E%3Cpath d='M30,140 Q15,130 10,145 Q20,155 30,140' fill='%236B8E23'/%3E%3C/svg%3E");
+    
+    background-repeat: repeat-y;
+    background-position: center top;
+    transform: translateX(-50%);
+    
+    opacity: 0.8; /* Slightly more visible now that it's decorative */
+    z-index: 0;
+    pointer-events: none; /* Let clicks pass through to anything behind it */
+}
+
+/* =========================================
+   4. TIMELINE ITEMS (The Nodes)
+   ========================================= */
+.timeline-item {
+    position: relative;
+    margin-bottom: 4rem;
+    width: 100%;
+    opacity: 0; /* Hidden initially for animation */
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* Smooth ease-out */
+}
+
+/* Class added by JS when scrolled into view */
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* The Dot on the Line */
+.timeline-marker {
+    position: absolute;
+    left: 50%;
+    top: 24px; /* Align with card title */
+    width: 16px;
+    height: 16px;
+    background-color: var(--accent-olive);
+    border: 3px solid var(--bg-color); /* Creates a "cutout" effect */
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.timeline-item:hover .timeline-marker {
+    transform: translateX(-50%) scale(1.3);
+    background-color: var(--accent-blue);
+}
+
+/* The Card Content */
+.timeline-content {
+    position: relative;
+    width: 45%; 
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    border-left: 4px solid transparent;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Update hover state to be slightly more active */
+.timeline-content:hover {
+    transform: translateY(-5px) scale(1.02); /* Slight scale up */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Alternate Sides: Odd items left, Even items right */
+.timeline-item:nth-child(odd) .timeline-content {
+    left: 0;
+    text-align: right;
+    border-left: none;
+    border-right: 4px solid transparent;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    left: 55%; /* Push to right side */
+    text-align: left;
+    border-left: 4px solid transparent;
+}
+
+/* Hover Effects */
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-item:nth-child(even) .timeline-content:hover {
+    border-left-color: var(--accent-blue);
+}
+.timeline-item:nth-child(odd) .timeline-content:hover {
+    border-right-color: var(--accent-blue);
+}
+
+/* Card Typography */
+.date-badge {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-olive);
+    margin-bottom: 0.5rem;
+}
+
+.event-title {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.event-snippet {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+
+.read-more-btn:hover {
+    border-bottom-color: var(--accent-blue);
+}
+
+/* =========================================
+   5. MODAL (The Detail View)
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(44, 62, 80, 0.85); /* Dark overlay */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: var(--border-radius);
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    padding: 0;
+}
+
+.modal-overlay.open .modal-content {
+    transform: scale(1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: white; /* Visible on hero image */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    z-index: 10;
+}
+
+.modal-hero img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.meta-date {
+    color: var(--accent-olive);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.serif-title {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.scripture-ref {
+    margin-top: 2rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+
+/* =========================================
+   6. RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 20px; /* Move line to left edge */
+    }
+
+    .timeline-marker {
+        left: 20px; /* Align dot with line */
+    }
+
+    .timeline-item {
+        margin-bottom: 3rem;
+    }
+
+    /* Stack cards on the right of the line */
+    .timeline-content,
+    .timeline-item:nth-child(even) .timeline-content,
+    .timeline-item:nth-child(odd) .timeline-content {
+        width: calc(100% - 60px); /* Full width minus space for line */
+        left: 50px; /* Push past the line */
+        text-align: left;
+        border-right: none;
+        border-left: 4px solid transparent;
+    }
+    
+    .logo { font-size: 2.5rem; }
+}

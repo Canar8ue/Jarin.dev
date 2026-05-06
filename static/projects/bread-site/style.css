@@ -1,0 +1,409 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+body {
+  overflow-x: hidden;
+  background: rgb(255, 255, 255);
+}
+@font-face {
+  font-family: moonfont;
+  src: url(moonfont.otf);
+}
+nav {
+  display: block;
+  height: 72px;
+  width: 100%;
+  position: -webkit-sticky;
+  position: relative;
+  top: 0px;
+  z-index: 1;
+  border-bottom: 5px solid rgba(118, 20, 20, 0.293);
+  background: rgb(250, 82, 70);
+  background: linear-gradient(90deg, rgb(227, 90, 52) 35%, rgb(252, 129, 58) 83%);
+}
+nav img {
+  height: 70%;
+  padding: 11px 20px;
+  float: left;
+}
+.buttons {
+  position: relative;
+  float: right;
+}
+.buttons button {
+  position: relative;
+  float: left;
+  right: 0px;
+  height: 100%;
+  width: 200px;
+  border: none;
+  border-left: 1px solid rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0);
+  transition-duration: 0.5s;
+  text-align: center;
+  margin: auto;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-family: Calibri;
+  color: rgb(255, 250, 196);
+  vertical-align: middle;
+}
+.buttons button a {
+color: rgb(255, 250, 196);
+}
+nav button:hover {
+  cursor: pointer;
+  background-color: rgba(210, 66, 66, 0.56);
+  box-shadow: -1px 0px 4px black;
+}
+
+.botones {
+  position: relative;
+  top: -10%;
+  vertical-align: middle;
+}
+.botones button {
+  position: relative;
+  float: none;
+  left: 30%;
+  top: 150%;
+  height: 10%;
+  width: 200px;
+  border: 4px solid rgba(0, 0, 0, 0.727);
+  background-color: rgba(255, 243, 206, 0.9);
+  transition-duration: 0.5s;
+  text-align: center;
+  margin: auto;
+  font-size: 38px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-family: Calibri;
+  color: rgb(0, 0, 0);
+  vertical-align: middle;
+}
+.botones button a{
+color: black;
+}
+a{
+text-decoration: none;
+
+}
+.botones button:hover {
+  cursor: pointer;
+  background-color: rgba(210, 66, 66, 0.56);
+  box-shadow: -1px 0px 4px black;
+}
+
+.header {
+  position: relative;
+  height: 40%;
+  background: rgb(0, 0, 0);
+}
+.header img {
+  position: absolute;
+  width: 100%;
+  height: 350%;
+  border-radius: 0% 0% 30% 30%;
+  transform: scaleX(1.25);
+  border-bottom: 2px solid rgb(87, 52, 4);
+}
+.header h1 {
+  position: relative;
+  color: rgb(255, 255, 255);
+  font-family: moonfont;
+  font-size: 100px;
+  vertical-align: middle;
+  text-align: center;
+  top: 30%;
+  border: 10px rgb(0, 0, 0);
+  letter-spacing: 8px;
+}
+
+.info-grid {
+  padding: 50px 10px 100px 10px;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(to bottom, rgb(255, 209, 27) 25%, rgb(255, 227, 181) 100%);
+  display: grid;
+  height: 400px;
+  grid-column-gap: 10px;
+  grid-row-gap: 100px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: 
+    'x y z';
+}
+.box1, .box2, .box3{
+  position: relative;
+  display: block;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  margin: 5px;
+  background: rgba(255, 255, 255, 0.795);
+  top: -20%;
+}
+.box1 {
+  grid-area: x;
+  justify-content: space-around;
+  align-content: center;
+}
+.box1 img {
+  position: relative;
+  top: 2.5%;
+  margin: auto;
+  width: 78%;
+  left: 10%;
+  height: 60%;
+}
+.box1 h3 {
+  position: relative;
+  top: 0px;
+  font-size: 36px;
+  text-align: center;
+  font-family: moonfont;
+  font-weight: 500;
+}
+.box1 p {
+  position: relative;
+  top: 0px;
+  text-align: center;
+  font-family: moonfont;
+  font-size: 18px;
+  vertical-align: middle;
+  max-width: 80%;
+  margin: auto;
+  line-height: 30px;
+}
+.box2 {
+  grid-area: y;
+  justify-content: space-around;
+  align-content: center;
+}
+.box2 img {
+  position: relative;
+  top: 2.5%;
+  margin: auto;
+  width: 70%;
+  left: 20%;
+  height: 60%;
+}
+.box2 h3 {
+  position: relative;
+  top: -4%;
+  font-size: 36px;
+  text-align: center;
+  font-family: moonfont;
+  font-weight: 500;
+}
+.box2 p {
+  position: relative;
+  top: 00px;
+  text-align: center;
+  font-family: moonfont;
+  font-size: 18px;
+  vertical-align: middle;
+  max-width: 80%;
+  margin: auto;
+  line-height: 30px;
+}
+.box3 {
+  grid-area: z;
+  justify-content: space-around;
+  align-content: center;
+}
+.box3 img {
+  position: relative;
+  top: 6%;
+  margin: auto;
+  width: 90%;
+  left: 8%;
+  height: 50%;
+}
+.box3 h3 {
+  position: relative;
+  top: 6%;
+  font-size: 36px;
+  text-align: center;
+  font-family: moonfont;
+  font-weight: 500;
+}
+.box3 p {
+  position: relative;
+  top: 6%;
+  text-align: center;
+  font-family: moonfont;
+  font-size: 18px;
+  vertical-align: middle;
+  max-width: 90%;
+  margin: auto;
+  line-height: 30px;
+}
+.quote {
+  position: relative;
+  text-align: center;
+  font-size: 100px;
+  letter-spacing: 3px;
+  font-family: moonfont;
+  font-weight: 600;
+  width: 100%;
+  height: auto;
+  color: rgb(0, 0, 0);
+  background: rgb(255, 227, 181);
+  padding: 50px 10px;
+  line-height: 35px;
+}
+.img-grid {
+  padding: 50px 20px 100px 10px;
+  height: 450px;
+  background: rgb(255, 241, 210);
+  background: linear-gradient(to bottom, rgb(255, 227, 181) 50%, rgb(255, 248, 182) 100%);
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: 2fr 3fr;
+  grid-template-areas: 
+    'a b';
+}
+.box4, .box5 {
+  position: relative;
+  display: block;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 4px;
+  margin: 5px;
+  box-shadow: 2px 2px 4px black;
+  background: rgba(255, 255, 255, 0.773);
+  width: 100%;
+  height: 450px;
+}
+.box4 {
+  grid-area: a;
+  align-content: center;
+  justify-content: space-around;
+  font-family: moonfont;
+  text-align: center;
+}
+.box4 h3 {
+  position: relative;
+  top: 40px;
+  font-size: 52px;
+  text-align: center;
+  font-family: moonfont;
+  font-weight: 500;
+}
+.box4 p {
+  position: relative;
+  top: 60px;
+  text-align: center;
+  font-family: moonfont;
+  font-size: 28px;
+  vertical-align: middle;
+  max-width: 80%;
+  margin: auto;
+  line-height: 30px;
+}
+.box4 button {
+  position: relative;
+  float: none;
+  left: 0%;
+  top: 18.5%;
+  height: 15%;
+  width: 200px;
+  border: 4px solid rgba(0, 0, 0, 0.727);
+  background-color: rgba(255, 243, 206, 0.9);
+  transition-duration: 0.5s;
+  text-align: center;
+  margin: auto;
+  font-size: 38px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-family: Calibri;
+  color: rgb(0, 0, 0);
+  vertical-align: bottom;
+  
+}
+.box4 button:hover {
+  cursor: pointer;
+  background-color: rgba(210, 66, 66, 0.56);
+  box-shadow: -1px 0px 4px black;
+}
+.box5 {
+  grid-area: b;
+}
+.box5 h3 {
+  position: relative;
+  top: 40px;
+  font-size: 52px;
+  text-align: center;
+  font-family: moonfont;
+  font-weight: 500;
+}
+.box5 p {
+  position: relative;
+  top: 60px;
+  text-align: center;
+  font-family: moonfont;
+  font-size: 28px;
+  vertical-align: middle;
+  max-width: 80%;
+  margin: auto;
+  line-height: 30px;
+}
+.box5 button {
+  position: relative;
+  float: none;
+  left: 36%;
+  top: 25.5%;
+  height: 15%;
+  width: 200px;
+  border: 4px solid rgba(0, 0, 0, 0.727);
+  background-color: rgba(255, 243, 206, 0.9);
+  transition-duration: 0.5s;
+  text-align: center;
+  margin: auto;
+  font-size: 38px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  font-family: Calibri;
+  color: rgb(0, 0, 0);
+  vertical-align: bottom;
+  
+}
+.box5 button:hover {
+  cursor: pointer;
+  background-color: rgba(210, 66, 66, 0.56);
+  box-shadow: -1px 0px 4px black;
+}
+.bottom-footer {
+  background: rgb(0, 0, 0);
+  border-top: 5px solid rgb(255, 255, 255);
+  height: 100px;
+  text-align: center;
+  vertical-align: bottom;
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+}
+@media screen and (max-width: 936) {
+  /*dropdown*/
+  .buttons button {
+    position: relative;
+    display: none;
+  }
+  .info-grid {
+    display: grid;
+    height: 1600px;
+    grid-row-gap: 100px;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+      'x' 'y' 'z';
+  }
+  .box1, .box2, .box3{
+    position: relative;
+    display: block;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 4px;
+    width: 100%;
+    margin: 5px;
+    box-shadow: 2px 2px 4px black;
+    background: white;
+  }
+}

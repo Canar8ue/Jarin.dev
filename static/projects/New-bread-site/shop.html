@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Jarin's Artisanal Bakery</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/x-icon" href="logo.png">
+
+    <!-- Google Fonts for Premium Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome for standard icons like cart -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="https://jarin.dev/static/projects/New-bread-site/index.html" class="nav-brand">
+            <img src="logo.png" alt="Jarin's Bakery Logo" class="logo">
+            <span class="brand-name">Jarin's Bakery</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="shop.html" class="nav-link active">Shop</a>
+            <a href="Contact.html" class="nav-link">Contact</a>
+            <button class="nav-cart" id="cart-icon" aria-label="Open Shopping Cart">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <header class="shop-header">
+        <h1>Freshly Baked</h1>
+        <p class="lead">Select your favorites and have them prepared just for you.</p>
+    </header>
+
+    <main class="shop-container">
+        <div class="products-grid" id="product-list">
+            <!-- Product 1 -->
+            <article class="product-card fade-in-up">
+                <div class="product-image-wrapper">
+                    <img src="Cinnamon.png" alt="Cinnamon Bread" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3>Cinnamon Swirl</h3>
+                    <p>Made with real Ceylon cinnamon and high-quality ingredients for a perfect texture and sweet
+                        aroma.</p>
+                    <div class="product-price">$9.50</div>
+                    <button class="btn btn-outline w-100 add-to-cart-btn" data-id="p1" data-name="Cinnamon Swirl"
+                        data-price="9.50" data-image="Cinnamon.png">Add to Cart</button>
+                </div>
+            </article>
+
+            <!-- Product 2 -->
+            <article class="product-card fade-in-up delay-1">
+                <div class="product-image-wrapper">
+                    <img src="Bread.png" alt="Classic White Bread" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3>Rustic Classic</h3>
+                    <p>Our classic homemade white bread with a crispy crust and soft crumb that pairs perfectly with any
+                        meal.</p>
+                    <div class="product-price">$7.00</div>
+                    <button class="btn btn-outline w-100 add-to-cart-btn" data-id="p2" data-name="Rustic Classic"
+                        data-price="7.00" data-image="Bread.png">Add to Cart</button>
+                </div>
+            </article>
+
+            <!-- Product 3 -->
+            <article class="product-card fade-in-up delay-2">
+                <div class="product-image-wrapper">
+                    <img src="yuca.png" alt="Yuca Bread" class="product-image">
+                </div>
+                <div class="product-info">
+                    <h3>Pan de Yuca</h3>
+                    <p>A South American staple. Naturally gluten-free, with a rich, cheesy flavor and perfectly chewy
+                        texture.</p>
+                    <div class="product-price">$8.50</div>
+                    <button class="btn btn-outline w-100 add-to-cart-btn" data-id="p3" data-name="Pan de Yuca"
+                        data-price="8.50" data-image="yuca.png">Add to Cart</button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Slide-out Cart -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Order</h2>
+            <button class="close-cart" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items injected via JS -->
+            <div class="cart-empty">Your cart is currently empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">$0.00</span>
+            </div>
+            <a href="checkout.html" class="btn btn-primary" id="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </aside>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Added to cart!</div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="logo.png" alt="Jarin's Bakery Logo" class="footer-logo">
+                <h3>Jarin's Bakery</h3>
+            </div>
+            <p class="footer-note">Crafted from scratch with passion and code. No templates, no WordPress. Just pure
+                development.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="Contact.html">Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Jarin's Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Logic -->
+    <script src="js/cart.js"></script>
+    <script>
+        // Inline script to initialize shop logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const product = {
+                        id: btn.dataset.id,
+                        name: btn.dataset.name,
+                        price: parseFloat(btn.dataset.price),
+                        image: btn.dataset.image
+                    };
+                    CartControl.addItem(product);
+
+                    // Show toast
+                    const toast = document.getElementById('toast');
+                    toast.textContent = `${product.name} added to cart!`;
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 3000);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

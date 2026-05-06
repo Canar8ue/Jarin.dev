@@ -1,0 +1,62 @@
+[
+  {
+    "id": "mc-mobile-repair",
+    "title": "M&C MOBILE REPAIR",
+    "description": "Mobile mechanic service website with custom booking & dispatch.",
+    "year": "2026",
+    "tech_stack": ["Python", "Flask", "Twilio"],
+    "image": "M&CLogo2.png",
+    "link": "https://mcmobilerepair.com",
+    "is_external": true
+  },
+  {
+    "id": "shopbird",
+    "title": "SHOP BIRD",
+    "description": "Mechanic shop managment software",
+    "year": "2026",
+    "tech_stack": ["Python", "Prisma", "nginx", "nodeJS"],
+    "image": "shopbird.png",
+    "link": "https://shopbird.me/demo",
+    "is_external": true
+  },
+  {
+    "id": "christ-chronology",
+    "title": "CHRIST: A LIFE IN CHRONOLOGY",
+    "description": "Interactive timeline of memorable stories.",
+    "year": "2026",
+    "tech_stack": ["HTML", "CSS", "JS"],
+    "image": "christ_thumb.webp",
+    "link": "static/projects/christ-chronology/index.html",
+    "is_external": true
+  },
+  {
+    "id": "bread-site",
+    "title": "BREAD SITE",
+    "description": "E-commerce platform for baked goods (Archived). (Made at age 14)",
+    "year": "2022",
+    "tech_stack": ["HTML", "CSS", "WP"],
+    "image": "bread_thumb.png",
+    "link": "static/projects/bread-site/index.html",
+    "is_external": true
+  },
+  {
+    "id": "New-bread-site",
+    "title": "New Bread Site",
+    "description": "Updated modern version of my old bread site",
+    "year": "2026",
+    "tech_stack": ["HTML", "CSS", "JS", "Node JS", "AI"],
+    "image": "NewBread.png",
+    "link": "static/projects/New-bread-site/index.html",
+    "is_external": true
+  },
+  {
+  "id": "medline-v3",
+  "title": "Medline Predictive Intelligence",
+  "description": "Enterprise Supply Chain forecasting. Maps the failure of Item-Level Precision algorithms against the 48.7% successful yield of Macro Category Recall tracking.",
+  "year": 2026,
+  "tech_stack": ["React Node Graph", "Tailwind CSS", "Python Pandas", "Jinja2"],
+  "image": "medline.jpg",
+  "link": "static/projects/medline-v3/index.html",
+  "is_external": true
+  }
+]
