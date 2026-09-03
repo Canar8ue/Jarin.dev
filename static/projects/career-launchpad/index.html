@@ -1,0 +1,3148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IS Career Launchpad — find your track</title>
+<meta name="description" content="An interactive field guide to Information Systems careers: find the track that fits, then rehearse the interview.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23202124'/%3E%3Ctext x='32' y='42' font-family='Arial Black,Arial' font-size='26' font-weight='900' fill='%23fff' text-anchor='middle'%3EIS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   IS CAREER LAUNCHPAD — design system
+   Material flat + print-shop retro. Zero gradients, on purpose.
+   ============================================================ */
+:root{
+  --ink:#202124;        /* Google grey 900 */
+  --ink2:#3c4043;
+  --grey:#5f6368;       /* Google grey 700 */
+  --line:#dadce0;       /* Google grey 300 */
+  --line2:#e8eaed;
+  --surface:#f8f9fa;    /* Google grey 50 */
+  --surface2:#f1f3f4;
+  --white:#fff; --card:#fff; --on-ink:#fff;
+  --blue:#1a73e8; --blue-d:#174ea6; --blue-t:#e8f0fe;
+  --green:#188038; --green-b:#1e8e3e; --green-t:#e6f4ea;
+  --red:#d93025;   --red-t:#fce8e6;
+  --yellow:#f9ab00; --yellow-d:#b06000;
+  --orange:#e8710a;
+  --purple:#7627bb; --purple-t:#f3e8fd;
+  --pink:#d81b60;
+  --teal:#00796b;
+  --slate:#546e7a;
+  --shadow:0 1px 2px rgba(60,64,67,.28), 0 1px 3px 1px rgba(60,64,67,.10);
+  --font-ui:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-disp:'Archivo','Roboto',system-ui,sans-serif;
+  --font-mono:'Roboto Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--white); color:var(--ink);
+  font:400 15px/1.6 var(--font-ui);
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--blue-t)}
+:focus-visible{outline:2px solid var(--blue); outline-offset:2px; border-radius:4px}
+a{color:var(--blue); text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{margin:0; font-family:var(--font-disp); letter-spacing:-.01em; line-height:1.1}
+p{margin:.4em 0}
+button{font-family:var(--font-ui)}
+.wrap{max-width:1180px; margin:0 auto; padding:0 22px}
+.mono{font-family:var(--font-mono)}
+.kicker{
+  font:700 11px/1 var(--font-mono); letter-spacing:.14em; text-transform:uppercase;
+  color:var(--grey); margin:0 0 10px;
+}
+.kicker .dot{color:var(--red)}
+.hairline{border:0; border-top:1px solid var(--line); margin:0}
+.dotted{border:0; border-top:2px dotted #9aa0a6; margin:0}
+
+/* ---------- app bar ---------- */
+.appbar{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.97);
+  border-bottom:1px solid var(--line); backdrop-filter:blur(6px);
+}
+.appbar .row{display:flex; align-items:center; gap:18px; height:60px}
+.brand{display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none}
+.brand:hover{text-decoration:none}
+.brand .mark{
+  width:34px; height:34px; background:var(--ink); color:var(--on-ink); border-radius:8px;
+  display:grid; place-items:center; font:900 13px var(--font-disp); letter-spacing:.02em;
+}
+.brand .word{font:800 17px var(--font-disp); color:var(--ink); letter-spacing:-.01em}
+.brand .word em{font-style:normal; color:var(--grey); font-weight:600}
+.appnav{display:flex; gap:4px; margin-left:6px}
+.appnav a{
+  font:500 13px var(--font-ui); color:var(--ink2); padding:8px 12px; border-radius:8px;
+}
+.appnav a:hover{background:var(--surface2); text-decoration:none}
+.appnav a.on{background:var(--blue-t); color:var(--blue-d)}
+.appbar .spacer{flex:1}
+.chip{
+  display:inline-flex; align-items:center; gap:6px; padding:5px 12px;
+  border:1px solid var(--line); border-radius:999px; background:var(--card);
+  font:700 12px var(--font-mono); color:var(--ink2); white-space:nowrap;
+}
+.chip svg{width:14px; height:14px}
+.chip.streak{color:var(--yellow-d); border-color:#f5c85c}
+.chip.xp{color:var(--green)}
+.chip.lvl{color:var(--blue-d)}
+
+/* ---------- mobile tab bar (Duolingo-style; display:none ≥681px, flex ≤680px) ---------- */
+.tabbar{
+  display:none; position:fixed; left:0; right:0; bottom:0; z-index:120;
+  background:var(--card); border-top:1.5px solid var(--ink);
+  box-shadow:0 -3px 12px rgba(60,64,67,.08);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom)); gap:2px;
+}
+.tb{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  min-height:52px; padding:4px 2px; border-radius:12px; border:none; background:none;
+  color:var(--grey); text-decoration:none; cursor:pointer; user-select:none;
+  -webkit-tap-highlight-color:transparent; transition:transform .12s, color .15s;
+}
+.tb:hover{text-decoration:none}
+.tb:active{transform:scale(.94)}
+.tb .ti{
+  position:relative; width:34px; height:30px; display:grid; place-items:center;
+  border-radius:9px; overflow:visible; transition:background .15s;
+}
+.tb .ti svg{width:23px; height:23px}
+.tb .tl{font:700 8.5px var(--font-mono); letter-spacing:.09em; text-transform:uppercase; white-space:nowrap}
+.tb.on{color:var(--blue-d)}
+.tb.on .ti{background:var(--blue-t); color:var(--blue)}
+.tbadge{
+  position:absolute; top:-5px; right:-10px; min-width:17px; height:15px; padding:0 4px;
+  background:var(--yellow); color:#202124; font:700 8.5px/15px var(--font-mono);
+  border-radius:999px; text-align:center; border:1.5px solid var(--card);
+}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:8px; border:none; cursor:pointer;
+  font:500 14px var(--font-ui); padding:11px 22px; border-radius:999px;
+  transition:box-shadow .15s, transform .15s, background .15s; text-decoration:none;
+}
+.btn:hover{box-shadow:var(--shadow); text-decoration:none; transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:var(--blue); color:#fff}
+.btn-dark{background:var(--ink); color:var(--on-ink)}
+.btn-green{background:var(--green); color:#fff}
+.btn-ghost{background:var(--card); color:var(--blue-d); border:1px solid var(--line)}
+.btn-sm{padding:7px 14px; font-size:13px}
+.btn[disabled], .btn[aria-disabled="true"]{background:var(--line2); color:#9aa0a6; cursor:not-allowed; box-shadow:none; transform:none}
+.btn svg{width:16px; height:16px}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px;
+}
+.card.tight{padding:16px}
+.hard{
+  background:var(--card); border:1.5px solid var(--ink); border-radius:12px;
+  box-shadow:4px 4px 0 var(--ink); transition:transform .15s, box-shadow .15s;
+}
+.hard:hover{transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--ink)}
+.hard.flat:hover{transform:none; box-shadow:4px 4px 0 var(--ink)}
+
+/* ---------- stamp ---------- */
+.stamp{
+  display:inline-block; padding:5px 10px; border:2px solid var(--red); color:var(--red);
+  font:700 10.5px var(--font-mono); letter-spacing:.12em; text-transform:uppercase;
+  transform:rotate(-3deg); border-radius:4px; background:var(--card); white-space:nowrap;
+}
+.stamp.blue{border-color:var(--blue); color:var(--blue-d); transform:rotate(2deg)}
+.stamp.green{border-color:var(--green); color:var(--green)}
+
+/* ---------- hero — one focal point, everything else recedes ---------- */
+.hero{position:relative; min-height:calc(100vh - 60px); display:flex; align-items:center; padding:36px 0 84px}
+.hero-grid{display:grid; grid-template-columns:1.55fr .8fr; gap:36px; align-items:center; width:100%}
+.hero h1{
+  font-size:clamp(52px,7.6vw,106px); font-weight:900; letter-spacing:-.03em; line-height:.93;
+  text-transform:uppercase; margin:12px 0 22px;
+}
+.hero h1 .outl{
+  color:transparent; -webkit-text-stroke:2.2px var(--ink); text-stroke:2.2px var(--ink);
+}
+.hero .sub{font-size:18px; color:var(--grey); max-width:50ch; margin:0 0 34px}
+.hero .cta{display:flex; gap:18px; align-items:center; flex-wrap:wrap}
+.btn-hero{padding:16px 32px; font-size:16px}
+.hero .alt{font:400 13.5px var(--font-ui); color:var(--grey)}
+.hero .alt a{color:var(--ink2); border-bottom:1px solid #9aa0a6; padding-bottom:1px}
+.hero .alt a:hover{text-decoration:none; border-color:var(--ink)}
+.microline{
+  margin-top:46px; font:500 10.5px var(--font-mono); letter-spacing:.12em; color:#9aa0a6;
+  text-transform:uppercase; display:flex; gap:22px; flex-wrap:wrap;
+}
+.microline b{color:var(--grey); font-weight:700}
+.hero-side{position:relative; display:flex; flex-direction:column; align-items:flex-end; gap:18px}
+.corner-stamp{z-index:2}
+.otto-duo{display:flex; align-items:center; gap:14px; margin-top:26px}
+.otto-duo .otto{width:78px; opacity:.92}
+.otto-bubble{max-width:200px; font:500 12px/1.55 var(--font-mono); color:var(--grey); text-align:right}
+.otto-bubble b{display:block; font-size:9px; letter-spacing:.18em; color:var(--red); margin-bottom:3px; text-align:right}
+.scrollcue{
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  font:700 9.5px var(--font-mono); letter-spacing:.32em; color:#9aa0a6; text-transform:uppercase;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+}
+.scrollcue svg{width:14px; height:14px; animation:dip 2.2s ease-in-out infinite}
+@keyframes dip{0%,100%{transform:translateY(0); opacity:.45} 50%{transform:translateY(5px); opacity:1}}
+.hero-main>*{animation:fadeUp .5s ease-out both}
+.hero-main>*:nth-child(2){animation-delay:.07s}
+.hero-main>*:nth-child(3){animation-delay:.14s}
+.hero-main>*:nth-child(4){animation-delay:.21s}
+.hero-main>*:nth-child(5){animation-delay:.28s}
+@keyframes fadeUp{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
+
+/* ---------- sections ---------- */
+.section{padding:52px 0 8px}
+.section-head{display:flex; align-items:baseline; gap:16px; margin-bottom:22px; flex-wrap:wrap}
+.section-head h2{font-size:clamp(26px,3vw,36px); font-weight:800; text-transform:uppercase; letter-spacing:-.01em}
+.section-head .count{
+  font:700 12px var(--font-mono); color:var(--grey); letter-spacing:.1em;
+  border:1px solid var(--line); padding:4px 10px; border-radius:999px;
+}
+.section-head .rule{flex:1; border-top:2px dotted #9aa0a6; min-width:60px; align-self:center}
+
+/* ---------- path (journey) ---------- */
+.path-grid{display:grid; grid-template-columns:1.6fr 1fr; gap:30px; align-items:start}
+.stage{
+  position:relative; display:flex; gap:18px; padding:0 0 34px 0;
+}
+.stage:last-child{padding-bottom:4px}
+.stage .rail{display:flex; flex-direction:column; align-items:center; gap:6px}
+.node{
+  width:44px; height:44px; border-radius:999px; border:2px solid var(--ink); background:var(--card);
+  display:grid; place-items:center; font:800 15px var(--font-disp); color:var(--ink);
+  flex:none; z-index:1;
+}
+.node.done{background:var(--green); border-color:var(--green); color:#fff}
+.node.now{background:var(--ink); color:var(--on-ink)}
+.rail .cord{width:2px; flex:1; min-height:26px; background:var(--ink); opacity:.25}
+.stage .body{flex:1; padding-top:2px}
+.stage h3{font-size:21px; font-weight:800; text-transform:uppercase; letter-spacing:.01em}
+.stage .desc{color:var(--grey); font-size:14px; margin:4px 0 12px; max-width:60ch}
+.stage .meta{font:500 11px var(--font-mono); color:var(--grey); letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px}
+.stage .meta b{color:var(--green)}
+/* ---------- right rail ---------- */
+.railcol{display:flex; flex-direction:column; gap:18px; position:sticky; top:78px}
+.levelbar{height:12px; background:var(--surface2); border:1px solid var(--line); border-radius:99px; overflow:hidden}
+.levelbar .fill{height:100%; background:var(--blue); border-radius:99px; transition:width .5s}
+.badge-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:12px}
+.badge{
+  text-align:center; padding:10px 4px; border:1px solid var(--line); border-radius:12px;
+  background:var(--card); position:relative;
+}
+.badge svg{width:22px; height:22px; color:var(--yellow-d)}
+.badge .bn{font:700 8.5px var(--font-mono); letter-spacing:.04em; text-transform:uppercase; display:block; margin-top:5px; color:var(--ink2)}
+.badge.locked{opacity:.35; filter:grayscale(1)}
+.badge .lk{position:absolute; top:4px; right:4px; width:11px; height:11px; color:var(--grey)}
+
+/* ---------- track cards ---------- */
+.group-head{
+  display:flex; align-items:center; gap:14px; margin:34px 0 16px;
+}
+.group-head .gname{font:800 13px var(--font-mono); letter-spacing:.16em; text-transform:uppercase; color:var(--ink2)}
+.group-head .grule{flex:1; border-top:1px solid var(--ink)}
+.group-head .gn{font:700 11px var(--font-mono); color:var(--on-ink); background:var(--ink); padding:2px 8px; border-radius:4px}
+.track-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px}
+.tcard{
+  display:flex; flex-direction:column; cursor:pointer; padding:0; overflow:hidden;
+  background:var(--card);
+}
+.tcard .bar{height:5px; width:100%}
+.tcard .inner{padding:16px 16px 14px; display:flex; flex-direction:column; flex:1}
+.tcard .toprow{display:flex; justify-content:space-between; align-items:flex-start; gap:8px; margin-bottom:8px}
+.tcard .ic{width:34px; height:34px; border-radius:8px; display:grid; place-items:center; flex:none}
+.tcard .ic svg{width:19px; height:19px}
+.tcard h3{font-size:16.5px; font-weight:800; line-height:1.2; margin:2px 0 6px}
+.tcard .blurb{font-size:12.5px; color:var(--grey); line-height:1.5; flex:1}
+.tcard .meta{
+  margin-top:12px; padding-top:10px; border-top:1px dotted var(--line);
+  font:700 10px var(--font-mono); letter-spacing:.08em; color:var(--grey); text-transform:uppercase;
+  display:flex; justify-content:space-between; align-items:center; gap:6px;
+}
+.tcard .meta .go{color:var(--ink)}
+.tcard .rd{
+  font:700 8.5px var(--font-mono); letter-spacing:.1em; color:var(--green);
+  border:1.5px solid var(--green); padding:2px 6px; border-radius:4px; transform:rotate(-3deg);
+}
+.tcard .fitmini{
+  position:absolute;
+}
+
+/* ---------- dossier detail ---------- */
+.crumb{font:500 12px var(--font-mono); color:var(--grey); letter-spacing:.06em; text-transform:uppercase}
+.crumb a{color:var(--grey)}
+.det-head{display:flex; gap:22px; align-items:flex-start; padding:34px 0 20px; flex-wrap:wrap}
+.det-head .big-ic{width:74px; height:74px; border-radius:18px; display:grid; place-items:center; flex:none; border:1.5px solid var(--ink); box-shadow:4px 4px 0 var(--ink)}
+.det-head .big-ic svg{width:38px; height:38px}
+.det-head h1{font-size:clamp(30px,4vw,46px); font-weight:900; text-transform:uppercase; letter-spacing:-.02em; line-height:1}
+.det-head .aka{font:500 13px var(--font-mono); color:var(--grey); margin-top:8px}
+.det-head .head-cta{margin-left:auto; display:flex; flex-direction:column; gap:10px; align-items:flex-end}
+.tabs{display:flex; gap:8px; flex-wrap:wrap; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:22px}
+.tab{
+  font:500 13px var(--font-ui); padding:8px 16px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--ink2);
+}
+.tab.on{background:var(--blue-t); color:var(--blue-d); border-color:#c2d9f8; font-weight:700}
+.tab:hover{border-color:#9aa0a6}
+.dossier{max-width:820px}
+.list{list-style:none; margin:0; padding:0}
+.list li{
+  padding:11px 0 11px 26px; position:relative; border-bottom:1px dotted var(--line); line-height:1.55;
+}
+.list li:last-child{border-bottom:none}
+.list li::before{
+  content:""; position:absolute; left:2px; top:17px; width:8px; height:8px; background:var(--sq,var(--blue));
+}
+.skillgroup{margin-bottom:20px}
+.skillgroup .gl{
+  font:700 11px var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--grey);
+  border-bottom:2px solid var(--ink); display:inline-block; padding-bottom:3px; margin-bottom:10px;
+}
+.pillrow{display:flex; flex-wrap:wrap; gap:8px}
+.pill{
+  font:500 12.5px var(--font-ui); border:1px solid var(--line); border-radius:999px; padding:6px 13px; background:var(--surface);
+}
+.traj{display:flex; flex-direction:column; gap:14px; margin:18px 0}
+.traj .trow{display:grid; grid-template-columns:110px 1fr 170px; gap:14px; align-items:center}
+.traj .tlabel{font:700 11px var(--font-mono); letter-spacing:.1em; color:var(--grey); text-transform:uppercase}
+.traj .tbar{height:26px; background:var(--surface2); border:1px solid var(--ink); border-radius:5px; overflow:hidden}
+.traj .tfill{height:100%; border-radius:0 4px 4px 0}
+.traj .tval{font:700 13px var(--font-mono)}
+.moneynote{
+  border:1.5px solid var(--ink); border-radius:10px; padding:14px 16px; background:var(--surface);
+  font-size:13.5px; color:var(--ink2); box-shadow:3px 3px 0 var(--ink); margin-top:16px;
+}
+.moneynote b{font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; display:block; margin-bottom:4px; color:var(--ink)}
+.readbtn-row{display:flex; gap:12px; align-items:center; margin-top:26px; flex-wrap:wrap}
+
+/* ---------- quiz ---------- */
+.quiz-wrap{
+  max-width:720px; margin:0 auto; padding:26px 0 60px;
+  min-height:calc(100vh - 60px); display:flex; flex-direction:column; justify-content:center;
+}
+.quiz-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:12px}
+.qdots{display:flex; gap:6px}
+.qdot{width:22px; height:6px; border:1px solid var(--ink); background:var(--card); border-radius:2px}
+.qdot.done{background:var(--green); border-color:var(--green)}
+.qdot.cur{background:var(--ink)}
+.quiz-card{padding:30px 32px; margin-top:14px}
+.qq{font:800 clamp(20px,2.6vw,27px)/1.2 var(--font-disp); letter-spacing:-.01em; margin:6px 0 22px}
+.opts{display:flex; flex-direction:column; gap:11px}
+.opt{
+  display:flex; gap:13px; align-items:flex-start; text-align:left; width:100%;
+  border:1.5px solid var(--line); border-radius:12px; background:var(--card); cursor:pointer;
+  padding:14px 16px; font:500 14.5px/1.5 var(--font-ui); color:var(--ink2);
+  transition:border-color .12s, box-shadow .12s, transform .12s;
+}
+.opt:hover{border-color:#9aa0a6}
+.opt.sel{border-color:var(--ink); box-shadow:3px 3px 0 var(--ink); color:var(--ink); transform:translate(-1px,-1px)}
+.opt .key{
+  font:700 11px var(--font-mono); border:1px solid currentColor; border-radius:6px;
+  padding:2px 7px; flex:none; margin-top:2px;
+}
+.quiz-foot{display:flex; justify-content:flex-end; gap:14px; margin-top:22px; align-items:center}
+
+/* ---------- results ---------- */
+.res-wrap{max-width:900px; margin:0 auto; padding:26px 0 60px}
+.match-hero{padding:30px 34px; margin:18px 0}
+.match-hero .pct{
+  font:900 clamp(64px,9vw,112px)/1 var(--font-disp); letter-spacing:-.04em;
+}
+.match-rows{display:flex; flex-direction:column; gap:11px; margin-top:8px}
+.mrow{display:grid; grid-template-columns:215px 1fr 62px; gap:14px; align-items:center; cursor:pointer; padding:2px 6px; margin:0 -6px; border-radius:8px}
+.mrow:hover{background:var(--surface)}
+.mrow .ml{font:700 13px var(--font-disp); text-transform:uppercase; letter-spacing:.01em; display:flex; align-items:center; gap:8px; white-space:nowrap; color:var(--grey)}
+.mrow:hover .ml{color:var(--ink)}
+.mrow .ml svg{width:15px;height:15px; flex:none}
+.mrow .mb{height:20px; background:var(--surface2); border:1px solid var(--line); border-radius:4px; overflow:hidden}
+.mrow:hover .mb{border-color:var(--ink)}
+.mrow .mf{height:100%; opacity:.75}
+.mrow:hover .mf{opacity:1}
+.mrow .mp{font:700 12.5px var(--font-mono); text-align:right; color:var(--grey)}
+.whylist{list-style:none; margin:10px 0 0; padding:0}
+.whylist li{padding:5px 0 5px 22px; position:relative; font-size:14px}
+.whylist li::before{content:"※"; position:absolute; left:0; color:var(--green); font-weight:700}
+
+/* ---------- mock interviews ---------- */
+.mock-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px}
+.mkcard{padding:0; overflow:hidden; cursor:pointer; display:flex; flex-direction:column}
+.mkcard .inner{padding:16px; display:flex; flex-direction:column; flex:1}
+.mkcard .toprow{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px}
+.mkcard h3{font-size:15.5px; font-weight:800; margin:0 0 6px}
+.mkcard .meta{font:500 10.5px var(--font-mono); color:var(--grey); letter-spacing:.07em; text-transform:uppercase; margin-top:auto; padding-top:12px}
+.run-wrap{max-width:780px; margin:0 auto; padding:22px 0 90px}
+.run-bar{height:12px; border:1.5px solid var(--ink); border-radius:99px; overflow:hidden; background:var(--card); margin:10px 0 6px}
+.run-bar .fill{height:100%; background:var(--green-b); transition:width .4s}
+.run-meta{display:flex; justify-content:space-between; font:700 10.5px var(--font-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--grey)}
+.qcard{margin-top:18px}
+.qtag{
+  display:inline-flex; align-items:center; gap:7px; font:700 10.5px var(--font-mono);
+  letter-spacing:.13em; text-transform:uppercase; padding:4px 11px; border-radius:999px; border:1.5px solid;
+}
+.qtag.beh{color:var(--purple); border-color:var(--purple)}
+.qtag.tech{color:var(--blue-d); border-color:var(--blue)}
+.qtext{font:800 clamp(19px,2.4vw,25px)/1.25 var(--font-disp); letter-spacing:-.01em; margin:12px 0 4px}
+details.acc{border:1px solid var(--line); border-radius:12px; margin:14px 0; background:var(--surface)}
+details.acc summary{
+  cursor:pointer; list-style:none; padding:12px 16px; font:700 12px var(--font-mono);
+  letter-spacing:.1em; text-transform:uppercase; color:var(--grey); display:flex; align-items:center; gap:8px;
+}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::before{content:"+"; font:700 16px var(--font-mono); color:var(--ink); width:14px}
+details.acc[open] summary::before{content:"–"}
+details.acc .acc-body{padding:0 16px 14px; font-size:13.5px; color:var(--ink2)}
+details.acc .acc-body li{margin:4px 0}
+textarea.ans{
+  width:100%; min-height:150px; resize:vertical; border:1.5px solid var(--line); border-radius:12px;
+  padding:14px 16px; font:400 14.5px/1.6 var(--font-ui); color:var(--ink); background:var(--card);
+}
+textarea.ans:focus{outline:2px solid var(--blue); outline-offset:1px; border-color:var(--blue)}
+.ans-meta{display:flex; justify-content:space-between; font:500 11px var(--font-mono); color:var(--grey); margin-top:6px}
+.model{
+  border:1.5px solid var(--ink); border-radius:12px; background:var(--green-t); padding:16px 18px;
+  box-shadow:4px 4px 0 var(--ink); margin-top:16px;
+}
+.model .mh{font:700 10.5px var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--green); margin-bottom:6px}
+.rubric{margin-top:16px}
+.rubric .rh{font:700 11px var(--font-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--grey); margin-bottom:8px}
+.rubric .ritem{
+  display:flex; gap:11px; align-items:flex-start; padding:9px 12px; border:1px solid var(--line);
+  border-radius:10px; margin-bottom:8px; cursor:pointer; background:var(--card); font-size:14px; color:var(--ink2);
+  position:relative; user-select:none;
+}
+.rubric .ritem.on{border-color:var(--green); background:var(--green-t); color:var(--ink)}
+.rubric .box{
+  width:19px; height:19px; border:1.5px solid #9aa0a6; border-radius:4px; flex:none; margin-top:2px;
+  display:grid; place-items:center; color:#fff;
+}
+.rubric .ritem.on .box{background:var(--green); border-color:var(--green)}
+.rubric .box svg{width:13px; height:13px; opacity:0}
+.rubric .ritem.on .box svg{opacity:1}
+.end-quotes{list-style:none; padding:0; margin:14px 0}
+.end-quotes li{padding:8px 0; border-bottom:1px dotted var(--line); font-size:13.5px; display:flex; gap:10px; align-items:center}
+.end-quotes li:last-child{border:none}
+.end-quotes .sc{font:700 12px var(--font-mono); color:var(--green); flex:none; width:44px}
+
+/* ---------- AI grader (session summary) ---------- */
+.ai-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0 8px; text-align:center}
+.ai-panel{border:1.5px solid var(--line); border-radius:12px; padding:18px 14px 14px; background:var(--card)}
+.ai-panel .lbl{font:700 10.5px var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--grey); margin-bottom:8px}
+.ai-panel .val{font:700 38px/1 var(--font-mono); color:var(--green)}
+.ai-panel .val .of{font-size:.45em; color:var(--grey); font-weight:700}
+.ai-panel .sub{font:500 10px var(--font-mono); letter-spacing:.08em; text-transform:uppercase; color:var(--grey); margin-top:8px}
+.ai-panel.glm{border-color:var(--blue); background:var(--blue-t)}
+.ai-panel.glm .val{color:var(--blue-d)}
+.ai-cta{display:flex; flex-direction:column; align-items:center; gap:10px; padding:4px 0 2px}
+.ai-note{font:500 10px/1.7 var(--font-mono); letter-spacing:.06em; text-transform:uppercase; color:var(--grey); max-width:36ch}
+.ai-err{font:500 11.5px/1.6 var(--font-ui); color:var(--red)}
+.ai-attr{font:700 9.5px var(--font-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--grey)}
+.spin{display:inline-block; width:13px; height:13px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; vertical-align:-2px; margin-right:7px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-verdict{border:1.5px solid var(--ink); border-radius:12px; background:var(--blue-t); padding:14px 18px; text-align:left; box-shadow:4px 4px 0 var(--ink); margin-top:18px}
+.ai-verdict .vh{display:flex; justify-content:space-between; align-items:center; gap:10px; font:700 10.5px var(--font-mono); letter-spacing:.14em; text-transform:uppercase; color:var(--blue-d); margin-bottom:6px}
+.ai-verdict p{margin:0; font-size:13.5px; line-height:1.6; color:var(--ink2)}
+.ai-q{list-style:none; padding:0; margin:16px 0 0; text-align:left}
+.ai-q li{padding:10px 0; border-bottom:1px dotted var(--line)}
+.ai-q li:last-child{border:none}
+.ai-q .sc{font:700 12px var(--font-mono)}
+.ai-q .s-self{color:var(--green)}
+.ai-q .s-ai{color:var(--blue-d)}
+.ai-q .qq{font-size:13.5px; font-weight:600; color:var(--ink); margin:5px 0 0}
+.ai-q .dims{font:500 10px var(--font-mono); letter-spacing:.06em; color:#9aa0a6; margin-top:5px}
+.ai-q .note{font-size:12.5px; color:var(--grey); margin-top:4px}
+.ai-q .note b{font:700 9.5px var(--font-mono); letter-spacing:.12em; color:var(--ink2); margin-right:7px}
+@media (max-width:640px){ .ai-grid{grid-template-columns:1fr} }
+
+/* ---------- shop cosmetics: accent packs + midnight (applied via <html data-*> attrs) ---------- */
+html[data-accent="lagoon"]{ --blue:#00796b; --blue-d:#004d40; --blue-t:#e0f2f1 }
+html[data-accent="ube"]{ --blue:#7627bb; --blue-d:#53177e; --blue-t:#f3e8fd }
+html[data-accent="rose"]{ --blue:#c2185b; --blue-d:#880e4f; --blue-t:#fce4ec }
+html[data-theme="midnight"]{
+  --ink:#e8eaed; --ink2:#c3c7cb; --grey:#9aa0a6;
+  --line:#3c4043; --line2:#2d2e31;
+  --surface:#1d1e21; --surface2:#26272b; --white:#16171a; --card:#232428; --on-ink:#16171a;
+  --shadow:0 1px 2px rgba(0,0,0,.6), 0 1px 3px 1px rgba(0,0,0,.45);
+}
+html[data-theme="midnight"] .appbar{ background:rgba(22,23,26,.97); border-bottom-color:var(--line) }
+html[data-theme="midnight"] .btn-ghost{ color:var(--ink) }
+html[data-theme="midnight"] .tb.on{ color:#8ab4f8 }   /* --blue-d is too dim on the dark bar */
+
+/* ---------- progress pill (app bar, right) ---------- */
+.xppill{
+  display:flex; align-items:center; gap:10px; border:1.5px solid var(--line); background:var(--card);
+  border-radius:999px; padding:6px 12px 6px 13px; cursor:pointer; flex:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.xppill:hover{ border-color:var(--ink); box-shadow:var(--shadow) }
+.xppill .lv{ font:700 11px var(--font-mono); color:var(--blue-d); letter-spacing:.05em; white-space:nowrap }
+.xppill .bar{ width:58px; height:7px; border:1px solid var(--ink); border-radius:99px; overflow:hidden; background:var(--card) }
+.xppill .bar i{ display:block; height:100%; background:var(--blue); transition:width .35s }
+.xppill .clips{ font:700 11px var(--font-mono); color:var(--yellow-d); display:flex; align-items:center; gap:5px; white-space:nowrap }
+.xppill .clips svg{ width:13px; height:13px }
+
+/* ---------- progress modal ---------- */
+#pm-ov{ position:fixed; inset:0; background:rgba(32,33,36,.55); z-index:400; display:flex; align-items:center; justify-content:center; padding:18px; animation:pin .18s ease-out }
+@keyframes pin{from{opacity:0} to{opacity:1}}
+#pm{
+  background:var(--card); border:1.5px solid var(--ink); border-radius:16px; box-shadow:6px 6px 0 var(--ink);
+  width:min(840px, 94vw); max-height:88vh; overflow-y:auto; padding:26px 28px 24px; position:relative;
+}
+.pm-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:6px }
+.pm-head h2{ font-size:30px; text-transform:uppercase; letter-spacing:-.01em; margin-top:10px }
+.pm-x{
+  width:34px; height:34px; border:1.5px solid var(--line); background:var(--card); border-radius:999px;
+  cursor:pointer; display:grid; place-items:center; color:var(--ink); flex:none;
+}
+.pm-x:hover{ border-color:var(--ink) }
+.pm-x svg{ width:15px; height:15px }
+.pm-top{ display:grid; grid-template-columns:1.5fr 1fr; gap:14px; margin:16px 0 4px }
+.pm-box{ border:1.5px solid var(--ink); border-radius:12px; padding:16px 18px; background:var(--card); box-shadow:4px 4px 0 var(--ink) }
+.pm-box .big{ font:700 30px/1.1 var(--font-disp); text-transform:uppercase; letter-spacing:-.01em; margin:8px 0 10px }
+.pm-box .bar{ height:12px; border:1.5px solid var(--ink); border-radius:99px; overflow:hidden; background:var(--card) }
+.pm-box .bar i{ display:block; height:100%; background:var(--blue); transition:width .4s }
+.pm-box .meta{ font:500 10.5px var(--font-mono); color:var(--grey); letter-spacing:.08em; text-transform:uppercase; margin-top:8px }
+.pm-wallet{ display:flex; align-items:center; gap:14px }
+.pm-wallet svg{ width:34px; height:34px; color:var(--yellow-d); flex:none }
+.pm-wallet .n{ font:700 34px/1 var(--font-mono); color:var(--yellow-d) }
+.pm-sec{ margin-top:22px }
+.pm-sec > .kicker{ margin-bottom:12px }
+.lad{ list-style:none; margin:0; padding:0 }
+.lad li{
+  display:grid; grid-template-columns:44px 1fr auto auto; gap:12px; align-items:center;
+  padding:9px 12px; border-bottom:1px dotted var(--line); font-size:13.5px;
+}
+.lad li:last-child{ border:none }
+.lad .lv{ font:700 12px var(--font-mono); color:var(--grey) }
+.lad .ti{ font-weight:800; text-transform:uppercase; letter-spacing:.02em; font-family:var(--font-disp) }
+.lad .xp{ font:500 10.5px var(--font-mono); color:var(--grey); letter-spacing:.06em; text-transform:uppercase }
+.lad .rw{ font:700 10.5px var(--font-mono); color:var(--yellow-d); letter-spacing:.06em; text-transform:uppercase; white-space:nowrap }
+.lad li.done .lv, .lad li.done .ti{ color:var(--green) }
+.lad li.now{ background:var(--blue-t); border-bottom-color:transparent; border-radius:8px }
+.lad li.now .lv, .lad li.now .ti{ color:var(--blue-d) }
+.lad li.locked{ opacity:.45 }
+.pm-stats{ display:flex; gap:10px; flex-wrap:wrap }
+.pm-stat{ border:1px solid var(--line); border-radius:10px; padding:10px 16px; background:var(--card) }
+.pm-stat b{ display:block; font:700 20px var(--font-mono) }
+.pm-stat span{ font:500 9.5px var(--font-mono); color:var(--grey); letter-spacing:.1em; text-transform:uppercase }
+
+/* ---------- shop ---------- */
+.shop-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px }
+.shop-item{ border:1.5px solid var(--line); border-radius:12px; padding:14px; background:var(--card); display:flex; flex-direction:column; gap:8px }
+.shop-item.owned{ border-color:var(--ink) }
+.shop-item .si-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:8px }
+.shop-item h4{ font:800 15px var(--font-disp); text-transform:uppercase; letter-spacing:.01em; margin:0 }
+.shop-item .sw{ width:22px; height:22px; border-radius:6px; border:1.5px solid var(--ink); flex:none }
+.shop-item .sd{ font-size:12.5px; color:var(--grey); line-height:1.5; flex:1 }
+.shop-item .si-foot{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:2px }
+.shop-item .pr{ font:700 12px var(--font-mono); color:var(--yellow-d); display:flex; align-items:center; gap:5px; white-space:nowrap }
+.shop-item .pr svg{ width:13px; height:13px }
+.shop-item .pr.broke{ color:var(--red) }
+.shop-item .tag{ font:700 9px var(--font-mono); letter-spacing:.1em; text-transform:uppercase; color:var(--green) }
+.pm-foot{ font:500 10.5px/1.7 var(--font-mono); color:var(--grey); letter-spacing:.05em; text-transform:uppercase; margin-top:20px }
+
+/* ---------- the shop cat (perches on the logo when purchased) ---------- */
+.brand{ position:relative }
+.brand .cat{ position:absolute; left:-7px; top:-13px; width:26px; height:26px; pointer-events:none }
+
+/* ---------- sources ---------- */
+.src-list{list-style:none; margin:0; padding:0}
+.src-list li{padding:14px 0; border-bottom:1px dotted var(--line)}
+.src-list .sn{font:800 14px var(--font-disp)}
+.src-list .sd{font-size:13px; color:var(--grey); margin-top:3px}
+
+/* ---------- toasts / confetti / modal ---------- */
+#toasts{position:fixed; bottom:22px; left:22px; z-index:520; display:flex; flex-direction:column; gap:9px}
+.toast{
+  background:var(--ink); color:var(--on-ink); border-radius:10px; padding:12px 18px;
+  font:500 13px var(--font-ui); box-shadow:0 4px 14px rgba(0,0,0,.3);
+  display:flex; align-items:center; gap:10px; animation:tin .25s ease-out; max-width:340px;
+}
+.toast .tx{font:700 12px var(--font-mono); color:var(--yellow)}
+@keyframes tin{from{transform:translateY(14px); opacity:0} to{transform:none; opacity:1}}
+.toast.out{transition:opacity .3s, transform .3s; opacity:0; transform:translateY(8px)}
+#confetti{position:fixed; inset:0; pointer-events:none; z-index:510; overflow:hidden}
+#confetti span{position:absolute; width:9px; height:13px; top:-20px; animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg); opacity:.9}}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--ink); margin-top:70px; background:var(--surface)}
+footer .fgrid{display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:30px; padding:34px 0}
+footer .fh{font:700 10.5px var(--font-mono); letter-spacing:.16em; text-transform:uppercase; color:var(--grey); margin-bottom:10px}
+footer a.fl{display:block; font-size:13px; color:var(--ink2); padding:3px 0}
+footer .fbot{
+  border-top:1px solid var(--line); padding:14px 0; display:flex; justify-content:space-between;
+  gap:14px; flex-wrap:wrap; font:500 10.5px var(--font-mono); letter-spacing:.08em; color:var(--grey); text-transform:uppercase;
+}
+
+/* ---------- otto ---------- */
+.otto{width:92px; flex:none}
+.otto .eye{animation:blink 6s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)} 95%,97%{transform:scaleY(.08)}}
+
+/* ---------- buzzwords: orange underline + hover tooltip ---------- */
+.bz{
+  border-bottom:2px solid var(--orange); cursor:help; position:relative;
+}
+.bz:hover, .bz:focus-visible{background:rgba(232,113,10,.10)}
+.bz-tip{
+  display:none; position:absolute; z-index:130; left:50%; bottom:calc(100% + 11px);
+  transform:translateX(-50%); width:min(300px, 78vw); padding:12px 14px; background:var(--card);
+  border:1.5px solid var(--ink); border-radius:10px; box-shadow:4px 4px 0 var(--ink);
+  font:400 12px/1.55 var(--font-ui); color:var(--ink2); text-align:left; text-transform:none; letter-spacing:normal;
+}
+.bz-tip::after{
+  content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:8px solid transparent; border-top-color:var(--ink);
+}
+.bz-tip b{
+  display:block; font:700 11px var(--font-mono); letter-spacing:.1em;
+  color:var(--orange); margin-bottom:5px; text-transform:uppercase;
+}
+.bz-tip .lvl{
+  display:block; margin-top:8px; padding-top:7px; border-top:1px dotted var(--line);
+  font:700 9px var(--font-mono); letter-spacing:.16em; color:var(--grey); text-transform:uppercase;
+}
+.bz:hover .bz-tip, .bz:focus-visible .bz-tip, .bz.open .bz-tip{display:block}
+
+/* ---------- buzzwords side tab + panel ---------- */
+.bz-tab{
+  position:fixed; right:0; top:50%; transform:translateY(-50%); z-index:95;
+  writing-mode:vertical-rl; background:var(--ink); color:#fff; border:none; cursor:pointer;
+  padding:18px 10px; border-radius:10px 0 0 10px; font:700 10.5px var(--font-mono);
+  letter-spacing:.24em; text-transform:uppercase; box-shadow:-2px 3px 10px rgba(0,0,0,.2);
+}
+.bz-tab:hover{background:#000}
+.bz-tab .n{color:var(--yellow)}
+.bz-panel{
+  position:fixed; top:0; right:0; bottom:0; z-index:110; width:min(400px,94vw);
+  background:var(--card); border-left:1.5px solid var(--ink); box-shadow:-8px 0 26px rgba(0,0,0,.14);
+  transform:translateX(105%); transition:transform .28s ease; display:flex; flex-direction:column;
+}
+.bz-panel.open{transform:none}
+.bz-head{padding:16px 20px 12px; border-bottom:1.5px solid var(--ink)}
+.bz-head .trow{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.bz-head h3{font-size:20px; font-weight:800; text-transform:uppercase; letter-spacing:.01em}
+.bz-x{
+  width:32px; height:32px; border:1.5px solid var(--line); border-radius:999px; background:var(--card);
+  display:grid; place-items:center; cursor:pointer; color:var(--grey);
+}
+.bz-x:hover{border-color:var(--ink); color:var(--ink)}
+.bz-x svg{width:15px; height:15px}
+.bz-bar{display:flex; height:10px; border:1px solid var(--ink); border-radius:99px; overflow:hidden; margin:12px 0 6px; background:var(--card)}
+.bz-bar span{height:100%}
+.bz-sum{font:700 9.5px var(--font-mono); letter-spacing:.1em; color:var(--grey); text-transform:uppercase}
+.bz-controls{padding:12px 20px 0}
+.bz-search{
+  width:100%; padding:10px 16px; border:1.5px solid var(--line); border-radius:999px;
+  font:500 13px var(--font-ui); color:var(--ink); background:var(--card);
+}
+.bz-search:focus{outline:2px solid var(--blue); outline-offset:1px; border-color:var(--blue)}
+.bz-filters{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
+.bz-fchip{
+  font:700 10px var(--font-mono); letter-spacing:.08em; padding:5px 11px; border-radius:999px;
+  border:1px solid var(--line); background:var(--card); color:var(--grey); cursor:pointer; text-transform:uppercase;
+}
+.bz-fchip.on{border-color:var(--ink); background:var(--ink); color:var(--on-ink)}
+.bz-body{flex:1; overflow-y:auto; padding:6px 20px 14px}
+.bz-row{border-bottom:1px dotted var(--line); padding:10px 0}
+.bz-row:last-child{border-bottom:none}
+.bz-row .rt{display:flex; justify-content:space-between; align-items:center; gap:10px; cursor:pointer}
+.bz-row .term{font:700 13px var(--font-disp); color:var(--ink)}
+.bz-row .lside{display:flex; align-items:center; gap:8px; min-width:0}
+.bz-row .cat{
+  font:700 8px var(--font-mono); color:#fff; background:var(--grey); padding:2px 6px;
+  border-radius:4px; letter-spacing:.08em; flex:none;
+}
+.bz-dots{display:inline-flex; gap:3px; flex:none}
+.bz-dots i{width:8px; height:8px; border:1px solid #9aa0a6; border-radius:2px; background:var(--card)}
+.bz-dots i.f1{background:var(--yellow); border-color:var(--yellow-d)}
+.bz-dots i.f2{background:var(--blue); border-color:var(--blue)}
+.bz-dots i.f3{background:var(--green); border-color:var(--green)}
+.bz-def{font:400 12.5px/1.55 var(--font-ui); color:var(--ink2); padding:8px 0 2px}
+.bz-def b{font:700 9.5px var(--font-mono); letter-spacing:.14em; color:var(--orange); text-transform:uppercase; display:block; margin-bottom:3px}
+.bz-empty{padding:26px 0; font-size:13px; color:var(--grey); text-align:center}
+.bz-foot{border-top:1.5px solid var(--ink); padding:12px 20px}
+.bz-foot .btn{width:100%; justify-content:center}
+.bz-card{
+  border:1.5px solid var(--ink); border-radius:14px; box-shadow:4px 4px 0 var(--ink);
+  padding:26px 20px; text-align:center; margin-top:14px; min-height:190px;
+  display:flex; flex-direction:column; justify-content:center; gap:10px;
+}
+.bz-card .cat{font:700 9px var(--font-mono); letter-spacing:.16em; color:var(--grey); text-transform:uppercase}
+.bz-card .t{font:800 26px var(--font-disp); letter-spacing:-.01em}
+.bz-card .d{font:400 13.5px/1.6 var(--font-ui); color:var(--ink2)}
+.bz-card .hint{font:500 10px var(--font-mono); letter-spacing:.1em; color:#9aa0a6; text-transform:uppercase}
+.bz-actions{display:flex; gap:10px; margin-top:16px}
+.bz-actions .btn{flex:1; justify-content:center}
+.bz-progress{font:700 10px var(--font-mono); letter-spacing:.1em; color:var(--grey); margin-top:14px; text-transform:uppercase; text-align:center}
+
+
+@media (max-width:1020px){
+  .track-grid,.mock-grid{grid-template-columns:repeat(2,1fr)}
+  .hero{min-height:auto; padding:38px 0 46px}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-side{flex-direction:row; align-items:center; gap:18px}
+  .otto-bubble, .otto-bubble b{text-align:left}
+  .scrollcue{display:none}
+  .path-grid{grid-template-columns:1fr}
+  .railcol{position:static; flex-direction:row; flex-wrap:wrap}
+  .railcol>*{flex:1 1 260px}
+}
+@media (max-width:860px){
+  .pm-top{grid-template-columns:1fr}
+  .shop-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:680px){
+  .appnav{display:none}
+  .xppill .bar{display:none}
+  .shop-grid{grid-template-columns:1fr}
+  .lad li{grid-template-columns:38px 1fr auto}
+  .lad .rw{display:none}
+  .track-grid,.mock-grid{grid-template-columns:1fr}
+  .mrow{grid-template-columns:140px 1fr 48px}
+  .mrow .ml span.tname{font-size:11px}
+  .traj .trow{grid-template-columns:70px 1fr; }
+  .traj .trow .tval{grid-column:2}
+  .det-head .head-cta{margin-left:0}
+}
+
+/* ============================================================
+   MOBILE LAYOUT (≤680px) — phone pass built around the tab bar.
+   Everything here is phone-only; ≥681px is untouched.
+   ============================================================ */
+@media (max-width:680px){
+  body{ --tb-clear:calc(84px + env(safe-area-inset-bottom)); padding-bottom:var(--tb-clear) }
+  .tabbar{display:flex}
+  .bz-tab{display:none}          /* buzzwords moved into the tab bar */
+  #toasts{left:12px; right:12px; bottom:calc(96px + env(safe-area-inset-bottom))}
+  .toast{max-width:none}
+  .bz-panel{width:100%; z-index:150}   /* full-screen drawer over the tab bar */
+  .bz-tip{position:fixed; left:12px; right:12px; bottom:var(--tb-clear); top:auto; transform:none; width:auto}
+  .bz-tip::after{display:none}
+  .wrap{padding:0 16px}
+  .appbar .row{gap:10px}
+  .brand .word em{display:none}
+  .xppill{padding:9px 13px}
+  textarea.ans, .bz-search{font-size:16px}   /* 16px stops iOS focus-zoom */
+  .hero h1{font-size:clamp(40px,10.5vw,56px)}
+  .hero h1 .outl{-webkit-text-stroke:1.8px var(--ink); text-stroke:1.8px var(--ink)}
+  .hero .sub{font-size:16px; margin-bottom:26px}
+  .hero .cta{flex-direction:column; align-items:stretch; gap:12px}
+  .hero .cta .btn-hero{width:100%; justify-content:center}
+  .hero .alt{text-align:center}
+  .hero-side{flex-direction:column; align-items:flex-start; gap:12px}
+  .otto-duo{margin-top:14px}
+  .otto-duo .otto{width:60px}
+  .microline{gap:10px 16px; margin-top:32px}
+  .card{padding:18px 16px}
+  .quiz-wrap{min-height:calc(100vh - 150px)}
+  .quiz-wrap{min-height:calc(100dvh - 150px)}
+  .quiz-card{padding:22px 18px}
+  .quiz-foot, .readbtn-row{flex-direction:column; align-items:stretch}
+  .quiz-foot .btn, .readbtn-row .btn{justify-content:center}
+  .quiz-foot .hint{text-align:center}
+  .det-head{gap:14px; padding:24px 0 16px}
+  .det-head .big-ic{width:58px; height:58px; border-radius:14px}
+  .det-head .big-ic svg{width:30px; height:30px}
+  .det-head .head-cta{flex-direction:row; width:100%; align-items:stretch}
+  .det-head .head-cta .btn{flex:1; justify-content:center; font-size:13px}
+  .tabs{overflow-x:auto; flex-wrap:nowrap; scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none; white-space:nowrap}
+  .match-hero{padding:24px 18px}
+  .match-hero .pct{font-size:64px}
+  .match-hero .btn{flex:1 1 100%; justify-content:center}
+  .run-wrap{padding:18px 0 30px}
+  footer{margin-top:48px}
+  footer .fgrid{grid-template-columns:1fr; gap:22px; padding:26px 0}
+  #pm{padding:20px 16px 18px}
+  .pm-head h2{font-size:24px}
+  .section{padding:40px 0 8px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+
+<noscript>
+  <div style="padding:40px; font-family:monospace; text-align:center">
+    The IS Career Launchpad needs JavaScript to run. Everything stays on your device — no server, no accounts.
+  </div>
+</noscript>
+
+<header class="appbar">
+  <div class="wrap row">
+    <div class="brand" onclick="go('#/')" role="link" tabindex="0" aria-label="Career Launchpad home">
+      <div class="mark">IS</div>
+      <div class="word">Career Launchpad <em>/ BYU</em></div>
+    </div>
+    <nav class="appnav" id="appnav">
+      <a href="#/quiz" data-nav="quiz">Fit Finder</a>
+      <a href="#/tracks" data-nav="tracks">Tracks</a>
+      <a href="#/mocks" data-nav="mocks">Mock Interviews</a>
+      <a href="#/sources" data-nav="sources">Data &amp; Sources</a>
+    </nav>
+    <div class="spacer"></div>
+    <button class="xppill" id="xppill" onclick="openProgress()" aria-label="Your progress, rewards and shop">
+      <span class="lv">LV 1</span>
+      <span class="bar"><i style="width:0%"></i></span>
+      <span class="clips" id="pillclips">0</span>
+    </button>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<!-- mobile bottom tab bar — populated by renderTabbar(); display:none on ≥681px -->
+<nav class="tabbar" id="tabbar" aria-label="Sections"></nav>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="fh">IS Career Launchpad</div>
+        <p style="font-size:13px; color:var(--ink2); max-width:44ch; margin:0">
+          Built by IS juniors for IS juniors. Eight career tracks indexed, forty interview
+          questions rehearsed, an optional AI grader — everything else stays on this device.
+          Progress saves to your browser.
+        </p>
+      </div>
+      <div>
+        <div class="fh">Index</div>
+        <a class="fl" href="#/quiz">Fit Finder</a>
+        <a class="fl" href="#/tracks">All tracks</a>
+        <a class="fl" href="#/mocks">Mock interviews</a>
+        <a class="fl" href="#/sources">Data &amp; sources</a>
+      </div>
+      <div>
+        <div class="fh">Housekeeping</div>
+        <a class="fl" href="javascript:resetDemo()">Reset demo progress</a>
+        <a class="fl" href="#/sources">Salary methodology</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>JUNIOR CORE · CASE F26 · PROVO, UT</span>
+      <span>NO GRADIENTS · NO TRACKERS · NO ACCOUNTS</span>
+    </div>
+  </div>
+</footer>
+
+<button class="bz-tab" id="bz-tab" onclick="toggleBZ()" aria-label="Open the buzzwords panel"></button>
+<aside class="bz-panel" id="bz-panel" aria-label="Buzzwords glossary"></aside>
+
+<div id="toasts" aria-live="polite"></div>
+<div id="confetti"></div>
+
+<script>
+/* ============================================================
+   1. DATA — career tracks
+   Salary figures are directional aggregates (see #/sources).
+   ============================================================ */
+const CAREERS = [
+{
+  id:"swe", name:"Software Developer", short:"Software Dev", aka:"Software Engineer · Application Developer · Full-stack Dev",
+  icon:"code", color:"#1a73e8", group:"Build & Operate",
+  blurb:"Designs, builds, and ships the software everyone else runs their lives on.",
+  dayToDay:[
+    "Write and review code in a team repo — feature branches, pull requests, repeat",
+    "Translate tickets into working features plus the tests that keep them working",
+    "Debug production issues from error logs, metrics, and user reports",
+    "Standups, sprint planning, and code review feedback (giving and taking)",
+    "Pair with QA and product to nail the edge cases nobody wrote down",
+    "Read documentation. Then read more documentation."
+  ],
+  skills:[
+    {label:"Core tech", items:["JavaScript / TypeScript","Python or Java","SQL","Git & branching flow","Data structures & algorithms"]},
+    {label:"Tools", items:["VS Code","Postman / Insomnia","Docker (basics)","JIRA or Linear","CI/CD pipelines"]},
+    {label:"Also expected", items:["REST API design","Unit testing (Jest, PyTest)","One cloud provider's basics","Reading other people's code"]}
+  ],
+  entry:[
+    "CS-style fundamentals: arrays, maps, hash tables, Big-O thinking, recursion",
+    "A portfolio of 2–3 real projects you can defend line by line",
+    "Comfortable with Git branching and code review etiquette",
+    "Can explain trade-offs of your past projects — not just the features"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$75–110k", w:42},
+      {y:"3–5 yrs", v:"$130–160k", w:66},
+      {y:"6+ yrs", v:"$170k+ TC", w:90}
+    ],
+    note:"Big-tech new-grad total comp can reach $150–190k with equity and bonus. Utah local companies run meaningfully lower than coastal tech — compare base vs. total comp carefully."
+  },
+  strong:[
+    "Ships personal projects that actually work end-to-end, warts and all",
+    "Explains the *why* behind technical decisions, not just the how",
+    "Takes code review feedback without ego",
+    "Learns the existing codebase before trying to rewrite it"
+  ],
+  traits:{code:10,data:3,people:3,design:3,security:4,infra:5,process:4,business:2},
+  interview:[
+    {type:"b", q:"Tell me about a time you shipped something you weren't fully proud of. What did you cut, and why?",
+     listen:["Names the deadline pressure honestly","Identifies what was cut (tests? polish?) and the cost","What they changed in their process afterwards"],
+     model:"Strong answers name the constraint, the specific cut (skipped tests, hard-coded edge case), the price paid, and the follow-up ticket or habit that fixed it later. Weak answers blame teammates or claim they've never cut corners — both are red flags."},
+    {type:"t", q:"Walk me through what happens after you type a URL and press Enter — as much detail as you can.",
+     listen:["DNS resolution","TCP handshake + TLS","HTTP request/response","HTML parse and render"],
+     model:"This is a breadth check: DNS lookup → TCP handshake → TLS negotiation → HTTP request → server processing → response → HTML parsed into DOM → render. Bonus points for mentioning caching, CDNs, or status codes. Organized beats exhaustive."},
+    {type:"t", q:"You deploy, and the API suddenly returns 500 errors for 10% of requests. Walk me through your debugging.",
+     listen:["Checks logs and error rates first","Diffs against the recent deploy","Considers rollback vs. hotfix","Communicates status while debugging"],
+     model:"Structured triage: check logs and error rate, diff the deploy, check dependencies and feature flags, then decide rollback vs. hotfix based on blast radius — while telling someone it's happening. Random guessing before looking at logs is the fail condition."},
+    {type:"b", q:"Describe a code review conflict — you thought your approach was better. How did it end?",
+     listen:["States both sides fairly","Let evidence decide, not volume","Followed team convention even when disagreeing"],
+     model:"Strong: describes both approaches, what settled it (benchmark, style guide, senior input), and following the team's call once made. Weak: framing the reviewer as an idiot, or folding instantly with resentment."},
+    {type:"t", q:"Reverse a string in the language of your choice, then tell me the time complexity of your solution.",
+     listen:["Working code","Says O(n) time","Mentions O(n) extra space (or in-place trick)","Edge cases: empty string, unicode"],
+     model:"Write the loop or built-in, state O(n) time and O(n) space (or the two-pointer in-place swap), and mention empty-string and unicode caveats if asked. Then stop — don't narrate every keystroke."}
+  ]
+},
+{
+  id:"cloud", name:"Cloud / Infrastructure Engineer", short:"Cloud Eng", aka:"Cloud Engineer · DevOps · Platform Engineer · SRE",
+  icon:"cloud", color:"#546e7a", group:"Build & Operate",
+  blurb:"Builds and runs the pipes, servers, and platforms everything else depends on.",
+  dayToDay:[
+    "Provision and version infrastructure as code (mostly Terraform)",
+    "Own uptime: on-call rotations, incident response, postmortems",
+    "Right-size instances and hunt down cloud spend that doubled quietly",
+    "Automate the last manual thing you did — then delete the script's predecessor",
+    "Design networks, IAM boundaries, and deployment guardrails",
+    "Write the runbook you wish you'd had at 3 AM"
+  ],
+  skills:[
+    {label:"Core tech", items:["Linux administration","Networking (VPCs, routing, DNS)","One cloud deeply (AWS / Azure / GCP)","Scripting (Python, Bash)"]},
+    {label:"Tools", items:["Terraform","Docker","Kubernetes (gradually)","Prometheus / Grafana","CI/CD systems"]},
+    {label:"Also expected", items:["IAM and permissions design","Cost management","GitOps habits","Reading other people's Terraform"]}
+  ],
+  entry:[
+    "A cloud cert (AWS Solutions Architect / AZ-104) opens HR doors; labs prove skill",
+    "Can explain what a VPC, subnet, and security group actually do",
+    "A home lab — physical or a cheap cloud sandbox — with real services in it",
+    "Honest self-assessment about on-call: know whether 3 AM pages are for you"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$75–95k", w:46},
+      {y:"3–5 yrs", v:"$120–150k", w:72},
+      {y:"6+ yrs", v:"$160k+ (platform/SRE)", w:92}
+    ],
+    note:"Platform and SRE roles at product companies rival software-engineer pay. On-call compensation varies wildly between companies — ask about it directly in interviews."
+  },
+  strong:[
+    "Automates repeated work instead of enduring it heroically",
+    "Thinks in failure modes: 'what breaks first, and who notices?'",
+    "Documents so the person on-call after them survives",
+    "Treats security as part of the job, not another team's problem"
+  ],
+  traits:{code:7,data:3,people:4,design:1,security:7,infra:10,process:5,business:3},
+  interview:[
+    {type:"t", q:"Explain IAM roles vs. users vs. policies — and why 'just use the root account' is a problem.",
+     listen:["Least-privilege mental model","Roles are assumable, including by machines","Root locked away with MFA"],
+     model:"Users are identities for people; roles are assumable permission sets (for people and services); policies are the permissions attached. Root gets locked away with MFA and daily-use accounts stay least-privilege. The concept being tested: do you default to granting the minimum?"},
+    {type:"t", q:"Your cloud bill doubled last month. Where do you look first?",
+     listen:["Billing dashboard by service","Hunts idle and oversized resources","Checks egress and forgotten environments","Proposes budgets and alerts as the fix"],
+     model:"Method: billing dashboard sorted by service → find top offenders → per-resource hunt (idle load balancers, unattached volumes, oversized instances, egress, forgotten dev environments) → then the process fix: budgets, alerts, tagging policy. Panic-free triage is the point."},
+    {type:"b", q:"Tell me about an outage you caused or witnessed. What did you learn?",
+     listen:["Blameless timeline","Root cause and detection gap","A guardrail that prevents recurrence"],
+     model:"Strong: walks the timeline, names the root cause and — critically — why monitoring didn't catch it earlier, then describes the guardrail added (alert, runbook, canary deploy). Blame-shifting or laughing off the outage both fail."},
+    {type:"t", q:"Why infrastructure as code instead of clicking around the console?",
+     listen:["Repeatability and review","Drift detection","Disaster recovery"],
+     model:"IaC is versioned, reviewable, and repeatable; it catches drift and makes disaster recovery a re-run instead of a memory test. Consoles are fine for exploring, production should be code. Bonus: mention onboarding speed — a new engineer reads the repo."},
+    {type:"b", q:"Describe a time you explained a technical constraint to a non-technical person.",
+     listen:["A translation that actually landed","Checked for understanding","Offered trade-offs, not just 'no'"],
+     model:"Strong: picks a real constraint (why the migration takes a weekend, why we can't just add more memory), finds the analogy that landed, confirms understanding, and offers options with trade-offs. The test is whether the other person made a informed decision."}
+  ]
+},
+{
+  id:"cyber", name:"Cybersecurity Analyst", short:"Cybersecurity", aka:"SOC Analyst · InfoSec Analyst · Security Engineer",
+  icon:"shield", color:"#d93025", group:"Build & Operate",
+  blurb:"Defends systems, data, and people from everyone from scammers to state actors.",
+  dayToDay:[
+    "Triage alerts in a SIEM (Splunk, Sentinel) — most are noise, some aren't",
+    "Investigate phishing reports and endpoint weirdness",
+    "Patch, scan, and document — the unglamorous 70% of the job",
+    "Write incident reports that leadership can actually read",
+    "Threat-hunt: proactively look for attacks that didn't trigger alerts",
+    "Security awareness: teaching humans not to click things"
+  ],
+  skills:[
+    {label:"Core tech", items:["Networking (TCP/IP, DNS, HTTP)","Linux comfort","Windows & Active Directory basics","Incident response process"]},
+    {label:"Tools", items:["SIEM (Splunk)","EDR (CrowdStrike, Cortex XDR)","Wireshark","Nmap","Burp Suite (appsec)"]},
+    {label:"Also expected", items:["Scripting (Python, PowerShell)","Cloud security basics","NIST / SOC 2 framework literacy","Report writing"]}
+  ],
+  entry:[
+    "Can explain the TCP handshake and read a basic packet capture",
+    "A home lab: VMs, firewall rules, deliberately-hacked boxes to repair",
+    "Security+ helps past HR filters; skills pass the interviews",
+    "Fundamental honesty — you will report bad news to powerful people"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$65–85k", w:42},
+      {y:"3–5 yrs", v:"$95–120k", w:68},
+      {y:"6+ yrs", v:"$130–170k+", w:90}
+    ],
+    note:"Clearance-required and finance roles pay above band. SOC shifts are a real burnout risk — in interviews, ask about rotation schedules and alert quality, not just salary."
+  },
+  strong:[
+    "Explains attacks as stories, not vocabulary lists",
+    "Documents relentlessly — evidence beats memory",
+    "Asks 'what's the business risk,' not just 'is it patched'",
+    "Learns the boring parts (logging, backups) without being told"
+  ],
+  traits:{code:6,data:4,people:4,design:1,security:10,infra:8,process:5,business:3},
+  interview:[
+    {type:"t", q:"Walk me through the TCP three-way handshake and why an attacker would care about it.",
+     listen:["SYN, SYN-ACK, ACK in order","Half-open connections enable scanning","Connects to detection (IDS visibility)"],
+     model:"Correct sequence: client SYN → server SYN-ACK → client ACK; connection established. Attackers abuse the handshake with half-open connections (SYN scans, SYN floods/DoS). Bonus: defenders see these in firewall and IDS logs — that's why the trivia matters."},
+    {type:"t", q:"An employee reports the phishing email they *did* click. What do you do in the first 30 minutes?",
+     listen:["Contain first, investigate second","No blame — protect the reporting culture","Reset credentials, isolate host, scope via logs"],
+     model:"Order matters: thank the employee (blame kills reporting), isolate the host, reset credentials, check mailbox rules and lateral movement, scope using logs, preserve evidence, escalate per playbook. Contain → investigate → eradicate → document."},
+    {type:"b", q:"Tell me about a time you had to deliver bad news to someone senior to you.",
+     listen:["Facts first, feelings managed","Impact quantified","Options with costs, not just problems"],
+     model:"Strong: states the finding plainly, quantifies impact (data exposed, cost, risk), brings two or three options with trade-offs, and follows up in writing. Weak: softening the news until it's meaningless, or drama instead of facts."},
+    {type:"t", q:"What's the difference between hashing and encryption? Where would you use each?",
+     listen:["Hashing is one-way, encryption reversible","Passwords get hashed (with salt)","Data at rest / in transit gets encrypted"],
+     model:"Hashing is one-way (passwords with unique salts, integrity checks); encryption is reversible with a key (protecting data at rest and in transit). Bonus: rainbow tables and why salting defeats them. Mixed-up answers here are disqualifying in security interviews."},
+    {type:"b", q:"Describe a time you had to learn something technical fast. How did you do it?",
+     listen:["Concrete method (labs, CTFs, structured platforms)","Practice over passive video-watching","Evidence they knew when they'd learned it"],
+     model:"Strong: names the resource (TryHackMe, HackTheBox, vendor docs), describes lab-first repetition, admits the first attempt failed, and defines the moment they knew it stuck. 'I watched videos' with no practice is the weak version."}
+  ]
+},
+{
+  id:"data", name:"Data Analyst / Data Scientist", short:"Data Analyst", aka:"Analyst · Analytics Engineer · Data Scientist",
+  icon:"db", color:"#e8710a", group:"Analyze & Advise",
+  blurb:"Turns messy company data into decisions people actually make.",
+  dayToDay:[
+    "Write SQL against warehouses (Snowflake, BigQuery) — most of the day, honestly",
+    "Build and maintain dashboards (Tableau, Power BI, Looker)",
+    "Meet stakeholders to scope their 'one quick question' requests",
+    "Clean data that nobody admits is dirty",
+    "Run analyses: cohorts, funnels, A/B test reads",
+    "Present findings — the deck is the deliverable"
+  ],
+  skills:[
+    {label:"Core tech", items:["SQL (joins, windows, CTEs)","Python or R (pandas / tidyverse)","Statistics (distributions, hypothesis tests)","Excel that frightens people"]},
+    {label:"Tools", items:["Tableau / Power BI / Looker","dbt (on analyst teams)","Jupyter","Git basics"]},
+    {label:"Also expected", items:["Experiment design","Data modeling (star schema)","Chart storytelling","Stakeholder management"]}
+  ],
+  entry:[
+    "Can write a window-function query without Googling the syntax",
+    "Explains p-value, confidence interval, and Simpson's paradox in plain English",
+    "One analysis project on real, messy data — not iris.csv",
+    "Can pick the right chart and defend the choice"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$65–80k (analyst)", w:44},
+      {y:"3–5 yrs", v:"$95–125k (senior / DS)", w:68},
+      {y:"6+ yrs", v:"$130–170k (DS / analytics eng)", w:90}
+    ],
+    note:"Data scientist roles skew higher but usually want real statistics plus Python depth. Analyst → senior analyst → data scientist is the standard ladder, and analytics engineering is the well-paid fork."
+  },
+  strong:[
+    "Curious about the business question hiding behind the data request",
+    "Number-checks themselves before presenting — twice",
+    "Can say 'this analysis is wrong because…' about their own work",
+    "Communicates like a human, not a notebook"
+  ],
+  traits:{code:6,data:10,people:5,design:3,security:1,infra:2,process:5,business:7},
+  interview:[
+    {type:"t", q:"Write a SQL query: top 3 products by revenue in each region.",
+     listen:["Aggregates before ranking","Window function with PARTITION BY","Mentions ties and rounding"],
+     model:"Two steps: GROUP BY region and product for revenue, then ROW_NUMBER() OVER (PARTITION BY region ORDER BY revenue DESC) filtered to rn <= 3. Bonus: mention handling ties (RANK vs ROW_NUMBER) and revenue rounding."},
+    {type:"t", q:"A metric on the executive dashboard dropped 20% week-over-week. Walk me through your investigation.",
+     listen:["Verifies the data pipeline before business theories","Segments the drop","Communicates early, even without answers"],
+     model:"Data first: is the pipeline healthy, did logging or definitions change? Then segment (platform, geo, cohort, new vs. returning), check external events and seasonality, quantify the drivers. Communicate status early — 'investigating, data verified, will update by 3' beats silence."},
+    {type:"b", q:"Tell me about an analysis that changed a decision. What would have happened without it?",
+     listen:["A concrete decision and its counterfactual","How they handled pushback","Honest about uncertainty"],
+     model:"Strong: names the decision, what the data showed, the counterfactual (what leadership was about to do), and how they handled skeptics — including the uncertainty they disclosed. Weak: an analysis that 'informed general understanding' changed nothing."},
+    {type:"t", q:"Explain a p-value to a marketing VP.",
+     listen:["Plain English, zero jargon-hiding","Frames it as 'if nothing changed, how surprising is this'","Mentions a decision threshold"],
+     model:"'If the change actually did nothing, this is the chance we'd see a result this extreme anyway. We call 5% our threshold and decide what we're measuring before we look.' The classic fail: 'the probability the hypothesis is true' — it isn't."},
+    {type:"b", q:"Describe the dirtiest dataset you've handled. What did you do?",
+     listen:["Specific messes (dupes, nulls, units)","A pragmatic 80/20 cleaning call","Raised the issue upstream"],
+     model:"Strong: names concrete messes, explains the judgment call (what was fixable vs. what needed the business to define), documented choices, and flagged the upstream cause. Martyr stories about hand-cleaning 100k rows in Excel show endurance, not judgment."}
+  ]
+},
+{
+  id:"bsa", name:"Business / Systems Analyst", short:"Business Analyst", aka:"Business Analyst · Systems Analyst · Business Systems Analyst",
+  icon:"flow", color:"#188038", group:"Analyze & Advise",
+  blurb:"Translates between what the business means and what the system must do.",
+  dayToDay:[
+    "Run requirements sessions and write them down properly",
+    "Map current-state and future-state processes (Visio, Lucid)",
+    "Write user stories with acceptance criteria that survive development",
+    "Sit between developers and stakeholders, absorbing ambiguity on purpose",
+    "Test that the build matches the ask (UAT design and execution)",
+    "Own the 'wait, which version of the truth?' meetings"
+  ],
+  skills:[
+    {label:"Core tech", items:["Requirements elicitation","Process mapping (BPMN)","SQL for verification","UAT design"]},
+    {label:"Tools", items:["JIRA / Azure DevOps","Excel (serious Excel)","Visio / Lucidchart","Figma (light)"]},
+    {label:"Also expected", items:["Stakeholder management","Documentation discipline","Light ERP/CRM configuration","Meeting facilitation"]}
+  ],
+  entry:[
+    "Can turn a rambling meeting into a one-page spec people sign",
+    "SQL joins don't scare you",
+    "Writes clearly — writing samples beat certifications here",
+    "Asks 'why' three levels deep, politely"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$60–75k", w:40},
+      {y:"3–5 yrs", v:"$90–115k (senior BA)", w:66},
+      {y:"6+ yrs", v:"$110–140k (lead / architect)", w:86}
+    ],
+    note:"The classic launchpad into product management, consulting, and IT leadership. Less pure tech, more leverage — your value compounds through the systems and people you understand."
+  },
+  strong:[
+    "Turns ambiguity into documents people actually sign",
+    "Holds the line on scope without making enemies",
+    "Speaks fluent engineer and fluent executive",
+    "Follows up. Always follows up."
+  ],
+  traits:{code:2,data:6,people:8,design:5,security:2,infra:2,process:8,business:9},
+  interview:[
+    {type:"t", q:"A VP asks for 'a report on sales.' What do you do before building anything?",
+     listen:["Audience and the decision being made","Fields, filters, grain, frequency","Mocks it on paper before building"],
+     model:"Requirements before artifacts: Who reads it? What decision does it drive? What fields, filters, and grain? How often, living where? Then a paper mock for sign-off before any building. Building first and asking later is the classic junior mistake."},
+    {type:"b", q:"Tell me about a time two stakeholders wanted conflicting things.",
+     listen:["Surfaces the conflict early","Finds the shared goal underneath","Escalates with options, not problems"],
+     model:"Strong: names both wants and the shared goal, describes how they quantified the trade-off, and — if stuck — escalated transparently with options priced out. Weak: quietly picking a side, or 'they worked it out themselves' (you're the translator; that was your job)."},
+    {type:"t", q:"Explain the difference between INNER, LEFT, and FULL OUTER joins to a non-developer.",
+     listen:["Plain-English Venn-style framing","A concrete two-table example","Knows which rows survive each join"],
+     model:"INNER: only rows that match in both tables. LEFT: everything from the left table, matches filled in where they exist. FULL OUTER: everything from both sides, matched where possible. Use a concrete example (customers and orders — customers with no orders)."},
+    {type:"t", q:"You get a UAT bug report that just says 'the report is wrong.' Walk me through your next hour.",
+     listen:["Gets specifics: inputs, expected vs. actual","Reproduces before theorizing","Classifies: data, requirements, or build"],
+     model:"Get specifics (which run, what inputs, what they expected vs. saw), reproduce it, then isolate: bad data, misunderstood requirement, or build defect — each routes to a different owner. Log it properly either way. 'Wrong' is not a bug report; making it one is the job."},
+    {type:"b", q:"Describe a project where documentation saved you.",
+     listen:["A specific artifact (decision log, sign-off)","The moment it mattered — dispute, turnover, audit","Cost to write vs. value returned"],
+     model:"Strong: names the artifact, the crisis (a stakeholder disputing scope in week 9, a key person leaving), and how the document resolved it in minutes. The lesson isn't 'write more docs' — it's 'write the ones that get disputed later.'"}
+  ]
+},
+{
+  id:"erp", name:"ERP / Systems Consultant", short:"ERP Consultant", aka:"SAP Consultant · Salesforce Consultant · Systems Integrator",
+  icon:"gear", color:"#00796b", group:"Analyze & Advise",
+  blurb:"Makes giant off-the-shelf systems fit real companies — and boards planes doing it.",
+  dayToDay:[
+    "Configure modules to match client business processes",
+    "Run fit-gap workshops with client teams",
+    "Test, migrate, and reconcile data — the unglamorous core of every project",
+    "Document configuration decisions for the client's future team",
+    "Support go-lives (long days, genuine adrenaline)",
+    "Travel to client sites — frequency depends on the firm"
+  ],
+  skills:[
+    {label:"Core tech", items:["Business process fluency (O2C, P2P, R2R)","System configuration (SAP / Salesforce)","Data migration basics","SQL"]},
+    {label:"Tools", items:["SAP S/4HANA or Salesforce ecosystem","Excel (power user)","JIRA","Process documentation suites"]},
+    {label:"Also expected", items:["Client communication","Change management","Industry curiosity","Presentation presence"]}
+  ],
+  entry:[
+    "Understand what ERP systems are for — one deep-dive project helps",
+    "Can explain a business process end-to-end (order-to-cash is the classic)",
+    "Excel plus SQL get you through the technical screens",
+    "Presence: interviews test whether you can talk to a 55-year-old CFO"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$65–85k + bonus", w:44},
+      {y:"3–5 yrs", v:"$100–130k (senior)", w:70},
+      {y:"6+ yrs", v:"$130–180k+ (manager / architect)", w:92}
+    ],
+    note:"Big-firm compensation includes bonus, travel points, and faster promotion cycles than most IT tracks. Hours spike at go-live. BYU IS has deep ERP placement pipelines — ask the department for alumni firms."
+  },
+  strong:[
+    "Learns a client's business fast — actually fast",
+    "Comfortable being the expert in the room at 23",
+    "Detail-obsessed with data (migrations punish sloppiness)",
+    "Travels without drama and builds relationships on site"
+  ],
+  traits:{code:3,data:6,people:8,design:2,security:2,infra:5,process:9,business:9},
+  interview:[
+    {type:"t", q:"Why do ERP implementations resist heavy customization?",
+     listen:["Upgrades break against customizations","Configuration preferred over code","Process change beats system change"],
+     model:"Customizations break on every upgrade, inflate support costs, and hide process debt. The strong stance: configure the standard where possible, change the business process where it's the real problem, and customize only for genuine competitive differentiation."},
+    {type:"t", q:"Walk me through order-to-cash like I'm a new analyst.",
+     listen:["Order → credit → fulfillment → invoice → cash","Names the systems touched","Knows where data quality bites"],
+     model:"Order captured → credit check → fulfillment and shipping → invoicing → cash receipt, touching CRM, ERP, and sometimes WMS. Bonus: name where it breaks (customer master data, credit holds, invoice mismatches). Fluency here signals you can be client-facing."},
+    {type:"b", q:"Tell me about a time you had to learn someone else's business quickly.",
+     listen:["A method: artifacts, questions, shadowing","Confirmed understanding back to them","A specific detail that impressed the client"],
+     model:"Strong: describes the intake (org chart, process docs, shadowing), asking questions instead of feigning knowledge, and playing back their understanding to be corrected. The tell of excellence: catching a detail that surprised the client."},
+    {type:"t", q:"You're migrating customer records and 8% fail validation the day before cutover. What do you do?",
+     listen:["Categorizes the failures","Fixes the fixable en masse","Escalates with options immediately"],
+     model:"Categorize failures (format issues, duplicates, missing mandatory fields), auto-fix the fixable, get a business decision on the rest (migrate flagged vs. delay), communicate impact and options to the client immediately, and document the remainder for post-go-live cleanup. Radio silence is the fail."},
+    {type:"b", q:"This role involves real travel. Tell me how you'll actually handle it.",
+     listen:["Honest capacity and boundaries","Systems for staying effective on the road","Evidence of sustained effort elsewhere"],
+     model:"Strong: honest about capacity, concrete systems (sleep discipline, workout habits, boundaries), and evidence of sustained demanding schedules (missions, athletics, work). Empty bravado ('I live on planes') reads as untested."}
+  ]
+},
+{
+  id:"itpm", name:"IT Project Manager", short:"Project Manager", aka:"Project Coordinator → Project Manager → Program Manager",
+  icon:"compass", color:"#7627bb", group:"Lead & Design",
+  blurb:"Owns the plan, the people, and the pulse of how tech work actually ships.",
+  dayToDay:[
+    "Run standups, sprint planning, and retros",
+    "Chase dependencies and unblock people — this is the actual job",
+    "Maintain timeline, budget, and the risk & issue logs",
+    "Report status honestly up the chain, including the bad parts",
+    "Coordinate releases across teams who each have their own priorities",
+    "Absorb scope changes and re-plan in public"
+  ],
+  skills:[
+    {label:"Core tech", items:["Agile / Scrum ceremonies","Scheduling & dependency management","Risk management","Budget basics"]},
+    {label:"Tools", items:["JIRA / Azure DevOps","MS Project / Smartsheet","Excel","Confluence"]},
+    {label:"Also expected", items:["Stakeholder communication","Meeting facilitation","Technical literacy (what's hard, what's not)","Writing status narratives"]}
+  ],
+  entry:[
+    "Can run a standup that ends early — on purpose",
+    "Has coordinated something real: an event, a club, a ward project, a startup",
+    "Reads a Gantt chart and can spot where it's lying",
+    "A CAPM or Scrum cert (CSM / PSM I) helps; poise closes"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$60–75k (coordinator)", w:40},
+      {y:"3–5 yrs", v:"$95–130k (PM)", w:70},
+      {y:"6+ yrs", v:"$130–170k+ (program / PMO)", w:90}
+    ],
+    note:"Title inflation is wild in this space — 'program manager' at a tech company can pay like senior engineering. Compare scope of ownership, not titles."
+  },
+  strong:[
+    "Says the hard thing early: 'this date will slip'",
+    "Tracks details without being asked twice",
+    "Earns trust from engineers, not just executives",
+    "Runs meetings people don't hate attending"
+  ],
+  traits:{code:1,data:4,people:9,design:3,security:2,infra:3,process:10,business:8},
+  interview:[
+    {type:"b", q:"Your project is two weeks from launch and will miss the date. Walk me through exactly what you do.",
+     listen:["Verifies the slip's size before escalating","Brings options with costs","Never surprises stakeholders"],
+     model:"Verify the slip is real and size it. Identify cause and options: descope, add help, or move the date — each priced. Escalate now with a recommendation, because a two-week surprise is a career problem. Strong candidates communicate before they have perfect answers."},
+    {type:"t", q:"When would you choose Waterfall over Agile? Be specific.",
+     listen:["Stable requirements + fixed scope favor waterfall","Contractual / hardware / safety contexts","Hybrid is normal, dogma is the tell"],
+     model:"Waterfall fits stable, contractually-fixed scope — construction, medical devices, government contracting. Agile fits iterative discovery where requirements learn. Hybrid is the honest default at most companies. The fail: treating one as a religion."},
+    {type:"t", q:"What's in a RAID log, and how do you actually use it?",
+     listen:["Risks, Assumptions, Issues, Dependencies","Owners and dates on every risk","Reviewed on a cadence — a living tool"],
+     model:"Risks (might happen — owner, mitigation, trigger), Assumptions (unstated beliefs worth surfacing), Issues (already happened — resolution path), Dependencies (other teams' promises). Reviewed weekly, not drawn once for a slide. Risks vs. issues distinction is the pass/fail line."},
+    {type:"b", q:"Tell me about a time you managed a difficult team member.",
+     listen:["Describes behavior, not personality","Direct private conversation first","Clear expectations plus support"],
+     model:"Strong: names the specific behavior (missed commitments, meeting behavior), describes the direct private conversation, the expectations set, support offered, and the escalation path if unresolved. Character assassination or exile-by-meetings both fail."},
+    {type:"t", q:"How would you estimate a feature you've never built before?",
+     listen:["Decomposes into parts","Analogues from past work","Ranges, not single confident numbers"],
+     model:"Break it down, compare pieces to analogous past work, produce best/likely/worst ranges, and include integration and test time — the always-forgotten 40%. Revisit at milestones. A single confident number for novel work is the junior tell."}
+  ]
+},
+{
+  id:"uxpm", name:"UX Designer / Product Manager", short:"UX / Product", aka:"Product Designer · Associate PM · Product Owner",
+  icon:"pen", color:"#d81b60", group:"Lead & Design",
+  blurb:"Owns what gets built and why — measured by users, not lines of code.",
+  dayToDay:[
+    "Talk to users and actually change the roadmap because of it",
+    "Sketch flows and prototypes (Figma, mostly Figma)",
+    "Write specs, PRDs, and acceptance criteria with zero ambiguity",
+    "Prioritize a backlog that everyone secretly disagrees with",
+    "Read usage data and design the next experiment",
+    "Defend trade-offs to executives with evidence instead of volume"
+  ],
+  skills:[
+    {label:"Core craft", items:["User research methods","Interaction & visual design basics (UX side)","Roadmapping & prioritization (PM side)","Metrics & analytics"]},
+    {label:"Tools", items:["Figma","Amplitude / Mixpanel","JIRA","Miro"]},
+    {label:"Also expected", items:["A/B testing literacy","Writing (PRDs, microcopy)","Presentation craft","Technical fluency"]}
+  ],
+  entry:[
+    "A portfolio with process visible — not just final screens",
+    "Can critique an app constructively, in real time",
+    "Knows one prioritization framework and its weaknesses",
+    "Comfort with ambiguity: you will define the problem, not just solve it"
+  ],
+  money:{
+    traj:[
+      {y:"0–2 yrs", v:"$65–85k UX / $85–110k APM", w:46},
+      {y:"3–5 yrs", v:"$100–140k", w:70},
+      {y:"6+ yrs", v:"$140–200k+ (lead / principal)", w:92}
+    ],
+    note:"Associate product manager programs are competitive but IS majors land them — technical fluency plus business sense is the exact profile. UX roles increasingly expect research AND craft, not just visuals."
+  },
+  strong:[
+    "Asks 'what problem are we solving' before 'what should we build'",
+    "Shows work and reasoning, not just taste",
+    "Balances users, business, and engineering reality",
+    "Decides with data, updates beliefs with evidence"
+  ],
+  traits:{code:2,data:4,people:9,design:10,security:1,infra:1,process:7,business:8},
+  interview:[
+    {type:"t", q:"Pick an app you like. Now tell me its worst flow and how you'd fix it.",
+     listen:["Concrete flow, specific friction","Proposes a fix with a success metric","Acknowledges engineering cost"],
+     model:"Strong: picks a specific flow, articulates the user's goal vs. the friction, proposes the fix, and names how they'd measure success (completion rate, time-to-done). Acknowledging the engineering cost of the fix shows seniority."},
+    {type:"t", q:"How do you decide what goes in an MVP?",
+     listen:["Starts from the riskiest assumption","Slices thin for learning value","Defines the success metric up front"],
+     model:"MVP is the smallest thing that tests the riskiest assumption — cut by learning value, not just effort. Define the success metric before building, and accept that 'v1 will be embarrassing' is a feature of the method, not a bug."},
+    {type:"b", q:"Tell me about a time data contradicted your design or product belief.",
+     listen:["Specific hypothesis and the metric that flipped it","Communicated the change without ego","Changed the process afterwards"],
+     model:"Strong: names the belief, the evidence (usage data, research), the moment of honest reckoning, and how they communicated the flip. Weak: quietly dropping the feature, or 'the data was probably wrong.'"},
+    {type:"t", q:"Engineering says your feature will take 4× the estimate. What now?",
+     listen:["Understands the cost driver","Scopes to a thin slice of core value","Aligns stakeholders on the trade"],
+     model:"First understand why (genuine complexity? unknowns? hidden dependencies?). Then scope down to the thin slice that delivers the core value, phase the rest, and put the trade-off in front of stakeholders honestly. Neither 'push harder' nor instant surrender."},
+    {type:"b", q:"Describe something you shipped that users ignored.",
+     listen:["Owns it without blaming users","Diagnoses distribution vs. product","Validates earlier next time"],
+     model:"Strong: honest postmortem that separates awareness/distribution problems from genuine product misses, and what they'd validate earlier next time. 'Users didn't get it' as the whole story is the weak version — sometimes they got it and didn't want it."}
+  ]
+}
+];
+
+const TRAIT_LABEL = {
+  code:"building things with code",
+  data:"finding truth in data",
+  people:"working through people",
+  design:"design and how things feel",
+  security:"adversarial, security-minded thinking",
+  infra:"systems, infrastructure, and uptime",
+  process:"structure, process, and follow-through",
+  business:"business impact and leverage"
+};
+
+/* ============================================================
+   2. QUIZ DATA — scenario-based preference probes
+   ============================================================ */
+const QUIZ = [
+{ q:"It's 2 PM on a perfect Tuesday. Pick the window you'd rather have open:", opts:[
+  {t:"A code editor, headphones, and a ticket that says 'make it work'", w:{code:3,process:1}},
+  {t:"A warehouse of raw data and one suspicious number", w:{data:3,business:1}},
+  {t:"A whiteboard, five people, and a process nobody has drawn yet", w:{people:2,process:3,design:1}},
+  {t:"A terminal, ssh'd into something with 99.9% uptime to protect", w:{infra:3,security:2}},
+  {t:"A Figma file, three versions of one screen, strong opinions", w:{design:3,code:1}},
+  {t:"A sprint board, a plan, and eight humans to unblock", w:{process:3,people:2}}
+]},
+{ q:"A professor says the project requirements are 'flexible.' You feel:", opts:[
+  {t:"Dread. Give me sign-offs and a scope freeze", w:{process:3,business:1}},
+  {t:"Fine — I'll keep asking questions until it's clear", w:{people:2,business:2}},
+  {t:"Delight. Flexible means I get to shape the thing", w:{design:2,code:1}},
+  {t:"Normal. I'd build a rough version and learn from it", w:{code:2,data:1}}
+]},
+{ q:"Group project. One member disappears for two weeks. Your move:", opts:[
+  {t:"Rebuild the timeline and reassign everything tonight", w:{process:3,people:1}},
+  {t:"Absorb their work quietly and still ship early", w:{code:1,infra:1}},
+  {t:"Call the team, talk it through, adjust as a group", w:{people:3,process:1}},
+  {t:"Figure out why they disappeared before anything else", w:{people:2,business:1}}
+]},
+{ q:"You'd rather debug:", opts:[
+  {t:"A query that returns 4 million rows in 9 seconds", w:{data:3,infra:1}},
+  {t:"A build that only breaks on the CI server", w:{code:2,infra:2}},
+  {t:"A stakeholder who says 'it's just not what I pictured'", w:{people:3,design:2}},
+  {t:"A 2 AM alert from a server you've never met", w:{infra:3,security:2}}
+]},
+{ q:"Pick a sentence you'd enjoy saying at work:", opts:[
+  {t:"'It's merged. Ship it.'", w:{code:3}},
+  {t:"'The data says otherwise.'", w:{data:2,business:2}},
+  {t:"'Let's test it with five users before we build it.'", w:{design:2,people:2}},
+  {t:"'Patched everywhere. Here's the write-up.'", w:{security:2,infra:2}},
+  {t:"'We're two days early and on budget.'", w:{process:3,business:1}},
+  {t:"'The client signed the statement of work.'", w:{business:3,people:1}}
+]},
+{ q:"Free weekend. One new tool to learn. You pick:", opts:[
+  {t:"A new framework or language", w:{code:3}},
+  {t:"A BI suite — Tableau or Power BI", w:{data:2,design:1}},
+  {t:"Cloud certification practice exams", w:{infra:2,business:1}},
+  {t:"A prototyping tool — Figma, Framer", w:{design:3}},
+  {t:"Home lab: firewall rules, VMs, hackable boxes", w:{security:3,infra:1}},
+  {t:"A planning stack — JIRA templates, Gantt tooling", w:{process:2,people:1}}
+]},
+{ q:"Being on-call at 3 AM sounds:", opts:[
+  {t:"Like a dealbreaker, honestly", w:{design:1,business:1}},
+  {t:"Survivable if it's rare and compensated", w:{infra:1,security:1}},
+  {t:"Kind of great, actually — quiet and heroic", w:{infra:2,security:2}}
+]},
+{ q:"Best IS class so far — or the one you'd pick first:", opts:[
+  {t:"Web development", w:{code:2,design:1}},
+  {t:"Databases", w:{data:3}},
+  {t:"Networking and systems", w:{infra:2,security:1}},
+  {t:"ERP — SAP, processes, the machinery of business", w:{process:2,business:2}},
+  {t:"Analytics and statistics", w:{data:2,business:1}},
+  {t:"UX and human-centered design", w:{design:2,people:1}}
+]},
+{ q:"Your ideal workday shape:", opts:[
+  {t:"Two four-hour deep-focus blocks, async everything else", w:{code:2,data:1}},
+  {t:"Meeting-dense mornings, a crisp decision memo by 4 PM", w:{people:2,process:2,business:1}},
+  {t:"Half listening to users, half sketching solutions", w:{design:2,people:1}},
+  {t:"A queue that resets daily: tickets, alerts, checks, repeat", w:{security:1,infra:2,process:1}}
+]},
+{ q:"Five years out, you're:", opts:[
+  {t:"The senior engineer people bring impossible problems", w:{code:2,security:1}},
+  {t:"Running the program — plans, people, promises kept", w:{process:2,people:2}},
+  {t:"Owning product — the what and the why", w:{business:2,design:1,people:1}},
+  {t:"Consulting across clients and industries", w:{business:2,people:1,process:1}},
+  {t:"Architecting systems bigger than any one team", w:{infra:2,code:1,security:1}}
+]}
+];
+
+/* ============================================================
+   2b. BUZZWORDS GLOSSARY — auto-underlined in orange across the site.
+   Levels: 0 New · 1 Seen (hovered/read) · 2 Learning · 3 Know it
+   ============================================================ */
+const GLOSSARY = [
+/* TECH */
+{t:"API", c:"TECH", d:"Application Programming Interface. The contract that lets two programs talk to each other — you send a request in an agreed format, it sends data back. 'Consuming an API' just means using someone else's officially provided door."},
+{t:"SQL", c:"TECH", d:"Structured Query Language. The language for asking databases questions. Analysts write it all day; everyone else writes it once and prays."},
+{t:"REST", c:"TECH", d:"Representational State Transfer. The standard style of web API where resources get URLs (like /users/42) and you interact with GET, POST, PUT, DELETE. 'RESTful' means 'plays by these conventions.'"},
+{t:"JSON", c:"TECH", d:"JavaScript Object Notation. The text format APIs use to exchange data — curly braces, quotes, and commas everywhere."},
+{t:"Git", c:"TECH", d:"The version-control system all modern dev teams use. It records every change so you can experiment in branches and roll back disasters. 'Pushing to GitHub' means uploading your commits."},
+{t:"Pull request", c:"TECH", d:"A proposed change submitted for review before it merges into the main codebase. Reviewers comment, you revise, then it merges. The unit of social currency on software teams."},
+{t:"Big-O", c:"TECH", d:"Shorthand for how an algorithm's cost grows as input grows — O(n) scales linearly, O(n²) explodes. Interviewers ask it to check you can reason about performance, not to watch you recite."},
+{t:"Linux", c:"TECH", d:"The open-source operating system running most of the servers on earth. 'Linux comfort' in a job posting means: navigate the terminal, manage files and permissions, read logs without fear."},
+{t:"Bash", c:"TECH", d:"The default command shell on Linux and Mac, and its scripting language. 'Bash scripting' means automating terminal chores instead of typing them a thousand times."},
+{t:"PowerShell", c:"TECH", d:"Microsoft's shell and scripting language for automating Windows and Active Directory. The sysadmin's Swiss Army knife."},
+{t:"Microservices", c:"TECH", d:"An architecture where an app is many small independent services instead of one big program. Buys independent deploys; costs distributed-systems pain."},
+{t:"Feature flag", c:"TECH", d:"A switch that turns a feature on or off at runtime without deploying new code. Lets teams ship dark and release gradually."},
+/* DATA */
+{t:"Data warehouse", c:"DATA", d:"A central repository where a company's data from many systems lands, cleaned and restructured for analysis — built for reading, not transacting. Snowflake and BigQuery are the big ones."},
+{t:"Snowflake", c:"DATA", d:"A cloud data warehouse paid for by usage. Beloved by analysts; feared by finance when a query scans everything."},
+{t:"BigQuery", c:"DATA", d:"Google's serverless data warehouse. SQL at massive scale, with a bill to match careless JOINs."},
+{t:"ETL", c:"DATA", d:"Extract, Transform, Load — the pipeline that pulls data out of source systems, cleans and reshapes it, and lands it in the warehouse. The unglamorous plumbing behind every dashboard."},
+{t:"dbt", c:"DATA", d:"'data build tool.' A framework that turns SQL into testable, versioned transformation pipelines. What analytics engineers actually do all day."},
+{t:"Tableau", c:"DATA", d:"The classic drag-and-drop BI visualization tool. 'Tableau dashboards' on a résumé means charts non-analysts can click."},
+{t:"Power BI", c:"DATA", d:"Microsoft's BI tool. Excel's cooler cousin; dominant wherever Microsoft already runs the office."},
+{t:"Looker", c:"DATA", d:"Google's BI platform where metrics are defined in code (LookML) so the whole company computes 'revenue' the same way."},
+{t:"BI", c:"DATA", d:"Business Intelligence — the tools and practice of turning data into dashboards and reports that decision-makers actually use."},
+{t:"Star schema", c:"DATA", d:"The standard way to model warehouse data: one central fact table (events, sales) surrounded by dimension tables (products, customers). Shaped like a star, organized like a library."},
+{t:"Window function", c:"DATA", d:"A SQL feature that computes across a group of rows while keeping each row visible — ROW_NUMBER() OVER (PARTITION BY ...) is the famous example. The moment analysts level up."},
+{t:"CTE", c:"DATA", d:"Common Table Expression — the WITH clause that names a subquery so a giant query reads like steps instead of spaghetti."},
+{t:"p-value", c:"DATA", d:"If the change actually did nothing, the probability of seeing a result at least this extreme. Below the threshold (usually 5%) you call it significant. It is NOT the probability your hypothesis is true."},
+{t:"Simpson's paradox", c:"DATA", d:"When a trend visible in separate groups reverses or vanishes once you combine them. The classic reason aggregate dashboards lie."},
+{t:"A/B test", c:"DATA", d:"Randomly split users into groups, show each a version, measure which wins. The internet's standard way of settling arguments."},
+{t:"Cohort", c:"DATA", d:"A group of users defined by when they arrived or what they did. Cohort analysis tracks each group over its lifetime instead of averaging everyone into mush."},
+{t:"Funnel", c:"DATA", d:"The step-by-step path toward a goal (visit → sign up → pay). Funnel analysis finds where people leak out."},
+{t:"pandas", c:"DATA", d:"The Python library for wrangling tabular data. import pandas as pd — then 90% of an analyst's job."},
+{t:"Machine learning", c:"DATA", d:"Algorithms that learn patterns from data instead of being explicitly programmed. Powers recommendations, forecasting, and a suspicious amount of résumé padding."},
+{t:"Data lake", c:"DATA", d:"A cheap repository for raw, unstructured data dumped now and structured later ('schema-on-read'). The swamp risk is real."},
+/* SECURITY */
+{t:"IAM", c:"SEC", d:"Identity and Access Management. The system of users, roles, and policies that decides who can access what — the front door, the keys, and the guest list of an organization's systems. In cloud terms: AWS IAM roles and policies."},
+{t:"SIEM", c:"SEC", d:"Security Information and Event Management. The tool that collects logs from everywhere and correlates them into alerts — Splunk is the famous one. SOC analysts live in it."},
+{t:"EDR", c:"SEC", d:"Endpoint Detection and Response. Software on laptops and servers that watches behavior and can isolate a machine the moment it acts possessed."},
+{t:"Phishing", c:"SEC", d:"Fraud emails impersonating someone you trust, aiming to steal credentials or payments. The number-one way breaches start — which is why your click matters."},
+{t:"TCP/IP", c:"SEC", d:"The base protocol suite of the internet — how packets get addressed, routed, and delivered. Every security and networking interview starts here."},
+{t:"DNS", c:"SEC", d:"Domain Name System. The internet's phone book: translates names like byu.edu into IP addresses. When people say 'it's always DNS,' they mean it."},
+{t:"TLS", c:"SEC", d:"Transport Layer Security. The encryption protocol that puts the S in HTTPS — it scrambles traffic between you and a server."},
+{t:"VPN", c:"SEC", d:"Virtual Private Network. An encrypted tunnel into another network — corporate remote access, or pretending you're in another country."},
+{t:"Zero trust", c:"SEC", d:"A security model that assumes attackers are already inside: verify every request, every time, from every location. 'Never trust, always verify.'"},
+{t:"Least privilege", c:"SEC", d:"Grant every identity the minimum permissions it needs and nothing more. The principle behind good IAM design and refreshingly boring audits."},
+{t:"Active Directory", c:"SEC", d:"Microsoft's directory service that has defined 'logging in' at enterprises since 1999. Users, groups, group policy — and attackers' favorite target."},
+{t:"NIST", c:"SEC", d:"The U.S. National Institute of Standards and Technology. In security, 'the NIST framework' means their Cybersecurity Framework — the vocabulary regulators and auditors speak."},
+{t:"SOC 2", c:"SEC", d:"An audit report proving a company's security and privacy controls actually work. SaaS companies chase it because enterprise customers demand it. (Not to be confused with a SOC — the Security Operations Center team.)"},
+{t:"Hashing", c:"SEC", d:"A one-way function that scrambles data into a fixed fingerprint. Passwords are stored hashed because it can't be reversed — only re-computed and compared."},
+{t:"Encryption", c:"SEC", d:"Reversible scrambling with keys: encrypt to protect, decrypt with the key to recover. Contrast with hashing, which never comes back."},
+{t:"Rainbow table", c:"SEC", d:"A giant precomputed table of hash-to-password pairs used to crack hashed passwords. Salting defeats it."},
+{t:"Salting", c:"SEC", d:"Adding unique random data to each password before hashing, so identical passwords hash differently and rainbow tables die."},
+{t:"Penetration testing", c:"SEC", d:"Authorized hacking of your own systems to find holes before criminals do. 'Pen tester' is a real, legal, fun job."},
+{t:"CTF", c:"SEC", d:"Capture the Flag. Security competitions where you hack deliberately vulnerable systems to find hidden flags. The standard training ground."},
+{t:"Security+", c:"SEC", d:"CompTIA's entry-level security certification. Mostly an HR filter — it gets you the interview; skills get you the job."},
+{t:"Incident response", c:"SEC", d:"The playbook for handling a security incident: contain, eradicate, recover, document. Speed and order matter — improvisation is how evidence dies."},
+/* CLOUD */
+{t:"Cloud", c:"CLOUD", d:"Computing rented from Amazon, Microsoft, or Google's datacenters — servers, storage, and services paid for by use instead of owned as hardware. 'The cloud' is just someone else's computers with an invoice."},
+{t:"VPC", c:"CLOUD", d:"Virtual Private Cloud. Your private, fenced-off network slice inside a public cloud, where you place servers and control traffic with security groups."},
+{t:"Terraform", c:"CLOUD", d:"The dominant infrastructure-as-code tool: describe servers and networks in files, run apply, and the cloud builds it. Delete and rebuild the whole world in minutes."},
+{t:"Infrastructure as code", c:"CLOUD", d:"Defining infrastructure in versioned files instead of clicking around a console. Repeatable, reviewable, recoverable — consoles are for exploring, code is for production."},
+{t:"Docker", c:"CLOUD", d:"Containers: package an app with everything it needs so it runs identically anywhere. 'Works on my machine' ended here."},
+{t:"Kubernetes", c:"CLOUD", d:"Container orchestration: automatically deploys, scales, and heals fleets of containers. Powerful, complex, and the reason 'platform engineer' is a job."},
+{t:"CI/CD", c:"CLOUD", d:"Continuous Integration / Continuous Delivery. Pipelines that automatically build, test, and deploy code every time it merges. The 'it deployed itself' machinery."},
+{t:"AWS", c:"CLOUD", d:"Amazon Web Services — the largest cloud platform. Roughly a third of the internet runs on it."},
+{t:"Azure", c:"CLOUD", d:"Microsoft's cloud. Dominant in companies that already run Microsoft everything."},
+{t:"GCP", c:"CLOUD", d:"Google Cloud Platform — the third-biggest cloud. Especially strong in data and analytics."},
+{t:"Egress", c:"CLOUD", d:"Outbound data transfer from a cloud provider to the internet. A tiny per-gigabyte fee and a famous line item — the way surprise bills are made."},
+{t:"Right-sizing", c:"CLOUD", d:"Matching cloud resources (instance size, storage tier) to actual need instead of over-provisioned guesses. The first move of every cost-optimization project."},
+{t:"GitOps", c:"CLOUD", d:"Running operations by committing to Git — the repo is the source of truth and robots reconcile reality to match it."},
+{t:"SRE", c:"CLOUD", d:"Site Reliability Engineering. Google's discipline of treating operations as a software problem: automate the toil, measure error budgets, engineer reliability."},
+{t:"On-call", c:"CLOUD", d:"The rotation of engineers responsible for responding to alerts outside work hours. Ask about compensation and alert quality in interviews — burnout lives here."},
+{t:"SLA", c:"CLOUD", d:"Service Level Agreement. The promised uptime or performance bar (99.9% and friends) — miss it and credits or refunds follow."},
+/* BUSINESS / PM */
+{t:"Agile", c:"BIZ", d:"Iteration-first delivery: build small, ship often, adapt to feedback. The dominant — and most diluted — methodology in tech."},
+{t:"Scrum", c:"BIZ", d:"The most common Agile framework: fixed sprints, defined roles (product owner, scrum master), and ceremonies (planning, standup, retro)."},
+{t:"Sprint", c:"BIZ", d:"A fixed timebox, usually two weeks, in which a team commits to a set of work. Everything in PM-land orbits it."},
+{t:"Standup", c:"BIZ", d:"The short daily sync: what I did, what I'm doing, what's blocking me. Good ones end early; bad ones are status theater."},
+{t:"Backlog", c:"BIZ", d:"The prioritized list of everything not yet built. The product's to-do attic."},
+{t:"Waterfall", c:"BIZ", d:"Sequential delivery: requirements → design → build → test → deploy, each phase signed off before the next. Fits stable contractual work; ill-suited to discovery."},
+{t:"MVP", c:"BIZ", d:"Minimum Viable Product — the smallest version that tests the riskiest assumption. Cut by learning value, not laziness."},
+{t:"PRD", c:"BIZ", d:"Product Requirements Document. The spec for what to build and why: problem, users, requirements, success metric. A PM's core artifact."},
+{t:"UAT", c:"BIZ", d:"User Acceptance Testing — the users (not QA) verify the build matches the business need before go-live. The last gate before signatures."},
+{t:"STAR", c:"BIZ", d:"The behavioral-interview answer structure: Situation, Task, Action, Result. Interviewers are literally scoring you against it."},
+{t:"RAID log", c:"BIZ", d:"Risks, Assumptions, Issues, Dependencies — the PM's living register of things that could bite. Reviewed weekly; not a slide."},
+{t:"KPI", c:"BIZ", d:"Key Performance Indicator. The handful of numbers that define success for a team or product. Choose badly and you optimize the wrong thing brilliantly."},
+{t:"OKR", c:"BIZ", d:"Objectives and Key Results. Google-popular goal system: one qualitative objective pinned to measurable results, per quarter."},
+{t:"Stakeholder", c:"BIZ", d:"Anyone with a stake in the outcome — execs, users, legal, the loud VP. Most of the job is managing them, whatever your title says."},
+{t:"SOW", c:"BIZ", d:"Statement of Work. The contract annex defining exactly what will be delivered, by whom, by when. Consulting's unit of truth."},
+{t:"ERP", c:"BIZ", d:"Enterprise Resource Planning — the giant integrated system running a company's core operations: finance, supply chain, HR. SAP is the classic; implementing one is a career."},
+{t:"CRM", c:"BIZ", d:"Customer Relationship Management system — where sales and support track every customer interaction. 'Salesforce' became the generic word for it."},
+{t:"SAP", c:"BIZ", d:"The German software giant whose ERP runs much of global industry. Also the skill that keeps ERP consultants employed forever."},
+{t:"Salesforce", c:"BIZ", d:"The dominant CRM platform — and an entire consulting economy built around configuring it."},
+{t:"Fit-gap", c:"BIZ", d:"The ERP workshop where you compare the software's standard behavior against the client's requirements: what fits, what gaps, and what to do about each."},
+{t:"O2C", c:"BIZ", d:"Order-to-Cash. The full business cycle: order placed → credit checked → fulfilled → shipped → invoiced → cash collected."},
+{t:"P2P", c:"BIZ", d:"Procure-to-Pay in ERP contexts (requisition → purchase order → receipt → payment). Confusingly, 'peer-to-peer' everywhere else."},
+{t:"R2R", c:"BIZ", d:"Record-to-Report. The finance cycle from booking transactions to producing official statements."},
+{t:"Go-live", c:"BIZ", d:"The moment a new system switches on for real users. In ERP, a dramatic weekend with a war room and catered dinner."},
+{t:"Data migration", c:"BIZ", d:"Moving data from legacy systems into the new one — cleaning, mapping, validating, reconciling. Where ERP projects quietly fail."},
+{t:"Gantt chart", c:"BIZ", d:"The timeline bar-chart of tasks and dependencies. Looks authoritative; lies about uncertainty."},
+{t:"SaaS", c:"BIZ", d:"Software as a Service — rented, cloud-hosted software on subscription (Gmail, Salesforce, Notion). Nobody installs anything anymore."},
+{t:"Digital transformation", c:"BIZ", d:"Consultant-speak for 'rebuilding how the business works using modern technology.' Ranges from genuine reinvention to a new website."},
+{t:"Total comp", c:"BIZ", d:"Total compensation: base salary + bonus + equity + benefits. Tech offers are compared on this, and it's why identical titles pay wildly differently."},
+{t:"IC", c:"BIZ", d:"Individual Contributor — the non-management career track. Senior ICs earn influence without owning performance reviews."},
+/* OPS */
+{t:"Postmortem", c:"OPS", d:"The written reconstruction after an outage: timeline, root cause, detection gaps, action items. Blameless by rule — punish honesty once and you'll stop getting it."},
+{t:"Canary deploy", c:"OPS", d:"Releasing to a tiny slice of users first, watching metrics, then widening. The blast-radius limiter."},
+{t:"DevOps", c:"OPS", d:"The practice of merging development and operations: shared ownership, automation, CI/CD. A culture wearing a job title."},
+/* DESIGN */
+{t:"Figma", c:"DESIGN", d:"The browser-based design tool for interfaces — files, prototyping, and developer handoff all in one link. A designer's homepage."},
+{t:"User research", c:"DESIGN", d:"Structured conversations with, and observation of, actual users to ground decisions in evidence instead of taste. 'Let's test it with five users' energy."}
+].map(g=>({...g, id:g.t.toLowerCase().replace(/[^a-z0-9]/g,"")}));
+
+const LVL_LABELS = ["NEW","SEEN","LEARNING","KNOW IT"];
+const LVL_COLORS = ["#e8eaed","#f9ab00","#1a73e8","#188038"];
+
+function escRe(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
+/* longest-first matching so "window function" wins over shorter overlaps */
+const BZ_MATCHERS = GLOSSARY
+  .slice()
+  .sort((a,b)=>b.t.length-a.t.length)
+  .map(g=>{
+    const lead = /^[A-Za-z0-9]/.test(g.t) ? "\\b" : "";
+    const tail = /[A-Za-z0-9]$/.test(g.t) ? "\\b" : "";
+    const allCaps = /[A-Z]/.test(g.t) && g.t === g.t.toUpperCase();
+    return { id:g.id, re:new RegExp(lead+escRe(g.t)+tail, allCaps?"g":"gi") };
+  });
+
+/* ============================================================
+   3. ICONS
+   ============================================================ */
+const I = (p, fill) => `<svg viewBox="0 0 24 24" fill="${fill||'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" overflow="visible" aria-hidden="true">${p}</svg>`;
+const ICONS = {
+  code:  I('<path d="M8 6 2 12l6 6"/><path d="m16 6 6 6-6 6"/>'),
+  db:    I('<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>'),
+  shield:I('<path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"/>'),
+  cloud: I('<path d="M6.5 19a4.5 4.5 0 1 1 .9-8.9 6 6 0 0 1 11.4 1.9A3.5 3.5 0 0 1 18 19H6.5z"/>'),
+  flow:  I('<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M10 6.5h4.5A3.5 3.5 0 0 1 18 10v4"/>'),
+  compass:I('<circle cx="12" cy="12" r="9"/><path d="m15 9-2 5-4 1.8L11 11l4-2z"/>'),
+  pen:   I('<path d="m12 19 7-7-3-3-7 7-1.5 4.5L12 19z"/><path d="m16 5 3 3"/>'),
+  gear:  I('<circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.2 2.2M16.9 16.9l2.2 2.2M19.1 4.9 16.9 7.1M7.1 16.9l-2.2 2.2"/>'),
+  mic:   I('<rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/>'),
+  book:  I('<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>'),
+  flame: I('<path d="M12 22c4.4 0 7-3 7-6.8 0-3.2-2.1-5.6-3.6-7.2.2 2.4-1.4 3.4-2.4 2.4-1-1.1-.5-3 .2-4.4C10.6 8 6 10.6 6 15.2 6 19 7.6 22 12 22z" stroke="none" fill="currentColor"/>'),
+  star:  I('<path d="m12 2 2.9 6.2 6.6.8-4.9 4.6 1.3 6.6L12 17l-5.9 3.2 1.3-6.6L2.5 9l6.6-.8L12 2z" stroke="none" fill="currentColor"/>'),
+  check: I('<path d="M4 12.5 9.5 18 20 6"/>'),
+  arrow: I('<path d="M4 12h15M13 6l6 6-6 6"/>'),
+  lock:  I('<rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>'),
+  refresh:I('<path d="M20 11A8 8 0 0 0 6.3 6.3L3 9.5"/><path d="M3 4.5v5h5"/><path d="M4 13a8 8 0 0 0 13.7 4.7L21 14.5"/><path d="M21 19.5v-5h-5"/>'),
+  copy:  I('<rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>'),
+  bolt:  I('<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>'),
+  chart: I('<path d="M5 20v-6M11 20V6M17 20v-10"/><path d="M3 20h18"/>'),
+  x:     I('<path d="M5 5l14 14M19 5 5 19"/>'),
+  down:  I('<path d="M6 9l6 6 6-6"/>'),
+  rocket:I('<path d="M12 15c-2 0-5-1-5-1s-4-5-4-9c4 0 9 4 9 4s1 3 1 5v1z"/><path d="M9 14c-3 1-5 4-5 7 3 0 6-2 7-5"/><circle cx="14.5" cy="9.5" r="1.5"/>'),
+  lib:   I('<path d="M3 3h5v18H3zM10 3h5v18h-5zM17 3l4 1-4 17-4-1"/>'),
+  home:  I('<path d="M3 11.5 12 3l9 8.5"/><path d="M5.5 10.5V21h13V10.5"/><path d="M10 21v-6h4v6"/>'),
+  chat:  I('<path d="M21 4H3v13h5v4l6-4h7z"/><circle cx="8" cy="10.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="10.5" r="1" fill="currentColor" stroke="none"/>')
+};
+
+/* ============================================================
+   4. STATE + GAMIFICATION
+   ============================================================ */
+const STORE_KEY = "clp_state_v1";
+const LEVEL_TITLES = ["Undeclared","Declared","Course-Loaded","Applicant","Interviewing","Offer Pending","Signed","Launched"];
+
+let S = load();
+
+function load(){
+  const base = { xp:0, streak:1, lastDay:today(), read:[], quizDone:false, quizTop:null, quizScores:null, interviews:{}, badges:[], buzz:{}, clips:0, owned:[], cosmetics:{accent:"standard", theme:"paper", cat:false, confetti:false, vocab2:false} };
+  let raw = null;
+  try{
+    const text = localStorage.getItem(STORE_KEY);
+    if(text) raw = JSON.parse(text);
+  }catch(e){ raw = null; }
+  const s = { ...base, ...(raw||{}) };
+  /* shop-era migration: a save from before clips existed earns them retroactively —
+     lifetime XP counts as unspent clips (check the STORED value, after the base merge
+     clips is always present) */
+  if(!raw || !Number.isFinite(raw.clips)) s.clips = s.xp;
+  if(!Array.isArray(s.owned)) s.owned = [];
+  s.cosmetics = { ...base.cosmetics, ...(s.cosmetics||{}) };
+  return s;
+}
+function save(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){} }
+function today(){ return new Date().toISOString().slice(0,10); }
+function yesterday(){
+  const d = new Date(); d.setDate(d.getDate()-1);
+  return d.toISOString().slice(0,10);
+}
+
+function touchStreak(){
+  const t = today();
+  if(S.lastDay === t) return;
+  S.streak = (S.lastDay === yesterday()) ? S.streak + 1 : 1;
+  S.lastDay = t;
+  save();
+  checkBadges();
+}
+
+const BADGES = [
+  {id:"fit",    name:"Direction",  icon:"compass", desc:"Complete the Fit Finder",            test:()=>S.quizDone},
+  {id:"reader3",name:"Well-Read",  icon:"book",    desc:"Read 3 track dossiers",              test:()=>S.read.length>=3},
+  {id:"reader8",name:"Full Index", icon:"lib",     desc:"Read all 8 dossiers",                test:()=>S.read.length>=8},
+  {id:"rep1",   name:"First Rep",  icon:"mic",     desc:"Complete one mock interview",        test:()=>Object.keys(S.interviews).length>=1},
+  {id:"rep4",   name:"Iron Routine",icon:"refresh",desc:"Complete 4 mock interviews",         test:()=>Object.keys(S.interviews).length>=4},
+  {id:"streak3",name:"Three-Peat", icon:"flame",   desc:"3-day streak",                       test:()=>S.streak>=3},
+  {id:"lvl4",   name:"Applicant",  icon:"star",    desc:"Reach 300 XP (Level 4)",             test:()=>S.xp>=300},
+  {id:"allin",  name:"Launch Ready",icon:"rocket", desc:"Quiz + all 8 dossiers + 1 interview",test:()=>S.quizDone && S.read.length>=8 && Object.keys(S.interviews).length>=1}
+];
+
+function level(){ return Math.min(LEVEL_TITLES.length, Math.floor(S.xp/100)+1); }
+function levelTitle(){ return LEVEL_TITLES[level()-1]; }
+function xpIntoLevel(){ return S.xp % 100; }
+
+function awardXp(amount, reason){
+  const before = level();
+  S.xp += amount;
+  S.clips += amount;
+  let bonus = 0;
+  if(level() > before){
+    bonus = level() * 25;
+    S.clips += bonus;
+  }
+  save();
+  toast(`+${amount} XP`, `${reason} · +${amount} clips`);
+  if(bonus){
+    setTimeout(()=>toast("LEVEL UP", `Level ${level()} — ${levelTitle()} · +${bonus} clips`), 700);
+  }
+  checkBadges();
+  renderChips();
+}
+
+function checkBadges(){
+  BADGES.forEach(b=>{
+    if(!S.badges.includes(b.id) && b.test()){
+      S.badges.push(b.id);
+      save();
+      setTimeout(()=>toast("BADGE EARNED", `${b.name} — ${b.desc}`), 350);
+    }
+  });
+}
+
+function toast(tag, msg){
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.innerHTML = `<span class="tx">${esc(tag)}</span><span>${esc(msg)}</span>`;
+  document.getElementById("toasts").appendChild(el);
+  setTimeout(()=>{ el.classList.add("out"); setTimeout(()=>el.remove(), 320); }, 2800);
+}
+
+function confetti(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box = document.getElementById("confetti");
+  const colors = ["#1a73e8","#d93025","#f9ab00","#188038","#7627bb"];
+  const count = S.cosmetics.confetti ? 60 : 30;
+  for(let i=0;i<count;i++){
+    const s = document.createElement("span");
+    s.style.left = Math.random()*100 + "vw";
+    s.style.background = colors[i%colors.length];
+    s.style.animationDelay = (Math.random()*0.5)+"s";
+    s.style.animationDuration = (1.3+Math.random()*0.9)+"s";
+    s.style.width = (6+Math.random()*5)+"px";
+    box.appendChild(s);
+  }
+  setTimeout(()=>{ box.innerHTML=""; }, 2600);
+}
+
+function resetDemo(){
+  if(confirm("Reset all progress on this device? XP, clips, streak, badges, shop items, and read-history go back to zero.")){
+    localStorage.removeItem(STORE_KEY);
+    location.hash = "#/";
+    location.reload();
+  }
+}
+
+/* ============================================================
+   4c. CLIPS + SHOP + PROGRESS MODAL
+   Clips are earned 1:1 with XP (plus a bonus at every level-up)
+   and spent in the shop on cosmetics. Nothing in the shop
+   affects scores — it is all paint and pets.
+   ============================================================ */
+const CLIP_ICON = I('<path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/>');
+
+const SHOP = [
+  {id:"lagoon",   kind:"accent", swatch:"#00796b", price:80,  name:"Lagoon Accent",
+   desc:"Every primary action turns lagoon teal. Calm, cold, committed."},
+  {id:"ube",      kind:"accent", swatch:"#7627bb", price:80,  name:"Ube Accent",
+   desc:"Primary actions in ube purple. For candidates who color outside the grid."},
+  {id:"rose",     kind:"accent", swatch:"#c2185b", price:80,  name:"Rose Accent",
+   desc:"Primary actions in stamp rose. The form letter's favorite color."},
+  {id:"cat",      kind:"toggle", price:120, name:"The Shop Cat",
+   desc:"A small cat perches on the logo. She does nothing. She is perfect. She is forever."},
+  {id:"midnight", kind:"theme",  swatch:"#202124", price:200, name:"Midnight Edition",
+   desc:"The whole launchpad, printed in reverse — ink becomes paper, paper becomes ink."},
+  {id:"vocab2",   kind:"toggle", price:60,  name:"Otto Extended Vocabulary",
+   desc:"Twelve new deadpan Otto lines. He remains unmoved by your progress."},
+  {id:"confetti", kind:"toggle", price:40,  name:"Full-Deck Confetti",
+   desc:"Double the squares at every celebration. Still flat. Still square. Still brief."}
+];
+
+const CAT_SVG = `<svg class="cat" viewBox="0 0 16 16" aria-hidden="true">
+  <g style="fill:var(--ink)">
+    <rect x="3.2" y="2.2" width="2.6" height="3.6"/>
+    <rect x="10.2" y="2.2" width="2.6" height="3.6"/>
+    <rect x="2" y="4.8" width="12" height="8.8" rx="1.4"/>
+    <rect x="14" y="8.8" width="2" height="4.8" rx="0.8"/>
+  </g>
+  <rect x="4.6" y="7.6" width="1.8" height="2.1" style="fill:var(--card)"/>
+  <rect x="9.6" y="7.6" width="1.8" height="2.1" style="fill:var(--card)"/>
+  <rect x="7.3" y="10.4" width="1.4" height="1" style="fill:var(--card)"/>
+</svg>`;
+
+function shopItem(id){ return SHOP.find(s=>s.id===id); }
+function owns(id){ return S.owned.includes(id); }
+
+function applyCosmetics(){
+  const h = document.documentElement;
+  if(S.cosmetics.accent && S.cosmetics.accent !== "standard") h.setAttribute("data-accent", S.cosmetics.accent);
+  else h.removeAttribute("data-accent");
+  if(S.cosmetics.theme === "midnight") h.setAttribute("data-theme", "midnight");
+  else h.removeAttribute("data-theme");
+  mountCat();
+}
+function mountCat(){
+  const brand = document.querySelector(".brand");
+  if(!brand) return;
+  const has = brand.querySelector(".cat");
+  if(S.cosmetics.cat && !has) brand.insertAdjacentHTML("beforeend", CAT_SVG);
+  if(!S.cosmetics.cat && has) has.remove();
+}
+
+function buyItem(id){
+  const it = shopItem(id);
+  if(!it || owns(id) || S.clips < it.price) return;
+  S.clips -= it.price;
+  S.owned.push(id);
+  if(it.kind === "accent") S.cosmetics.accent = id;
+  if(it.kind === "theme")  S.cosmetics.theme = id;
+  if(it.kind === "toggle") S.cosmetics[it.id] = true;
+  save(); applyCosmetics(); renderChips(); renderPModal();
+  toast("PURCHASED", `${it.name} — on`);
+}
+function equipItem(id){
+  const it = shopItem(id);
+  if(!it || !owns(id)) return;
+  if(it.kind === "accent") S.cosmetics.accent = (S.cosmetics.accent === id ? "standard" : id);
+  if(it.kind === "theme")  S.cosmetics.theme  = (S.cosmetics.theme === id ? "paper" : id);
+  save(); applyCosmetics(); renderPModal();
+}
+function toggleCosmetic(id){
+  S.cosmetics[id] = !S.cosmetics[id];
+  save(); applyCosmetics(); renderPModal();
+  toast(S.cosmetics[id] ? "EQUIPPED" : "STOWED", shopItem(id).name);
+}
+
+function openProgress(){
+  closeProgress();
+  const ov = document.createElement("div");
+  ov.id = "pm-ov";
+  ov.addEventListener("click", e=>{ if(e.target === ov) closeProgress(); });
+  ov.innerHTML = `<div id="pm" role="dialog" aria-modal="true" aria-label="Your progress, rewards and shop">${pModalHtml()}</div>`;
+  document.body.appendChild(ov);
+  const x = document.getElementById("pm-x");
+  if(x) x.focus();
+}
+function closeProgress(){
+  const ov = document.getElementById("pm-ov");
+  if(ov) ov.remove();
+}
+function renderPModal(){
+  const ov = document.getElementById("pm-ov");
+  if(ov) ov.querySelector("#pm").innerHTML = pModalHtml();
+}
+
+function pModalHtml(){
+  const lv = level(), maxed = lv >= LEVEL_TITLES.length;
+  const toGo = Math.max(0, lv*100 - S.xp);
+  const known = Object.values(S.buzz).filter(v=>v>=3).length;
+
+  const ladder = LEVEL_TITLES.map((t,i)=>{
+    const n = i+1, need = (n-1)*100;
+    const cls = S.xp < need ? "locked" : (n===lv ? "now" : "done");
+    return `<li class="${cls}">
+      <span class="lv">LV ${n}</span><span class="ti">${t}</span>
+      <span class="xp">${need===0 ? "START" : "AT "+need+" XP"}</span>
+      <span class="rw">+${n*25} CLIPS</span>
+    </li>`;
+  }).join("");
+
+  const badges = BADGES.map(b=>{
+    const got = S.badges.includes(b.id);
+    return `<div class="badge ${got?"":"locked"}" title="${esc(b.desc)}">${ICONS[b.icon]}<span class="bn">${esc(b.name)}</span></div>`;
+  }).join("");
+
+  const shop = SHOP.map(it=>{
+    const owned = owns(it.id);
+    const afford = S.clips >= it.price;
+    let action;
+    if(owned && it.kind==="accent")
+      action = `<button class="btn btn-sm ${S.cosmetics.accent===it.id?"btn-dark":"btn-ghost"}" onclick="equipItem('${it.id}')">${S.cosmetics.accent===it.id?"ACTIVE":"EQUIP"}</button>`;
+    else if(owned && it.kind==="theme")
+      action = `<button class="btn btn-sm ${S.cosmetics.theme===it.id?"btn-dark":"btn-ghost"}" onclick="equipItem('${it.id}')">${S.cosmetics.theme===it.id?"ACTIVE":"EQUIP"}</button>`;
+    else if(owned)
+      action = `<button class="btn btn-sm ${S.cosmetics[it.id]?"btn-green":"btn-ghost"}" onclick="toggleCosmetic('${it.id}')">${S.cosmetics[it.id]?"ON":"OFF"}</button>`;
+    else if(afford)
+      action = `<button class="btn btn-primary btn-sm" onclick="buyItem('${it.id}')">BUY</button>`;
+    else
+      action = `<button class="btn btn-sm" disabled title="Need ${it.price - S.clips} more clips">BUY</button>`;
+    return `<div class="shop-item ${owned?"owned":""}">
+      <div class="si-top"><h4>${esc(it.name)}</h4>${it.swatch?`<span class="sw" style="background:${it.swatch}"></span>`:""}</div>
+      <div class="sd">${esc(it.desc)}</div>
+      <div class="si-foot">
+        <span class="pr ${owned||afford?"":"broke"}">${CLIP_ICON}${owned?"OWNED":it.price}</span>
+        ${action}
+      </div>
+    </div>`;
+  }).join("");
+
+  return `
+  <div class="pm-head">
+    <div>
+      <span class="stamp blue">PROGRESS FILE</span>
+      <h2>Your progress</h2>
+    </div>
+    <button class="pm-x" id="pm-x" onclick="closeProgress()" aria-label="Close">${I('<path d="M18 6 6 18M6 6l12 12"/>')}</button>
+  </div>
+
+  <div class="pm-top">
+    <div class="pm-box">
+      <div class="kicker">LEVEL ${lv} OF ${LEVEL_TITLES.length}</div>
+      <div class="big">${esc(levelTitle())}</div>
+      <div class="bar"><i style="width:${maxed?100:xpIntoLevel()}%"></i></div>
+      <div class="meta">${maxed ? "MAXED · 700+ XP · THE WHOLE LADDER" : `${xpIntoLevel()}/100 XP · ${toGo} XP TO ${esc(LEVEL_TITLES[lv])}`}</div>
+    </div>
+    <div class="pm-box pm-wallet">
+      ${CLIP_ICON}
+      <div>
+        <div class="n">${S.clips}</div>
+        <div class="meta">CLIPS · 1 PER XP + LEVEL BONUS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pm-sec">
+    <div class="kicker">The ladder — rewards along the way</div>
+    <ul class="lad">${ladder}</ul>
+  </div>
+
+  <div class="pm-sec">
+    <div class="kicker">Badges — ${S.badges.length}/${BADGES.length} earned</div>
+    <div class="badge-grid">${badges}</div>
+  </div>
+
+  <div class="pm-sec">
+    <div class="kicker">Field notes</div>
+    <div class="pm-stats">
+      <div class="pm-stat"><b>${S.streak}</b><span>DAY STREAK</span></div>
+      <div class="pm-stat"><b>${S.read.length}/8</b><span>DOSSIERS READ</span></div>
+      <div class="pm-stat"><b>${Object.keys(S.interviews).length}/8</b><span>MOCKS DONE</span></div>
+      <div class="pm-stat"><b>${known}</b><span>TERMS KNOW IT</span></div>
+    </div>
+  </div>
+
+  <div class="pm-sec">
+    <div class="kicker">The shop — clips in, cosmetics out · balance ${S.clips}</div>
+    <div class="shop-grid">${shop}</div>
+    <p class="pm-foot">
+      EVERYTHING HERE IS COSMETIC — NO SCORES, NO SHORTCUTS /// CLIPS EARN 1:1 WITH XP ///
+      CLICK EQUIP AGAIN TO RETURN TO LAUNCHPAD BLUE
+    </p>
+  </div>`;
+}
+
+/* ============================================================
+   4b. BUZZWORDS — annotation, familiarity, side panel, flashcards
+   ============================================================ */
+function bzLvl(id){ return S.buzz[id] || 0; }
+function bzTipHtml(g){
+  return `<span class="bz-tip" role="tooltip"><b>${esc(g.t)}</b>${esc(g.d)}<span class="lvl">FAMILIARITY: ${LVL_LABELS[bzLvl(g.id)]}</span></span>`;
+}
+
+/* walk text nodes and wrap glossary hits in orange-underline spans */
+function annotate(root){
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(n){
+      const p = n.parentElement;
+      if(!p) return NodeFilter.FILTER_REJECT;
+      const tag = p.tagName;
+      if(tag === "SCRIPT" || tag === "STYLE" || tag === "TEXTAREA" || tag === "INPUT") return NodeFilter.FILTER_REJECT;
+      if(p.closest(".bz")) return NodeFilter.FILTER_REJECT;
+      if(!n.nodeValue || n.nodeValue.trim().length < 2) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  const nodes = [];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach(node=>{
+    const text = node.nodeValue;
+    const hits = [];
+    BZ_MATCHERS.forEach(m=>{
+      m.re.lastIndex = 0;
+      let r;
+      while((r = m.re.exec(text)) !== null){
+        hits.push({ s:r.index, e:r.index + r[0].length, id:m.id, word:r[0] });
+      }
+    });
+    if(!hits.length) return;
+    hits.sort((a,b)=> a.s - b.s || (b.e - b.s) - (a.e - a.s));
+    const kept = [];
+    let lastEnd = -1;
+    hits.forEach(h=>{ if(h.s >= lastEnd){ kept.push(h); lastEnd = h.e; } });
+    if(!kept.length) return;
+
+    const frag = document.createDocumentFragment();
+    let pos = 0;
+    kept.forEach(h=>{
+      if(h.s > pos) frag.appendChild(document.createTextNode(text.slice(pos, h.s)));
+      const g = GLOSSARY.find(x=>x.id === h.id);
+      const span = document.createElement("span");
+      span.className = "bz";
+      span.dataset.bz = h.id;
+      span.tabIndex = 0;
+      span.appendChild(document.createTextNode(h.word));
+      const tip = document.createElement("span");
+      tip.innerHTML = bzTipHtml(g);
+      span.appendChild(tip.firstChild);
+      frag.appendChild(span);
+      pos = h.e;
+    });
+    if(pos < text.length) frag.appendChild(document.createTextNode(text.slice(pos)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+/* hovering a tooltip long enough to read it = first familiarity level */
+function bzMarkRead(id, el){
+  if(bzLvl(id) < 1){
+    S.buzz[id] = 1;
+    save();
+    if(el){
+      const lvl = el.querySelector(".bz-tip .lvl");
+      if(lvl) lvl.textContent = "FAMILIARITY: SEEN";
+    }
+    renderBZ();
+  }
+}
+
+document.addEventListener("mouseover", e=>{
+  const b = e.target.closest ? e.target.closest(".bz") : null;
+  if(b && !b._dw){
+    const id = b.dataset.bz;
+    b._dw = setTimeout(()=>{ b._dw = null; bzMarkRead(id, b); }, 450);
+  }
+});
+document.addEventListener("mouseout", e=>{
+  const b = e.target.closest ? e.target.closest(".bz") : null;
+  if(b && b._dw){ clearTimeout(b._dw); b._dw = null; }
+});
+document.addEventListener("click", e=>{
+  const b = e.target.closest ? e.target.closest(".bz") : null;
+  if(!b) return;
+  bzMarkRead(b.dataset.bz, b);
+  /* don't hijack clicks on quiz options, buttons, or track cards — those have jobs */
+  if(e.target.closest("button, .opt, .tcard, .mkcard, .mrow")) return;
+  if(b.querySelector(".bz-tip").contains(e.target)) return;
+  e.stopPropagation();
+  b.classList.toggle("open");
+});
+
+/* touch (≤680px): the tooltip is a fixed bottom sheet — tapping anywhere else closes it.
+   Guarded by matchMedia so desktop click behavior is completely unchanged. */
+document.addEventListener("click", e=>{
+  if(!window.matchMedia("(max-width:680px)").matches) return;
+  if(e.target.closest && e.target.closest(".bz")) return;
+  document.querySelectorAll(".bz.open").forEach(x=>x.classList.remove("open"));
+  /* iOS keeps :focus (and thus the sheet) on the term after tapping blank space — blur it */
+  const a = document.activeElement;
+  if(a && a.classList && a.classList.contains("bz")) a.blur();
+});
+
+/* ---------- panel state + rendering ---------- */
+let BZ = { open:false, q:"", filter:"ALL", exp:new Set(), mode:"list", deck:null };
+
+function toggleBZ(force){
+  BZ.open = force !== undefined ? force : !BZ.open;
+  if(BZ.open){ BZ.mode = "list"; BZ.deck = null; }
+  renderBZ();
+}
+function bzCounts(){
+  const c = [0,0,0,0];
+  GLOSSARY.forEach(g=>c[bzLvl(g.id)]++);
+  return c;
+}
+function renderBZ(){
+  const panel = document.getElementById("bz-panel");
+  const tab = document.getElementById("bz-tab");
+  const c = bzCounts();
+  const known = c[1]+c[2]+c[3];
+  tab.innerHTML = `BUZZWORDS <span class="n">${known}</span>/${GLOSSARY.length}`;
+  tab.style.display = BZ.open ? "none" : "";
+  /* mobile: live count badge on the BUZZWORDS tab in the bottom bar */
+  const tbadge = document.getElementById("tbadge");
+  if(tbadge){ tbadge.textContent = known; tbadge.style.display = known ? "" : "none"; }
+  markTabbar();
+  panel.classList.toggle("open", BZ.open);
+  if(!BZ.open){ panel.innerHTML = ""; return; }
+
+  const pct = n => Math.round(n/GLOSSARY.length*100);
+  const bar = `<div class="bz-bar" aria-hidden="true">
+    <span style="width:${pct(c[3])}%; background:${LVL_COLORS[3]}"></span>
+    <span style="width:${pct(c[2])}%; background:${LVL_COLORS[2]}"></span>
+    <span style="width:${pct(c[1])}%; background:${LVL_COLORS[1]}"></span>
+    <span style="width:${pct(c[0])}%; background:${LVL_COLORS[0]}"></span>
+  </div>
+  <div class="bz-sum">${c[3]} KNOW IT · ${c[2]} LEARNING · ${c[1]} SEEN · ${c[0]} NEW</div>`;
+
+  let body = "";
+  if(BZ.mode === "deck" && BZ.deck){
+    body = renderDeck();
+  } else {
+    const q = BZ.q.trim().toLowerCase();
+    let list = GLOSSARY.filter(g=>{
+      if(q && !(g.t.toLowerCase().includes(q) || g.d.toLowerCase().includes(q))) return false;
+      if(BZ.filter === "ALL") return true;
+      if(BZ.filter === "NEW") return bzLvl(g.id) === 0;
+      if(BZ.filter === "SEEN") return bzLvl(g.id) === 1;
+      if(BZ.filter === "LEARNING") return bzLvl(g.id) === 2;
+      if(BZ.filter === "KNOW") return bzLvl(g.id) === 3;
+      return true;
+    });
+    list.sort((a,b)=> bzLvl(a.id) - bzLvl(b.id) || a.t.localeCompare(b.t));
+    body = list.length ? list.map(g=>{
+      const lvl = bzLvl(g.id);
+      const dots = [1,2,3].map(i=>`<i class="${lvl>=i?("f"+i):""}"></i>`).join("");
+      return `<div class="bz-row">
+        <div class="rt" onclick="bzRowClick('${g.id}')" role="button" tabindex="0">
+          <span class="lside"><span class="cat">${g.c}</span><span class="term">${esc(g.t)}</span></span>
+          <span class="bz-dots" title="${LVL_LABELS[lvl]}">${dots}</span>
+        </div>
+        ${BZ.exp.has(g.id) ? `<div class="bz-def"><b>${esc(g.t)}</b>${esc(g.d)}</div>` : ""}
+      </div>`;
+    }).join("") : `<div class="bz-empty">Nothing matches "${esc(BZ.q)}".<br>Try the acronym, or clear the filter.</div>`;
+  }
+
+  panel.innerHTML = `
+    <div class="bz-head">
+      <div class="trow">
+        <h3>Buzzwords</h3>
+        <button class="bz-x" onclick="toggleBZ(false)" aria-label="Close buzzwords panel">${ICONS.x}</button>
+      </div>
+      ${bar}
+    </div>
+    ${BZ.mode === "deck" ? "" : `
+    <div class="bz-controls">
+      <input class="bz-search" type="text" placeholder="Search ${GLOSSARY.length} terms — try IAM, ETL, O2C…" value="${esc(BZ.q)}" oninput="bzSearch(this.value)">
+      <div class="bz-filters">
+        ${["ALL","NEW","SEEN","LEARNING","KNOW"].map(f=>`<button class="bz-fchip ${BZ.filter===f?"on":""}" onclick="bzFilter('${f}')">${f}</button>`).join("")}
+      </div>
+    </div>`}
+    <div class="bz-body">${body}</div>
+    ${BZ.mode === "deck" ? "" : `
+    <div class="bz-foot">
+      <button class="btn btn-dark" onclick="startDeck()">${ICONS.lib} Practice flashcards</button>
+    </div>`}
+  `;
+
+  if(BZ.refocus){
+    const inp = panel.querySelector(".bz-search");
+    if(inp){ inp.focus(); const n = inp.value.length; try{ inp.setSelectionRange(n, n); }catch(e){} }
+    BZ.refocus = false;
+  }
+}
+function bzSearch(v){ BZ.q = v; BZ.refocus = true; renderBZ(); }
+function bzFilter(f){ BZ.filter = f; renderBZ(); }
+function bzRowClick(id){
+  if(BZ.exp.has(id)) BZ.exp.delete(id);
+  else { BZ.exp.add(id); bzMarkRead(id); }
+  renderBZ();
+}
+
+/* ---------- flashcards ---------- */
+function shuffleArr(a){
+  for(let i=a.length-1; i>0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; }
+  return a;
+}
+function startDeck(){
+  let pool = GLOSSARY.filter(g=>bzLvl(g.id) < 3);
+  if(pool.length === 0) pool = GLOSSARY.slice();
+  pool.sort((a,b)=> bzLvl(a.id) - bzLvl(b.id));
+  const weakest = pool.filter(g=>bzLvl(g.id) === bzLvl(pool[0].id));
+  const rest = pool.filter(g=>bzLvl(g.id) !== bzLvl(pool[0].id));
+  const queue = shuffleArr(weakest).concat(shuffleArr(rest)).slice(0, 12);
+  BZ.deck = { queue, idx:0, flipped:false, right:0, wrong:0, xpGiven:false };
+  BZ.mode = "deck";
+  renderBZ();
+}
+function renderDeck(){
+  const d = BZ.deck;
+  const total = d.queue.length;
+  if(d.idx >= total){
+    const c = bzCounts();
+    return `<div class="bz-card">
+      <span class="cat">DECK COMPLETE</span>
+      <div class="t">${d.right} got it · ${d.wrong} not yet</div>
+      <div class="d">You now know ${c[3]} of ${GLOSSARY.length} cold${c[3] < GLOSSARY.length ? " — the rest are waiting for tomorrow's rep." : ". The entire index. Show-off."}</div>
+    </div>
+    <div class="bz-actions">
+      <button class="btn btn-ghost" onclick="startDeck()">${ICONS.refresh} Again</button>
+      <button class="btn btn-primary" onclick="toggleBZ(false)">Done</button>
+    </div>`;
+  }
+  const g = d.queue[d.idx];
+  return `
+    <div class="bz-progress">CARD ${d.idx+1} / ${total}</div>
+    <div class="bz-card">
+      <span class="cat">${g.c} · ${LVL_LABELS[bzLvl(g.id)]}</span>
+      <div class="t">${esc(g.t)}</div>
+      ${d.flipped ? `<div class="d">${esc(g.d)}</div>` : `<div class="hint">SAY THE DEFINITION OUT LOUD FIRST</div>`}
+    </div>
+    <div class="bz-actions">
+      ${d.flipped
+        ? `<button class="btn btn-ghost" onclick="answerCard(false)">Not yet</button>
+           <button class="btn btn-green" onclick="answerCard(true)">${ICONS.check} Got it</button>`
+        : `<button class="btn btn-dark" onclick="flipCard()">Flip the card</button>`}
+    </div>
+    <div style="margin-top:12px; text-align:center">
+      <button class="btn btn-ghost btn-sm" onclick="exitDeck()">${ICONS.x} Exit deck</button>
+    </div>`;
+}
+function flipCard(){
+  const g = BZ.deck.queue[BZ.deck.idx];
+  BZ.deck.flipped = true;
+  bzMarkRead(g.id);
+  renderBZ();
+}
+function answerCard(got){
+  const d = BZ.deck;
+  const g = d.queue[d.idx];
+  const lvl = bzLvl(g.id);
+  S.buzz[g.id] = got ? Math.min(3, lvl+1) : Math.max(1, lvl-1);
+  save();
+  if(got) d.right++; else d.wrong++;
+  d.idx++; d.flipped = false;
+  if(d.idx >= d.queue.length && !d.xpGiven){
+    d.xpGiven = true;
+    awardXp(10, "Flashcard deck complete");
+  }
+  renderBZ();
+}
+function exitDeck(){
+  BZ.mode = "list"; BZ.deck = null; renderBZ();
+}
+
+/* ============================================================
+   5. HELPERS
+   ============================================================ */
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function go(h){ location.hash = h; }
+function byId(id){ return CAREERS.find(c=>c.id===id); }
+function careerIcon(id){ return ICONS[byId(id).icon]; }
+function tint(hex, alpha){
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+const OTTO_LINES = [
+  "I'm Otto. I hold your prospects. Literally.",
+  "The STEM fair is September 17. Just saying.",
+  "Reading one dossier tonight beats zero dossiers.",
+  "Nobody hires 'passionate team players.' Be specific.",
+  "Your streak is a promise to future-you.",
+  "Interviews are just meetings with homework.",
+  "Salary data is directional. Negotiation is personal.",
+  "Eight tracks. You only need one to fit."
+];
+/* shop unlock: Otto Extended Vocabulary */
+const OTTO_LINES_2 = [
+  "The shop cat outranks me. I accept this.",
+  "Clips are not redeemable for tuition. I checked.",
+  "Level eight is called Launched. Bring a jacket.",
+  "Midnight edition. Same briefcase, darker briefcase.",
+  "Your future employer is currently in a meeting.",
+  "I have seen your quiz answers. No comment.",
+  "Streaks are just habits wearing suits.",
+  "Somewhere a recruiter just updated a spreadsheet.",
+  "The flashcards are not going to flip themselves.",
+  "Confetti is biodegradable here. Probably.",
+  "A read dossier is a dossier that fears you.",
+  "I am filled with XP. It is fine."
+];
+function ottoLine(){
+  const pool = OTTO_LINES.concat(S.cosmetics.vocab2 ? OTTO_LINES_2 : []);
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function ottoSVG(){
+  return `<svg class="otto" viewBox="0 0 16 16" aria-hidden="true">
+    <g style="fill:var(--ink)">
+      <rect x="5" y="1" width="6" height="1.4"/>
+      <rect x="5" y="1" width="1.2" height="2.2"/>
+      <rect x="9.8" y="1" width="1.2" height="2.2"/>
+      <rect x="2" y="3.4" width="12" height="10" rx="1"/>
+      <rect x="7.2" y="5.2" width="1.6" height="2.4" style="fill:var(--card)"/>
+      <g class="eye" style="transform-origin:8px 6.4px">
+        <rect x="4.6" y="5.6" width="1.8" height="1.6" style="fill:var(--card)"/>
+        <rect x="9.6" y="5.6" width="1.8" height="1.6" style="fill:var(--card)"/>
+      </g>
+      <rect x="5.2" y="9.6" width="5.6" height="0.9" style="fill:var(--card)" rx="0.4"/>
+      <rect x="0" y="5.2" width="1.6" height="5.6"/>
+      <rect x="14.4" y="5.2" width="1.6" height="5.6"/>
+    </g>
+    <rect x="6.6" y="5.9" width="0.7" height="0.7" style="fill:var(--ink)"/>
+    <rect x="11.6" y="5.9" width="0.7" height="0.7" style="fill:var(--ink)"/>
+  </svg>`;
+}
+
+/* ============================================================
+   6. APP BAR / TICKER
+   ============================================================ */
+function renderChips(){
+  const el = document.getElementById("homestats");
+  if(el){
+    el.innerHTML = `
+      <span class="chip streak" title="Days in a row you've shown up">${ICONS.flame} ${S.streak}</span>
+      <span class="chip xp" title="Experience points">${ICONS.bolt} ${S.xp} XP</span>
+      <span class="chip lvl" title="${levelTitle()}">${ICONS.star} LV ${level()}</span>
+    `;
+  }
+  const pill = document.getElementById("xppill");
+  if(pill){
+    pill.querySelector(".lv").textContent = "LV " + level();
+    pill.querySelector(".bar i").style.width = (level()>=LEVEL_TITLES.length ? 100 : xpIntoLevel()) + "%";
+    pill.querySelector(".clips").innerHTML = CLIP_ICON + "<b>" + S.clips + "</b>";
+  }
+}
+function markNav(){
+  const h = location.hash;
+  const map = {"#/quiz":"quiz","#/tracks":"tracks","#/track/":"tracks","#/mocks":"mocks","#/mock/":"mocks","#/sources":"sources"};
+  document.querySelectorAll("#appnav a").forEach(a=>{
+    const k = a.dataset.nav;
+    const on = Object.keys(map).some(pref => map[pref]===k && h.startsWith(pref));
+    a.classList.toggle("on", on);
+  });
+}
+
+/* ---------- mobile tab bar (≤680px only; hidden on desktop, so this is inert ≥681px) ---------- */
+const TABBAR = [
+  {nav:"home",   href:"#/",                    icon:"home",    label:"Home"},
+  {nav:"quiz",   href:"#/quiz",                icon:"compass", label:"Fit Finder"},
+  {nav:"tracks", href:"#/tracks",              icon:"lib",     label:"Tracks"},
+  {nav:"mocks",  href:"#/mocks",               icon:"mic",     label:"Mocks"},
+  {nav:"buzz",   href:"javascript:toggleBZ()", icon:"chat",    label:"Buzzwords", badge:true}
+];
+function renderTabbar(){
+  document.getElementById("tabbar").innerHTML = TABBAR.map(t=>`
+    <a class="tb" data-nav="${t.nav}" href="${t.href}">
+      <span class="ti">${ICONS[t.icon]}${t.badge?'<span class="tbadge" id="tbadge"></span>':""}</span>
+      <span class="tl">${t.label.toUpperCase()}</span>
+    </a>`).join("");
+}
+function markTabbar(){
+  const h = location.hash || "#/";
+  const map = {"#/quiz":"quiz","#/results":"quiz","#/tracks":"tracks","#/track/":"tracks","#/mocks":"mocks","#/mock/":"mocks"};
+  let cur = (h==="#/" || h==="#") ? "home" : null;   /* #/sources and unknown routes light nothing */
+  Object.keys(map).forEach(pref=>{ if(h.startsWith(pref)) cur = map[pref]; });
+  document.querySelectorAll("#tabbar .tb").forEach(el=>{
+    el.classList.toggle("on", el.dataset.nav==="buzz" ? BZ.open : el.dataset.nav===cur);
+  });
+}
+
+/* ============================================================
+   7. QUIZ LOGIC
+   ============================================================ */
+let Q = null; // quiz session
+
+function startQuiz(){
+  Q = { idx:0, sel:Array(QUIZ.length).fill(null), vec:{code:0,data:0,people:0,design:0,security:0,infra:0,process:0,business:0} };
+  go("#/quiz");
+}
+function selOpt(i){ Q.sel[Q.idx] = i; render(); }
+function contQuiz(){
+  const choice = Q.sel[Q.idx];
+  if(choice === null) return;
+  Object.entries(QUIZ[Q.idx].opts[choice].w).forEach(([t,n])=>{ Q.vec[t] += n; });
+  if(Q.idx < QUIZ.length-1){
+    Q.idx++;
+    render();
+  } else {
+    finishQuiz();
+  }
+}
+function norm(v){
+  const mags = Object.values(v), mag = Math.sqrt(mags.reduce((a,b)=>a+b*b,0)) || 1;
+  const out = {};
+  Object.keys(v).forEach(k=> out[k] = v[k]/mag);
+  return out;
+}
+function computeMatches(vec){
+  const u = norm(vec);
+  return CAREERS.map(c=>{
+    const cv = norm(c.traits);
+    let dot = 0;
+    Object.keys(u).forEach(k=> dot += u[k]*cv[k]);
+    const pct = Math.round(46 + dot*52);
+    const contrib = Object.keys(u).map(k=>({k, v:u[k]*cv[k]})).sort((a,b)=>b.v-a.v).slice(0,3);
+    return { id:c.id, pct, contrib };
+  }).sort((a,b)=>b.pct-a.pct);
+}
+function finishQuiz(){
+  const matches = computeMatches(Q.vec);
+  S.quizScores = matches;
+  S.quizTop = matches[0].id;
+  if(!S.quizDone){
+    S.quizDone = true;
+    awardXp(50, "Fit Finder complete");
+  }
+  save(); checkBadges(); confetti();
+  go("#/results");
+}
+
+/* ============================================================
+   8. INTERVIEW SESSION
+   ============================================================ */
+let RUN = null;
+
+function startMock(id){
+  RUN = { id, qi:0, phase:"answer", answers:[], rubric:Array(byId(id).interview.length).fill(0), text:"" };
+  AI_RUN = null;
+  go("#/mock/"+id);
+}
+function submitAns(){
+  RUN.answers[RUN.qi] = RUN.text;
+  RUN.phase = "review";
+  render();
+}
+function onAnsInput(ta){
+  RUN.text = ta.value;
+  const n = ta.value.trim().length;
+  const el = document.getElementById("anscount");
+  if(el){
+    el.textContent = n + " chars";
+    el.style.color = n >= 150 ? "var(--green)" : "var(--grey)";
+  }
+}
+function tickRubric(i, on, label){
+  if(label) label.classList.toggle("on", on);
+  RUN.rubric[RUN.qi] = on ? RUN.rubric[RUN.qi]+1 : RUN.rubric[RUN.qi]-1;
+}
+function nextQ(){
+  const total = byId(RUN.id).interview.length;
+  if(RUN.qi < total-1){
+    RUN.qi++; RUN.phase = "answer"; RUN.text = "";
+    render();
+  } else {
+    finishMock();
+  }
+}
+function finishMock(){
+  const first = !S.interviews[RUN.id];
+  const done = {...S.interviews};
+  done[RUN.id] = { done:true, ticks:RUN.rubric.reduce((a,b)=>a+b,0) };
+  S.interviews = done;
+  save();
+  if(first){
+    awardXp(25, byId(RUN.id).name + " — complete");
+  }
+  RUN.phase = "end";
+  checkBadges(); confetti();
+  render();
+}
+
+/* ============================================================
+   8b. AI GRADER — Z.AI GLM (opt-in, on the session summary)
+   Sends the session's typed answers to Z.ai's GLM API and gets
+   back a five-dimension rubric score per question plus an
+   overall verdict. The self-rubric is untouched; the summary
+   shows both scores side by side. If the call fails, the
+   self-score stands on its own.
+   ============================================================ */
+const AI_CFG = {
+  url:"https://api.z.ai/api/paas/v4/chat/completions",
+  model:"glm-4.5-flash", /* free-tier GLM; switch to "glm-4.6" if the Z.ai account gets credit */
+  timeoutMs:75000
+};
+/* the deeper rubric only the AI grades against — the self-rubric keeps its four ticks */
+const AI_RUBRIC = [
+  {k:"relevance",     ab:"REL", w:.25, d:"Answered the actual question asked, at the depth it asked for"},
+  {k:"structure",     ab:"STR", w:.15, d:"Behavioral: a real STAR story (Situation-Task-Action-Result). Technical: conclusion first, then ordered reasoning"},
+  {k:"specificity",   ab:"SPE", w:.20, d:"Concrete evidence — named tools, numbers, real projects, explicit trade-offs"},
+  {k:"depth",         ab:"DEP", w:.25, d:"Correct concepts and role-appropriate terminology compared to the reference answer"},
+  {k:"communication", ab:"COM", w:.15, d:"Clear and tight enough to say out loud in under two minutes"}
+];
+let AI_RUN = null; /* {forId, phase:"busy"|"done"|"error", result?, err?} */
+
+function aiPrompt(c){
+  const rub = AI_RUBRIC.map(r=>`- ${r.k} (weight ${r.w}): ${r.d}`).join("\n");
+  const qs = c.interview.map((q,i)=>({
+    n:i+1,
+    type:q.type==="b"?"behavioral":"technical",
+    question:q.q,
+    interviewers_listen_for:q.listen,
+    reference_strong_answer:q.model,
+    candidate_answer:(RUN.answers[i]||"").trim()||"(left blank)"
+  }));
+  return {
+    system:"You are a strict but fair entry-level interviewer for Information Systems roles. You grade conservatively: generic or vague answers score 1-2, only specific and correct answers earn 3-4, blanks score 0. You reply with JSON only — no prose outside the JSON.",
+    user:`Role being interviewed for: ${c.name} — ${c.blurb}\n\nGrade the candidate's ${qs.length} answers against this rubric. Each dimension is an integer 0-4 (0 absent, 1 weak, 2 adequate, 3 good, 4 strong):\n${rub}\n\nQuestions and answers:\n${JSON.stringify(qs,null,1)}\n\nReturn exactly this JSON shape:\n{"questions":[{"n":1,"scores":{"relevance":0,"structure":0,"specificity":0,"depth":0,"communication":0},"strength":"one line, max 90 chars, the best thing about the answer","fix":"one line, max 90 chars, the single highest-impact improvement"}],"overall":{"signal":"STRONG or MIXED or WEAK","verdict":"two sentences max: the honest overall read, then the one thing to work on before the real interview"}}\n\nJudge only what the candidate wrote. Do not restate their answer. Do not invent content for blanks.`
+  };
+}
+
+function aiClamp(v){ v = Math.round(Number(v)); return (isNaN(v)||v<0)?0:(v>4?4:v); }
+
+function aiParse(text){
+  let raw = text;
+  try{ raw = JSON.parse(text); }
+  catch(e){
+    const m = text.match(/\{[\s\S]*\}/);
+    if(!m) throw new Error("unparseable grader response");
+    raw = JSON.parse(m[0]);
+  }
+  if(!raw || !Array.isArray(raw.questions)) throw new Error("grader response missing questions");
+  return raw;
+}
+
+/* Two grading transports, tried in order:
+   1. Same-origin proxy — when served by `node server.js`, POST /api/grade. The key
+      lives on the server; the browser never sees it, loads no key file, and holds
+      no key material at all. A 404 means "no proxy on this host" → try direct.
+   2. Direct fallback — for opening index.html without the server (file:// or a
+      plain static host): lazily injects the local, gitignored ai-key.js, which
+      registers window.CLP_GRADE with the API key sealed inside a closure. */
+let graderScript = null;
+function loadGrader(){
+  if(!graderScript){
+    graderScript = new Promise(res=>{
+      const s = document.createElement("script");
+      s.src = "ai-key.js";
+      s.onload = ()=>res();
+      s.onerror = ()=>res();
+      document.head.appendChild(s);
+    });
+  }
+  return graderScript;
+}
+
+function aiExtract(data){
+  const content = data && data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+  if(!content) throw new Error("empty grader response");
+  return aiParse(content);
+}
+
+async function aiViaProxy(payload){
+  const ctl = new AbortController();
+  const timer = setTimeout(()=>ctl.abort(), AI_CFG.timeoutMs);
+  let r;
+  try{
+    r = await fetch("/api/grade", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      signal:ctl.signal,
+      body:JSON.stringify(payload)
+    });
+  } finally{ clearTimeout(timer); }
+  if(r.status === 404 || r.status === 501) return null; /* no proxy on this host (404 = unknown path, 501 = static-only server) */
+  const data = await r.json().catch(()=>null);
+  if(!r.ok) throw new Error((data && data.error && data.error.message) || ("grading proxy HTTP " + r.status));
+  return aiExtract(data);
+}
+
+async function aiViaDirect(payload){
+  if(!window.CLP_GRADE){ await loadGrader(); }
+  if(!window.CLP_GRADE) throw new Error("ai-key.js not found next to index.html");
+  return aiExtract(await window.CLP_GRADE(AI_CFG.url, payload, AI_CFG.timeoutMs));
+}
+
+async function aiCall(c){
+  const p = aiPrompt(c);
+  const payload = {
+    model:AI_CFG.model,
+    thinking:{type:"disabled"},
+    response_format:{type:"json_object"},
+    temperature:0.3,
+    max_tokens:2600,
+    messages:[{role:"system",content:p.system},{role:"user",content:p.user}]
+  };
+  if(location.protocol === "http:" || location.protocol === "https:"){
+    try{
+      const parsed = await aiViaProxy(payload);
+      if(parsed) return parsed;
+    }catch(e){
+      if(e.name === "AbortError") throw new Error("grading timed out");
+      throw e; /* proxy answered — its error is authoritative */
+    }
+  }
+  return aiViaDirect(payload);
+}
+
+function aiNormalize(raw, c){
+  const perQ = c.interview.map((q,i)=>{
+    const r = raw.questions.find(x=>Number(x.n)===i+1) || raw.questions[i] || {};
+    const s = r.scores || {};
+    const dims = {};
+    AI_RUBRIC.forEach(d=>dims[d.k] = aiClamp(s[d.k]));
+    return {
+      score:Math.round(AI_RUBRIC.reduce((a,d)=>a + dims[d.k]*d.w, 0)*10)/10,
+      dims,
+      strength:String(r.strength||"").slice(0,110),
+      fix:String(r.fix||"").slice(0,110)
+    };
+  });
+  const total = Math.round(perQ.reduce((a,p)=>a+p.score,0)*10)/10;
+  const ov = raw.overall || {};
+  const signal = ["STRONG","MIXED","WEAK"].includes(ov.signal) ? ov.signal
+    : (total >= 13 ? "STRONG" : total >= 7 ? "MIXED" : "WEAK");
+  return { perQ, total, signal, verdict:String(ov.verdict||"").slice(0,320) };
+}
+
+function aiGrade(){
+  const c = byId(RUN.id);
+  AI_RUN = {forId:RUN.id, phase:"busy"};
+  render();
+  aiCall(c).then(raw=>{
+    const result = aiNormalize(raw, c);
+    AI_RUN = {forId:RUN.id, phase:"done", result};
+    const done = {...S.interviews};
+    const prev = done[RUN.id] || {done:true, ticks:RUN.rubric.reduce((a,b)=>a+b,0)};
+    prev.ai = {total:result.total, perQ:result.perQ.map(p=>p.score), signal:result.signal, verdict:result.verdict, model:AI_CFG.model};
+    done[RUN.id] = prev;
+    S.interviews = done; save();
+    toast("+AI", "GLM graded your session");
+    render();
+  }).catch(err=>{
+    AI_RUN = {forId:RUN.id, phase:"error", err:String((err && err.message) || err).slice(0,160)};
+    render();
+  });
+}
+
+/* ============================================================
+   9. VIEWS
+   ============================================================ */
+const app = document.getElementById("app");
+
+function viewHome(){
+  const readN = S.read.length;
+  const mockN = Object.keys(S.interviews).length;
+  const matches = S.quizScores;
+  const top = S.quizTop ? byId(S.quizTop) : null;
+
+  const stages = `
+    <div class="stage">
+      <div class="rail"><div class="node ${S.quizDone?"done":"now"}">${S.quizDone?ICONS.check:"1"}</div><div class="cord"></div></div>
+      <div class="body">
+        <h3>Find your fit</h3>
+        <div class="meta">${S.quizDone ? `<b>DONE</b> · top match: ${esc(top.name)} ${S.quizScores[0].pct}%` : "10 questions · ~4 minutes"}</div>
+        <div class="desc">Scenario questions about how you actually like to work. Your answers get scored against each track's day-to-day profile — no wrong answers, no corporate personality test.</div>
+        ${S.quizDone
+          ? `<button class="btn btn-ghost btn-sm" onclick="go('#/results')">${ICONS.arrow} See your field read</button>`
+          : `<button class="btn btn-primary" onclick="startQuiz()">${ICONS.bolt} Start the Fit Finder</button>`}
+      </div>
+    </div>
+    <div class="stage">
+      <div class="rail"><div class="node ${readN>=8?"done":(S.quizDone?"now":"")}">${readN>=8?ICONS.check:"2"}</div><div class="cord"></div></div>
+      <div class="body">
+        <h3>Read the field</h3>
+        <div class="meta"><b>${readN} / 8</b> dossiers read</div>
+        <div class="desc">Eight career dossiers, each with the same five sections: the day-to-day, the skills and tools, what entry-level candidates are actually expected to know, the money, and what makes a strong candidate.</div>
+        <button class="btn btn-dark" onclick="go('#/tracks')">${ICONS.book} Browse all tracks</button>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="rail"><div class="node ${mockN>=8?"done":(readN>0?"now":"")}">${mockN>=8?ICONS.check:"3"}</div></div>
+      <div class="body">
+        <h3>Rehearse the interview</h3>
+        <div class="meta"><b>${mockN} / 8</b> mocks completed</div>
+        <div class="desc">Five role-specific questions per track — behavioral and technical, drawn from real entry-level interview formats. You answer in your own words, then compare against what a strong answer lands on and score yourself honestly.</div>
+        <button class="btn btn-green" onclick="go('#/mocks')">${ICONS.mic} Open mock interviews</button>
+      </div>
+    </div>`;
+
+  const badgeHtml = BADGES.map(b=>{
+    const got = S.badges.includes(b.id);
+    return `<div class="badge ${got?"":"locked"}" title="${esc(b.desc)}">
+      ${got ? ICONS[b.icon] : ICONS[b.icon]}
+      ${got?"":`<span class="lk">${ICONS.lock}</span>`}
+      <span class="bn">${esc(b.name)}</span>
+    </div>`;
+  }).join("");
+
+  return `
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-main">
+        <p class="kicker"><span class="dot">●</span> BYU Information Systems · Junior Core · Case F26</p>
+        <h1>Eight tracks.<br><span class="outl">One degree.</span></h1>
+        <p class="sub">Most IS students pick their direction in their last semester — which is late.
+        Find the track that fits in four minutes, then walk into the interview already rehearsed.</p>
+        <div class="cta">
+          <button class="btn btn-primary btn-hero" onclick="startQuiz()">${ICONS.bolt} ${S.quizDone?"Retake the Fit Finder":"Take the Fit Finder"}</button>
+          <span class="alt">or <a href="#/tracks">browse all eight tracks</a></span>
+        </div>
+        <div class="microline">
+          <span>STEM FAIR <b>SEP 17</b></span>
+          <span>APPLICATIONS <b>OPEN NOW</b></span>
+          <span><b>8</b> TRACKS · <b>40</b> MOCK QUESTIONS</span>
+          <span>SAVES ON THIS DEVICE</span>
+        </div>
+      </div>
+      <div class="hero-side">
+        <span class="corner-stamp stamp">EST. 2026 — PROVO, UT</span>
+        <div class="otto-duo">
+          <div class="otto-bubble"><b>OTTO SAYS</b>${esc(ottoLine())}</div>
+          ${ottoSVG()}
+        </div>
+      </div>
+    </div>
+    <div class="scrollcue" aria-hidden="true">Your path ${ICONS.down}</div>
+  </section>
+
+  <section class="wrap section" style="border-top:1px solid var(--line)">
+    <div class="section-head">
+      <h2>Your path</h2><span class="rule"></span>
+      <span class="count">DO IT IN ORDER — OR DON'T</span>
+    </div>
+    <div class="path-grid">
+      <div>${stages}</div>
+      <div class="railcol">
+        <div class="card">
+          <div id="homestats" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px"></div>
+          <div class="kicker">Level ${level()} — ${esc(levelTitle())}</div>
+          <div class="levelbar"><div class="fill" style="width:${xpIntoLevel()}%"></div></div>
+          <div style="display:flex; justify-content:space-between; margin-top:8px; font:700 11px var(--font-mono); color:var(--grey)">
+            <span>${xpIntoLevel()} / 100 XP</span><span>NEXT: ${esc(LEVEL_TITLES[Math.min(level(),LEVEL_TITLES.length-1)])}</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="kicker">Badges · ${S.badges.length}/${BADGES.length}</div>
+          <div class="badge-grid">${badgeHtml}</div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function viewQuiz(){
+  if(!Q){ Q = { idx:0, sel:Array(QUIZ.length).fill(null), vec:{code:0,data:0,people:0,design:0,security:0,infra:0,process:0,business:0} }; }
+  const item = QUIZ[Q.idx];
+  const keys = "ABCDEF";
+  return `
+  <section class="wrap quiz-wrap">
+    <p class="kicker"><span class="dot">●</span> Fit Finder · question ${Q.idx+1} of ${QUIZ.length}</p>
+    <div class="quiz-top">
+      <div class="qdots">${QUIZ.map((_,i)=>`<span class="qdot ${i<Q.idx?"done":(i===Q.idx?"cur":"")}"></span>`).join("")}</div>
+      <a href="#/" style="font:500 12px var(--font-mono); color:var(--grey); letter-spacing:.08em">EXIT</a>
+    </div>
+    <div class="card hard flat quiz-card">
+      <div class="qq">${esc(item.q)}</div>
+      <div class="opts">
+        ${item.opts.map((o,i)=>`
+          <button class="opt ${Q.sel[Q.idx]===i?"sel":""}" onclick="selOpt(${i})">
+            <span class="key">${keys[i]}</span><span>${esc(o.t)}</span>
+          </button>`).join("")}
+      </div>
+    </div>
+    <div class="quiz-foot">
+      <button class="btn btn-green" ${Q.sel[Q.idx]===null?'aria-disabled="true" disabled':''} onclick="contQuiz()">
+        ${Q.idx===QUIZ.length-1?"See my results":"Continue"} ${ICONS.arrow}
+      </button>
+    </div>
+  </section>`;
+}
+
+function viewResults(){
+  if(!S.quizScores){
+    return `<section class="wrap res-wrap">
+      <p class="kicker"><span class="dot">●</span> Field read</p>
+      <div class="card" style="padding:40px; text-align:center">
+        <h2 style="font-size:26px; text-transform:uppercase">No field read yet</h2>
+        <p style="color:var(--grey)">Take the Fit Finder first — ten questions, four minutes.</p>
+        <button class="btn btn-primary" onclick="startQuiz()">${ICONS.bolt} Start the Fit Finder</button>
+      </div>
+    </section>`;
+  }
+  const m = S.quizScores;
+  const top = byId(m[0].id);
+  const rest = m.slice(1);
+  const dateStr = new Date().toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}).toUpperCase();
+  return `
+  <section class="wrap res-wrap">
+    <div class="section-head" style="margin-top:26px">
+      <h2 style="font-size:clamp(28px,4vw,40px)">Your field read</h2><span class="rule"></span>
+      <span class="count">${dateStr}</span>
+    </div>
+
+    <div class="card hard flat match-hero">
+      <div style="display:flex; gap:26px; align-items:flex-start; flex-wrap:wrap">
+        <div style="flex:1; min-width:250px">
+          <span class="stamp green">TOP MATCH</span>
+          <div style="display:flex; align-items:center; gap:14px; margin-top:14px">
+            <span style="width:52px;height:52px;border-radius:12px;display:grid;place-items:center;color:${top.color};border:1.5px solid ${top.color}">${careerIcon(m[0].id)}</span>
+            <h3 style="font-size:26px; font-weight:900; text-transform:uppercase">${esc(top.name)}</h3>
+          </div>
+          <p style="color:var(--ink2); max-width:52ch">${esc(top.blurb)}</p>
+          <ul class="whylist">
+            ${m[0].contrib.map(c=>`<li>You and this track both score high on ${esc(TRAIT_LABEL[c.k])}.</li>`).join("")}
+          </ul>
+          <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="go('#/track/${top.id}')">${ICONS.book} Read the dossier</button>
+            <button class="btn btn-dark" onclick="startMock('${top.id}')">${ICONS.mic} Mock this interview</button>
+          </div>
+        </div>
+        <div class="pct" style="color:${top.color}">${m[0].pct}<span style="font-size:.45em">%</span></div>
+      </div>
+    </div>
+
+    <p class="kicker" style="margin-top:34px">The rest of the field</p>
+    <div class="match-rows">
+      ${rest.map(r=>{
+        const c = byId(r.id);
+        return `<div class="mrow" onclick="go('#/track/${c.id}')" role="link" tabindex="0" title="${esc(c.name)}">
+          <div class="ml"><span style="color:${c.color}; display:inline-flex">${careerIcon(c.id)}</span><span class="tname">${esc(c.short)}</span></div>
+          <div class="mb"><div class="mf" style="width:${r.pct}%; background:${c.color}"></div></div>
+          <div class="mp mono">${r.pct}%</div>
+        </div>`;
+      }).join("")}
+    </div>
+
+    <div style="display:flex; gap:14px; margin-top:26px; align-items:center; flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" onclick="copyResults()">${ICONS.copy} Copy results</button>
+      <button class="btn btn-ghost btn-sm" onclick="startQuiz()">${ICONS.refresh} Retake</button>
+      <span style="font:400 12px var(--font-ui); color:var(--grey)">Match = similarity between your answers and each track's day-to-day. Directional, not destiny.</span>
+    </div>
+  </section>`;
+}
+
+function copyResults(){
+  const txt = "My IS career field read (Career Launchpad):\n" +
+    S.quizScores.map((r,i)=>`${i+1}. ${byId(r.id).name} — ${r.pct}%`).join("\n");
+  navigator.clipboard.writeText(txt).then(
+    ()=>toast("COPIED", "Results copied to clipboard"),
+    ()=>toast("HMM", "Clipboard blocked by browser")
+  );
+}
+
+function viewTracks(){
+  const groups = ["Build & Operate","Analyze & Advise","Lead & Design"];
+  return `
+  <section class="wrap" style="padding-top:40px">
+    <div class="section-head">
+      <h2>The eight tracks</h2><span class="rule"></span>
+      <span class="count">${S.read.length}/8 READ</span>
+    </div>
+    <p style="color:var(--grey); max-width:70ch; margin-top:-8px">
+      Every dossier answers the same five questions: what the work actually is, what it runs on, what entry-level
+      means, what it pays, and who excels at it. Start with your top match — or the one with the scariest name.
+    </p>
+    ${groups.map(g=>`
+      <div class="group-head"><span class="grule"></span><span class="gname">${esc(g)}</span><span class="gn">${CAREERS.filter(c=>c.group===g).length}</span></div>
+      <div class="track-grid">
+        ${CAREERS.filter(c=>c.group===g).map(c=>{
+          const read = S.read.includes(c.id);
+          const fit = S.quizScores ? S.quizScores.find(x=>x.id===c.id) : null;
+          return `<div class="tcard hard" onclick="go('#/track/${c.id}')" role="link" tabindex="0" aria-label="${esc(c.name)}">
+            <div class="bar" style="background:${c.color}"></div>
+            <div class="inner">
+              <div class="toprow">
+                <span class="ic" style="color:${c.color}; background:${tint(c.color,.1)}">${careerIcon(c.id)}</span>
+                ${fit&&fit.pct>=m2(S.quizScores) ? `<span class="stamp blue" style="font-size:9px">FIT ${fit.pct}%</span>` : (read?`<span class="rd">READ</span>`:"")}
+              </div>
+              <h3>${esc(c.name)}</h3>
+              <div class="blurb">${esc(c.blurb)}</div>
+              <div class="meta"><span>ENTRY ${esc(c.money.traj[0].v)}</span><span class="go">OPEN →</span></div>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>`).join("")}
+    <div style="height:30px"></div>
+  </section>`;
+}
+function m2(scores){ return scores && scores.length>1 ? scores[1].pct : 999; }
+
+let TAB = "day";
+function viewTrack(id){
+  const c = byId(id);
+  if(!c){ go("#/tracks"); return ""; }
+  const read = S.read.includes(c.id);
+  const fit = S.quizScores ? S.quizScores.find(x=>x.id===id) : null;
+  const tabs = [
+    ["day","The day-to-day"],["skills","Skills & tools"],["entry","Entry-level bar"],["money","The money"],["strong","Strong candidates"]
+  ];
+  let body = "";
+  if(TAB==="day"){
+    body = `<ul class="list" style="--sq:${c.color}">${c.dayToDay.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+  } else if(TAB==="skills"){
+    body = c.skills.map(g=>`<div class="skillgroup"><div class="gl">${esc(g.label)}</div><div class="pillrow">${g.items.map(i=>`<span class="pill">${esc(i)}</span>`).join("")}</div></div>`).join("");
+  } else if(TAB==="entry"){
+    body = `<p style="color:var(--grey); font-size:13.5px">What an internship or entry-level candidate is realistically expected to know:</p>
+            <ul class="list" style="--sq:${c.color}">${c.entry.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+  } else if(TAB==="money"){
+    body = `
+      <div class="traj">
+        ${c.money.traj.map(t=>`
+          <div class="trow">
+            <div class="tlabel">${esc(t.y)}</div>
+            <div class="tbar"><div class="tfill" style="width:${t.w}%; background:${c.color}"></div></div>
+            <div class="tval">${esc(t.v)}</div>
+          </div>`).join("")}
+      </div>
+      <div class="moneynote"><b>Read this twice</b>${esc(c.money.note)}</div>
+      <p style="font:500 11px var(--font-mono); color:var(--grey); letter-spacing:.06em; margin-top:14px">
+        US NATIONAL, DIRECTIONAL. SEE <a href="#/sources">DATA &amp; SOURCES</a>. UTAH RUNS BELOW COASTAL TECH.
+      </p>`;
+  } else if(TAB==="strong"){
+    body = `<ul class="list" style="--sq:${c.color}">${c.strong.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+      <div style="margin-top:18px; border:1.5px solid ${c.color}; border-radius:12px; padding:14px 16px; background:${tint(c.color,.07)}; font-size:13.5px">
+        If three or more of those describe you, this track belongs on your shortlist — go pressure-test it in the mock interview.
+      </div>`;
+  }
+  return `
+  <section class="wrap">
+    <div class="crumb" style="padding-top:26px"><a href="#/tracks">← ALL TRACKS</a> / ${esc(c.group).toUpperCase()}</div>
+    <div class="det-head">
+      <div class="big-ic" style="color:${c.color}; background:${tint(c.color,.1)}">${careerIcon(id)}</div>
+      <div>
+        ${fit?`<span class="stamp blue" style="margin-bottom:8px">YOUR MATCH · ${fit.pct}%</span>`:""}
+        <h1>${esc(c.name)}</h1>
+        <div class="aka">${esc(c.aka)}</div>
+      </div>
+      <div class="head-cta">
+        <button class="btn btn-dark" onclick="startMock('${c.id}')">${ICONS.mic} Mock this interview</button>
+        ${!read
+          ? `<button class="btn btn-primary" id="readbtn" onclick="markRead('${c.id}')">${ICONS.check} Mark as read · +10 XP</button>`
+          : `<span class="rd" style="font:700 10px var(--font-mono); color:var(--green); border:1.5px solid var(--green); padding:3px 8px; border-radius:4px; transform:rotate(-2deg)">DOSSIER READ</span>`}
+      </div>
+    </div>
+    <div class="tabs">
+      ${tabs.map(([k,l])=>`<button class="tab ${TAB===k?"on":""}" onclick="TAB='${k}';render()">${l}</button>`).join("")}
+    </div>
+    <div class="dossier">${body}</div>
+    <div class="readbtn-row">
+      <button class="btn btn-ghost btn-sm" onclick="go('#/tracks')">${ICONS.arrow} Back to all tracks</button>
+    </div>
+    <div style="height:40px"></div>
+  </section>`;
+}
+function markRead(id){
+  if(!S.read.includes(id)){
+    S.read.push(id);
+    save();
+    awardXp(10, byId(id).name + " — dossier read");
+    checkBadges();
+    render();
+  }
+}
+
+function viewMocks(){
+  return `
+  <section class="wrap" style="padding-top:40px">
+    <div class="section-head">
+      <h2>Mock interviews</h2><span class="rule"></span>
+      <span class="count">${Object.keys(S.interviews).length}/8 DONE</span>
+    </div>
+    <p style="color:var(--grey); max-width:70ch; margin-top:-8px">
+      Five role-specific questions per track — the formats actually used in entry-level interviews.
+      Answer in your own words first. Then reveal what a strong answer lands on, and score yourself
+      against the rubric. At the end you can ask GLM — Z.ai's AI — to grade the same answers against
+      a deeper five-dimension rubric. Two scores, one honest picture.
+    </p>
+    <div class="group-head"><span class="grule"></span><span class="gname">Pick your opponent</span><span class="gn">8</span></div>
+    <div class="mock-grid">
+      ${CAREERS.map(c=>{
+        const done = S.interviews[c.id];
+        return `<div class="mkcard hard" onclick="startMock('${c.id}')" role="link" tabindex="0">
+          <div class="bar" style="height:5px; background:${c.color}"></div>
+          <div class="inner">
+            <div class="toprow">
+              <span class="ic" style="width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:${c.color};background:${tint(c.color,.1)}">${careerIcon(c.id)}</span>
+              ${done?`<span class="stamp green" style="font-size:9px">DONE</span>`:""}
+            </div>
+            <h3>${esc(c.name)}</h3>
+            <div style="font-size:12px; color:var(--grey); line-height:1.5">${esc(c.blurb)}</div>
+            <div class="meta">5 QUESTIONS · ~15 MIN ${done?`· ${done.ticks}/20 SELF${done.ai?` · AI ${done.ai.total}/20`:""}`:""}</div>
+          </div>
+        </div>`;
+      }).join("")}
+    </div>
+    <div style="height:30px"></div>
+  </section>`;
+}
+
+function viewMockRun(id){
+  const c = byId(id);
+  if(!c){ go("#/mocks"); return ""; }
+  if(!RUN || RUN.id!==id){
+    RUN = { id, qi:0, phase:"answer", answers:[], rubric:Array(c.interview.length).fill(0), text:"" };
+  }
+  const total = c.interview.length;
+
+  if(RUN.phase==="end"){
+    const ticks = RUN.rubric.reduce((a,b)=>a+b,0);
+    const max = total*4;
+    const ai = (AI_RUN && AI_RUN.forId===RUN.id) ? AI_RUN : null;
+    const aiDone = ai && ai.phase==="done";
+
+    const aiPanel = !ai
+      ? `<div class="ai-cta">
+           <button class="btn btn-dark" onclick="aiGrade()">${ICONS.bolt} Grade with AI</button>
+           <span class="ai-note">Sends your five answers to Z.ai's GLM — the only thing that ever leaves this page. Optional.</span>
+         </div>`
+      : ai.phase==="busy"
+      ? `<div class="ai-cta">
+           <button class="btn btn-dark" disabled><span class="spin"></span>Grading…</button>
+           <span class="ai-note">GLM is reading your answers against a five-dimension rubric</span>
+         </div>`
+      : ai.phase==="error"
+      ? `<div class="ai-cta">
+           <span class="ai-err">AI grader unreachable — ${esc(ai.err)}.<br>Your self-score stands.</span>
+           <button class="btn btn-ghost btn-sm" onclick="aiGrade()">${ICONS.refresh} Try again</button>
+         </div>`
+      : `<div class="val">${ai.result.total}<span class="of">/${max}</span></div>
+         <div class="sub">SIGNAL: ${esc(ai.result.signal)} · ${esc(AI_CFG.model)}</div>`;
+
+    return `
+    <section class="wrap run-wrap">
+      <div class="crumb"><a href="#/mocks">← ALL MOCKS</a> / ${esc(c.name).toUpperCase()}</div>
+      <div class="card hard flat" style="padding:34px; margin-top:16px; text-align:center">
+        <span class="stamp green">SESSION COMPLETE</span>
+        <h2 style="font-size:34px; text-transform:uppercase; margin:14px 0 4px">${esc(c.name)}</h2>
+        <div class="ai-grid">
+          <div class="ai-panel">
+            <div class="lbl">Self-rubric — your ticks</div>
+            <div class="val">${ticks}<span class="of">/${max}</span></div>
+            <div class="sub">SCORED BY YOU, HONESTLY</div>
+          </div>
+          <div class="ai-panel glm">
+            <div class="lbl">AI grader — GLM (Z.ai)</div>
+            ${aiPanel}
+          </div>
+        </div>
+        <p style="color:var(--grey); max-width:52ch; margin:0 auto 8px">
+          ${ticks >= max*0.75 ? "Strong. You know what these answers sound like — now say them out loud until they're yours." :
+            ticks >= max*0.5 ? "Solid foundation. Revisit the questions where you skipped rubric items — those are the gaps." :
+            "This is what practice is for. Re-read the model answers, then retake it tomorrow. Reps compound."}
+        </p>
+        <div style="text-align:left; max-width:560px; margin:16px auto 0">
+          <ul class="ai-q">
+            ${c.interview.map((q,i)=>{
+              const p = aiDone ? ai.result.perQ[i] : null;
+              return `<li>
+                <div><span class="sc s-self">SELF ${RUN.rubric[i]}/4</span>${p?`<span class="sc s-ai"> · AI ${p.score}/4</span>`:""}</div>
+                <div class="qq">${esc(q.q)}</div>
+                ${p?`<div class="dims">${AI_RUBRIC.map(d=>`${d.ab} ${p.dims[d.k]}`).join(" · ")}</div>
+                ${p.strength?`<div class="note"><b>BEST</b>${esc(p.strength)}</div>`:""}
+                ${p.fix?`<div class="note"><b>FIX</b>${esc(p.fix)}</div>`:""}`:""}
+              </li>`;
+            }).join("")}
+          </ul>
+        </div>
+        ${aiDone?`
+        <div class="ai-verdict" style="max-width:560px; margin:16px auto 0">
+          <div class="vh"><span>AI grader's read</span><span class="stamp blue" style="font-size:9px">${esc(ai.result.signal)}</span></div>
+          <p>${esc(ai.result.verdict)}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; flex-wrap:wrap; gap:8px">
+            <span class="ai-attr">GRADED BY ${esc(AI_CFG.model).toUpperCase()} · Z.AI API · AI FEEDBACK, LABELED</span>
+            <button class="btn btn-ghost btn-sm" onclick="aiGrade()">${ICONS.refresh} Re-grade</button>
+          </div>
+        </div>`:""}
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:20px; flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="startMock('${c.id}')">${ICONS.refresh} Retake</button>
+          <button class="btn btn-primary" onclick="go('#/mocks')">${ICONS.arrow} Another track</button>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  const q = c.interview[RUN.qi];
+  const isB = q.type==="b";
+  const pct = Math.round(RUN.qi/total*100);
+
+  if(RUN.phase==="answer"){
+    return `
+    <section class="wrap run-wrap">
+      <div class="run-meta">
+        <span>${esc(c.name).toUpperCase()} · Q${RUN.qi+1}/${total}</span>
+        <span>${isB?"BEHAVIORAL":"TECHNICAL"}</span>
+      </div>
+      <div class="run-bar"><div class="fill" style="width:${pct}%"></div></div>
+      <div class="card qcard">
+        <span class="qtag ${isB?"beh":"tech"}">${isB?"BEHAVIORAL — TELL A STORY (STAR)":"TECHNICAL — SHOW YOUR THINKING"}</span>
+        <div class="qtext">${esc(q.q)}</div>
+        <details class="acc">
+          <summary>What interviewers listen for</summary>
+          <div class="acc-body"><ul>${q.listen.map(l=>`<li>${esc(l)}</li>`).join("")}</ul></div>
+        </details>
+        <textarea class="ans" id="anstext" placeholder="Answer like you're in the room. Specifics beat length — real projects, real numbers, real trade-offs." oninput="onAnsInput(this)">${esc(RUN.text)}</textarea>
+        <div class="ans-meta">
+          <span>SAVED ON THIS DEVICE — AI GRADING AT THE END IS OPT-IN</span>
+          <span id="anscount">${RUN.text.trim().length} chars</span>
+        </div>
+        <div class="quiz-foot">
+          <span class="hint">AIM FOR 150+ CHARS · SPECIFICS BEAT LENGTH</span>
+          <button class="btn btn-green" onclick="submitAns()">Submit answer ${ICONS.arrow}</button>
+        </div>
+      </div>
+    </section>`;
+  }
+
+  /* review phase */
+  const rubric = isB
+    ? ["Named a specific situation (STAR setup)","Described YOUR actions, not the team's","Ended with a result or lesson","Kept it under ~2 minutes spoken"]
+    : ["Answered the actual question first","Used correct terminology","Gave a concrete example or trade-off","Named what you'd verify or look up next"];
+
+  return `
+  <section class="wrap run-wrap">
+    <div class="run-meta">
+      <span>${esc(c.name).toUpperCase()} · Q${RUN.qi+1}/${total} · REVIEW</span>
+      <span>SCORE YOURSELF HONESTLY</span>
+    </div>
+    <div class="run-bar"><div class="fill" style="width:${pct}%"></div></div>
+    <div class="card qcard">
+      <span class="qtag ${isB?"beh":"tech"}">${isB?"BEHAVIORAL":"TECHNICAL"}</span>
+      <div class="qtext" style="font-size:19px">${esc(q.q)}</div>
+      <div class="rubric">
+        <div class="rh">Your answer</div>
+        <div style="border:1px solid var(--line); border-radius:12px; padding:14px 16px; background:var(--surface); font-size:14px; white-space:pre-wrap; color:var(--ink2)">${esc(RUN.answers[RUN.qi]||"(you submitted this blank — bold strategy)")}</div>
+      </div>
+      <div class="model">
+        <div class="mh">A STRONG ANSWER LANDS ON</div>
+        <div style="font-size:14px; line-height:1.6">${esc(q.model)}</div>
+      </div>
+      <div class="rubric">
+        <div class="rh">Rubric — tick what your answer actually did</div>
+        ${rubric.map((r,i)=>`
+          <label class="ritem" onchange="tickRubric(${i}, event.target.checked, this)">
+            <span class="box">${ICONS.check}</span><span>${esc(r)}</span>
+            <input type="checkbox" style="position:absolute; opacity:0; pointer-events:none">
+          </label>`).join("")}
+      </div>
+      <div class="quiz-foot">
+        <span class="hint">NOBODY SEES THIS BUT YOU</span>
+        <button class="btn btn-green" onclick="nextQ()">${RUN.qi===total-1?"Finish session":"Next question"} ${ICONS.arrow}</button>
+      </div>
+    </div>
+  </section>`;
+}
+
+function viewSources(){
+  return `
+  <section class="wrap" style="padding-top:40px; max-width:820px">
+    <div class="section-head"><h2>Data &amp; sources</h2><span class="rule"></span></div>
+    <p style="color:var(--ink2)">
+      Every number in this tool is a directional aggregate — good enough to compare tracks against each other,
+      not good enough to negotiate a specific offer. Here is where each class of data comes from, so you can
+      check our work.
+    </p>
+    <div class="card" style="margin-top:18px">
+      <div class="kicker">Compensation</div>
+      <ul class="src-list">
+        <li><div class="sn">U.S. Bureau of Labor Statistics — OES &amp; OOH</div>
+        <div class="sd">Occupational medians (May 2024 releases) for software developers, information security analysts, analysts, and project management specialties. bls.gov/oes</div></li>
+        <li><div class="sn">Levels.fyi entry-level reports</div>
+        <div class="sd">Self-reported offer data for new-grad software, cloud, and data roles; primary source for total-comp ceiling figures.</div></li>
+        <li><div class="sn">Glassdoor &amp; Indeed postings (Sept 2026 snapshot)</div>
+        <div class="sd">Entry-level posting ranges used to sanity-check the low end of each band, including Utah-market postings.</div></li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="kicker">Role content (day-to-day, skills, entry bar)</div>
+      <ul class="src-list">
+        <li><div class="sn">Live job postings</div>
+        <div class="sd">Requirements sections from current entry-level postings per role — what employers ask for, not what schools teach.</div></li>
+        <li><div class="sn">BYU IS alumni &amp; practicum check-ins</div>
+        <div class="sd">Graduates in each track reviewed day-to-day descriptions for realism. (Verify with your own network — that's the point of the tool.)</div></li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="kicker">Interview questions</div>
+      <ul class="src-list">
+        <li><div class="sn">Public interview repositories</div>
+        <div class="sd">Glassdoor interview sections and community question banks per role, filtered to questions reported for internships and entry-level positions.</div></li>
+        <li><div class="sn">Format note</div>
+        <div class="sd">Behavioral questions follow the STAR structure companies actually score against; technical questions reflect what entry-level screens ask — not senior-level trivia.</div></li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <div class="kicker">AI interview grader</div>
+      <ul class="src-list">
+        <li><div class="sn">GLM — Z.ai large language model API</div>
+        <div class="sd">The opt-in second opinion on the mock-interview summary. Currently the free-tier model <b>${AI_CFG.model}</b> ("thinking" disabled, JSON output); swap the model ID in the code for a larger GLM if the account has credit.</div></li>
+        <li><div class="sn">What it sees, and when</div>
+        <div class="sd">Only the typed answers from that one session, sent only when you press "Grade with AI". No name, no email, no progress data. When the app is served by our grading server, answers route through it so the API key never touches your browser; opened as a plain file, the app calls Z.ai directly with a locally stored key. Everything else in this app stays in your browser's local storage.</div></li>
+        <li><div class="sn">Attribution</div>
+        <div class="sd">The grader's per-question notes and verdict are AI-generated and labeled as such in-app, per case rules. The questions, model answers, and both rubrics are our own writing.</div></li>
+      </ul>
+    </div>
+    <div class="moneynote" style="margin-top:18px"><b>Honest disclaimer</b>
+      Ranges aggregate national data; the Utah market runs roughly 10–20% below coastal tech for the same titles.
+      Treat every figure as a hypothesis to verify against a live posting or a real human before it matters.
+    </div>
+    <div style="height:40px"></div>
+  </section>`;
+}
+
+/* ============================================================
+   10. ROUTER
+   ============================================================ */
+function render(){
+  const h = location.hash || "#/";
+  let html = "";
+  if(h==="#/" || h==="#") html = viewHome();
+  else if(h==="#/quiz") html = viewQuiz();
+  else if(h==="#/results") html = viewResults();
+  else if(h==="#/tracks") html = viewTracks();
+  else if(h.startsWith("#/track/")) html = viewTrack(h.slice("#/track/".length));
+  else if(h==="#/mocks") html = viewMocks();
+  else if(h.startsWith("#/mock/")) html = viewMockRun(h.slice("#/mock/".length));
+  else if(h==="#/sources") html = viewSources();
+  else html = viewHome();
+
+  app.innerHTML = html;
+  annotate(app);
+  renderChips();
+  markNav();
+  markTabbar();
+  window.scrollTo(0,0);
+}
+
+/* keyboard: 1-6 selects quiz options (but never while typing in the panel search) */
+document.addEventListener("keydown", e=>{
+  if(e.key === "Escape" && document.getElementById("pm-ov")){ closeProgress(); return; }
+  if(e.key === "Escape" && BZ.open){ toggleBZ(false); return; }
+  if(location.hash==="#/quiz" && Q && e.target.tagName!=="TEXTAREA" && e.target.tagName!=="INPUT"){
+    const n = parseInt(e.key,10);
+    if(n>=1 && n<=QUIZ[Q.idx].opts.length){ selOpt(n-1); }
+    if(e.key==="Enter" && Q.sel[Q.idx]!==null){ contQuiz(); }
+  }
+});
+
+/* keyboard: Enter/Space on role-link divs */
+document.addEventListener("keydown", e=>{
+  if((e.key==="Enter"||e.key===" ") && e.target.classList && e.target.matches(".mrow, .tcard, .mkcard")){
+    e.preventDefault(); e.target.click();
+  }
+});
+
+window.addEventListener("hashchange", render);
+renderTabbar();
+touchStreak();
+applyCosmetics();
+renderChips();
+renderBZ();
+render();
+checkBadges();
+</script>
+</body>
+</html>
