@@ -812,7 +812,7 @@ footer .fbot{
       <div>
         <div class="fh">IS Career Launchpad</div>
         <p style="font-size:13px; color:var(--ink2); max-width:44ch; margin:0">
-          Built by IS juniors for IS juniors. Eight career tracks indexed, forty interview
+          Built by IS juniors for IS juniors. All the tracks indexed, forty interview
           questions rehearsed, an optional AI grader — everything else stays on this device.
           Progress saves to your browser.
         </p>
@@ -2164,7 +2164,7 @@ const OTTO_LINES = [
   "Your streak is a promise to future-you.",
   "Interviews are just meetings with homework.",
   "Salary data is directional. Negotiation is personal.",
-  "Eight tracks. You only need one to fit."
+  "All the tracks. You only need one to fit."
 ];
 /* shop unlock: Otto Extended Vocabulary */
 const OTTO_LINES_2 = [
@@ -2584,17 +2584,17 @@ function viewHome(){
     <div class="wrap hero-grid">
       <div class="hero-main">
         <p class="kicker"><span class="dot">●</span> BYU Information Systems · Junior Core · Case F26</p>
-        <h1>Eight tracks.<br><span class="outl">One degree.</span></h1>
+        <h1>Many tracks.<br><span class="outl">One degree.</span></h1>
         <p class="sub">Most IS students pick their direction in their last semester — which is late.
         Find the track that fits in four minutes, then walk into the interview already rehearsed.</p>
         <div class="cta">
           <button class="btn btn-primary btn-hero" onclick="startQuiz()">${ICONS.bolt} ${S.quizDone?"Retake the Fit Finder":"Take the Fit Finder"}</button>
-          <span class="alt">or <a href="#/tracks">browse all eight tracks</a></span>
+          <span class="alt">or <a href="#/tracks">browse all the tracks</a></span>
         </div>
         <div class="microline">
           <span>STEM FAIR <b>SEP 17</b></span>
           <span>APPLICATIONS <b>OPEN NOW</b></span>
-          <span><b>8</b> TRACKS · <b>40</b> MOCK QUESTIONS</span>
+          <span>ALL THE TRACKS · <b>40</b> MOCK QUESTIONS</span>
           <span>SAVES ON THIS DEVICE</span>
         </div>
       </div>
@@ -2739,7 +2739,7 @@ function viewTracks(){
   return `
   <section class="wrap" style="padding-top:40px">
     <div class="section-head">
-      <h2>The eight tracks</h2><span class="rule"></span>
+      <h2>All the tracks</h2><span class="rule"></span>
       <span class="count">${S.read.length}/8 READ</span>
     </div>
     <p style="color:var(--grey); max-width:70ch; margin-top:-8px">
