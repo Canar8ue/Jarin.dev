@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scripture Launchpad — chapter by chapter</title>
+<meta name="description" content="Chapter-by-chapter study guides and quick three-question quizzes across all five standard works.">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect x="3" y="8" width="10" height="5" fill="%23202124"/><rect x="2" y="6" width="12" height="2" fill="%23202124"/><rect x="7" y="2" width="2" height="2" fill="%23f9ab00"/><rect x="6" y="4" width="4" height="2" fill="%23f9ab00"/></svg>'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="appbar">
+  <div class="wrap row">
+    <a class="brand" href="#/" data-nav>
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 16 16" shape-rendering="crispEdges">
+          <rect x="7" y="1" width="2" height="1" fill="#f9ab00"/><rect x="6" y="2" width="4" height="1" fill="#f9ab00"/>
+          <rect x="6" y="3" width="4" height="1" fill="#e8710a"/><rect x="7" y="4" width="2" height="1" fill="#e8710a"/>
+          <rect x="5" y="5" width="6" height="1" fill="currentColor"/>
+          <rect x="4" y="6" width="8" height="1" fill="currentColor"/>
+          <rect x="3" y="7" width="10" height="1" fill="currentColor"/>
+          <rect x="3" y="8" width="3" height="4" fill="currentColor"/><rect x="10" y="8" width="3" height="4" fill="currentColor"/>
+          <rect x="6" y="8" width="4" height="1" fill="currentColor"/>
+          <rect x="4" y="12" width="8" height="1" fill="currentColor"/>
+          <rect x="1" y="8" width="2" height="2" fill="currentColor"/><rect x="13" y="8" width="2" height="2" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="word">Scripture<em>Launchpad</em></span>
+      <span id="oxmount"></span>
+    </a>
+    <nav class="appnav" id="appnav">
+      <a href="#/" data-nav data-navkey="home">Home</a>
+      <a href="#/volumes" data-nav data-navkey="volumes">Volumes</a>
+      <a href="#/about" data-nav data-navkey="about">About</a>
+    </nav>
+    <span class="spacer"></span>
+    <button class="pill" id="pill" type="button" title="Progress &amp; study shop">
+      <span class="pl-lv">LV 1</span>
+      <span class="pl-bar"><span class="pl-fill" id="pillfill"></span></span>
+      <span class="pl-clips"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg><b id="pillclips">0</b></span>
+    </button>
+  </div>
+</header>
+
+<main id="view"></main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-rule"></div>
+    <p class="mono f1">SCRIPTURE LAUNCHPAD /// A STUDY AID — NOT AN OFFICIAL PUBLICATION OF THE CHURCH OF JESUS CHRIST OF LATTER-DAY SAINTS</p>
+    <p class="mono f2">SCRIPTURE TEXT: PUBLIC DOMAIN (KJV + LDS EDITIONS) · STUDY GUIDES DRAFTED WITH AI ASSISTANCE, TEAM-EDITED · EVERYTHING STAYS ON THIS DEVICE — ZERO NETWORK CALLS</p>
+    <p class="flinks">
+      <a href="#/about" data-nav>About &amp; sources</a>
+      <span class="dotsep">·</span>
+      <a href="#" id="resetlink">Reset demo progress</a>
+    </p>
+  </div>
+</footer>
+
+<nav class="tabbar" id="tabbar" aria-label="Mobile navigation"></nav>
+
+<!-- glossary: edge tab + drawer + tooltip + flashcards mount here -->
+<button class="bz-tab" id="bztab" type="button">TERMS <b id="bzcount">0/0</b></button>
+<aside class="bz-panel" id="bzpanel" aria-hidden="true"></aside>
+<div class="bz-tip" id="bztip" hidden></div>
+<div class="fc-overlay" id="fcoverlay" hidden></div>
+
+<div class="toasts" id="toasts"></div>
+<div class="modal-root" id="modalroot" hidden></div>
+<div class="confetti-root" id="confetti"></div>
+
+<!-- data (plain script tags so file:// double-click works) -->
+<script src="data/canon.js"></script>
+<script src="data/glossary.js"></script>
+<script src="data/bom-01-1ne.js"></script>
+<script src="data/bom-02-2ne.js"></script>
+<script src="data/bom-03-jacob-words.js"></script>
+<script src="data/bom-04-mosiah.js"></script>
+<script src="data/bom-05-alma-a.js"></script>
+<script src="data/bom-06-alma-b.js"></script>
+<script src="data/bom-07-helaman.js"></script>
+<script src="data/bom-08-3ne.js"></script>
+<script src="data/bom-09-4ne-mormon-ether.js"></script>
+<script src="data/bom-10-moroni.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
